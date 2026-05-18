@@ -19,23 +19,27 @@ function SiteHeader() {
       backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)',
       borderBottom: '1.5px solid var(--bc-line)',
     }}>
-      <div style={{
+      <div className="bc-header-row" style={{
         maxWidth: 1240, margin: '0 auto', padding: '0 32px',
         height: 72, display: 'flex', alignItems: 'center', gap: 32,
       }}>
-        <a href="#top" aria-label="BuildCore home" style={{ display:'flex', alignItems:'center', gap: 10, textDecoration: 'none' }}>
+        <a
+          href="#top"
+          onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+          aria-label="BuildCore home"
+          style={{ display:'flex', alignItems:'center', gap: 10, textDecoration: 'none' }}
+        >
           <div style={{ width: 28, height: 22, background: 'var(--bc-orange)', clipPath: 'polygon(0 100%, 0 0, 70% 0, 100% 100%)' }} />
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
             fontSize: 22, letterSpacing: '-0.03em', color: 'var(--bc-ink)',
           }}>BuildCore</span>
         </a>
-        <nav style={{ display: 'flex', gap: 28, marginLeft: 24 }}>
+        <nav className="bc-nav" style={{ display: 'flex', gap: 28, marginLeft: 24 }}>
           {[
             { label: 'What it does', href: '#what' },
             { label: 'A CM\u2019s day', href: '#day' },
             { label: 'Get access',    href: '#get-access' },
-            { label: 'Field notes',   href: '#' },
           ].map(l => (
             <a key={l.label} href={l.href} style={{
               fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: 15,
@@ -144,10 +148,10 @@ function Eyebrow({ children, color }) {
 function Hero() {
   return (
     <Section pad="lg">
-      <div style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 56, alignItems: 'center' }}>
+      <div className="bc-hero-grid" style={{ display: 'grid', gridTemplateColumns: '1.05fr 0.95fr', gap: 56, alignItems: 'center' }}>
         <div>
           <Eyebrow>For residential construction managers</Eyebrow>
-          <h1 style={{
+          <h1 className="bc-hero-headline" style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
             fontSize: 80, lineHeight: 0.92, letterSpacing: '-0.035em',
             margin: '20px 0 0', color: 'var(--bc-ink)', textWrap: 'balance',
@@ -156,7 +160,7 @@ function Hero() {
             Log it.<br />
             <span style={{ color: 'var(--bc-orange)' }}>Close it out.</span>
           </h1>
-          <p style={{
+          <p className="bc-hero-subhead" style={{
             fontFamily: 'var(--font-body)', fontSize: 20, lineHeight: 1.5,
             color: 'var(--bc-ink-2)', maxWidth: 540, margin: '24px 0 0',
             textWrap: 'pretty',
@@ -164,22 +168,20 @@ function Hero() {
             Punch lists, daily reports, and trade comms — one app you can actually use
             standing in a half-finished garage with one glove off.
           </p>
-          <div style={{ display: 'flex', gap: 12, marginTop: 32, alignItems: 'center' }}>
+          <div className="bc-hero-ctas" style={{ display: 'flex', gap: 12, marginTop: 32, alignItems: 'center' }}>
             <PrimaryCTA icon="arrow-right">Clock In</PrimaryCTA>
             <SecondaryCTA href="#day">See it run a walk</SecondaryCTA>
           </div>
-          <div style={{
-            display: 'flex', gap: 22, marginTop: 32,
-            fontFamily: 'var(--font-mono)', fontSize: 12,
+          <p className="bc-hero-note" style={{
+            marginTop: 28, maxWidth: 520,
+            fontFamily: 'var(--font-mono)', fontSize: 12, fontWeight: 500,
             textTransform: 'uppercase', letterSpacing: '0.06em',
-            color: 'var(--bc-ink-3)',
+            color: 'var(--bc-ink-3)', lineHeight: 1.6,
           }}>
-            <span><span style={{color:'var(--bc-ink)', fontWeight:600}}>3,200+</span> punches closed weekly</span>
-            <span><span style={{color:'var(--bc-ink)', fontWeight:600}}>14</span> communities live</span>
-            <span><span style={{color:'var(--bc-ink)', fontWeight:600}}>Field-tested</span> by working CMs</span>
-          </div>
+            Built by a working CM · in active use on residential jobsites · 60-day trial
+          </p>
         </div>
-        <div style={{ display:'flex', justifyContent:'center' }}>
+        <div className="bc-phone-wrap" style={{ display:'flex', justifyContent:'center' }}>
           <PhoneMockup />
         </div>
       </div>
@@ -216,7 +218,7 @@ function WhatItDoes() {
   return (
     <Section id="what">
       <Eyebrow>What it does</Eyebrow>
-      <h2 style={{
+      <h2 className="bc-section-h2" style={{
         fontFamily:'var(--font-display)', fontWeight:900,
         fontSize: 48, letterSpacing:'-0.03em', lineHeight: 1,
         margin: '18px 0 12px', color:'var(--bc-ink)', maxWidth: 760, textWrap:'balance',
@@ -227,9 +229,9 @@ function WhatItDoes() {
         BuildCore replaces the spreadsheets, sticky notes, and group texts that run most jobsites today.
         It doesn\u2019t replace your judgment. It just stops you from typing.
       </p>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap: 18, marginTop: 48 }}>
+      <div className="bc-features-grid" style={{ display:'grid', gridTemplateColumns:'repeat(2,1fr)', gap: 18, marginTop: 48 }}>
         {items.map(it => (
-          <div key={it.h} style={{
+          <div key={it.h} className="bc-feature-card" style={{
             background: 'var(--bc-paper)',
             border: '2px solid var(--bc-ink)', borderRadius: 'var(--r-4)',
             padding: 26, display: 'flex', gap: 18, alignItems:'flex-start',
@@ -276,7 +278,7 @@ function DayInTheLife() {
     <Section bg="var(--bc-paper-2)" id="day">
       <div style={{ maxWidth: 920, margin: '0 auto' }}>
         <Eyebrow>A day, in one app</Eyebrow>
-        <h2 style={{
+        <h2 className="bc-section-h2" style={{
           fontFamily:'var(--font-display)', fontWeight:900,
           fontSize:48, letterSpacing:'-0.03em', lineHeight:1,
           margin:'18px 0 12px', color:'var(--bc-ink)', textWrap:'balance',
@@ -287,7 +289,7 @@ function DayInTheLife() {
           Built around how a residential CM actually moves through a day — not how a software company imagines it.
         </p>
 
-        <ol style={{
+        <ol className="bc-day-list" style={{
           listStyle: 'none', padding: 0, margin: '48px 0 0',
           display: 'flex', flexDirection: 'column', gap: 0,
           position: 'relative',
@@ -298,7 +300,7 @@ function DayInTheLife() {
             width: 2, background: 'var(--bc-ink)', zIndex: 0,
           }} />
           {steps.map((s, i) => (
-            <li key={s.t} style={{
+            <li key={s.t} className="bc-day-step" style={{
               display: 'grid',
               gridTemplateColumns: '110px 24px 1fr',
               gap: 20, alignItems: 'flex-start',
@@ -357,14 +359,14 @@ function Pricing() {
   return (
     <Section id="get-access">
       <Eyebrow>Get access · honest pricing</Eyebrow>
-      <h2 style={{
+      <h2 className="bc-section-h2" style={{
         fontFamily:'var(--font-display)', fontWeight:900,
         fontSize:48, letterSpacing:'-0.03em', lineHeight:1, margin:'18px 0 12px',
       }}>Pays for itself by Tuesday.</h2>
       <p style={{ fontSize:18, color:'var(--bc-ink-2)', margin: 0, maxWidth: 560 }}>
         60-day trial, no card. Cancel from your phone. The truck-driving CM was the customer; the pricing is too.
       </p>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap: 18, marginTop: 40 }}>
+      <div className="bc-pricing-grid" style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap: 18, marginTop: 40 }}>
         {tiers.map(t => (
           <div key={t.name} style={{
             background: t.on ? 'var(--bc-ink)' : 'var(--bc-paper)',
@@ -418,7 +420,7 @@ function Pricing() {
 function Footer() {
   return (
     <footer style={{ background: 'var(--bc-ink)', color: 'var(--bc-on-dark)' }}>
-      <div style={{
+      <div className="bc-footer-row" style={{
         maxWidth: 1240, margin:'0 auto', padding:'56px 32px 28px',
         display:'flex', alignItems:'flex-end', justifyContent:'space-between', gap: 32, flexWrap:'wrap',
       }}>
@@ -440,18 +442,14 @@ function Footer() {
           }}>hello@buildcore.io</a>
         </div>
       </div>
-      <div style={{
+      <div className="bc-footer-meta" style={{
         borderTop:'1px solid rgba(250,250,247,0.12)',
         padding:'18px 32px', maxWidth: 1240, margin:'0 auto',
         display:'flex', justifyContent:'space-between', flexWrap:'wrap', gap: 12,
         fontFamily:'var(--font-mono)', fontSize: 11, textTransform:'uppercase', letterSpacing:'0.06em', color:'var(--bc-on-dark-2)',
       }}>
         <span>© 2026 BuildCore Inc.</span>
-        <span style={{ display:'flex', gap: 18 }}>
-          <a href="#" style={{ color:'inherit', textDecoration:'none' }}>Privacy</a>
-          <a href="#" style={{ color:'inherit', textDecoration:'none' }}>Terms</a>
-          <a href="#" style={{ color:'inherit', textDecoration:'none' }}>Status</a>
-        </span>
+        <span style={{ color: 'var(--bc-on-dark-2)', opacity: 0.7 }}>Privacy · Terms · Status — coming soon</span>
       </div>
     </footer>
   );

@@ -4,28 +4,130 @@
   <meta charset="utf-8">
   <title>BuildCore — Walk it. Log it. Close it out.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#C45A2C">
-  <meta name="description" content="Punch lists, daily reports, and trade comms — one mobile app, offline-first, built for residential construction managers.">
-  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
-  <link rel="stylesheet" href="/colors_and_type.css">
+
+  <!-- Bundler resource dependencies: Lucide icons referenced dynamically in JSX -->
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/arrow-right.svg"   data-resource-id="arrow-right" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/mic.svg"           data-resource-id="mic" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/send.svg"          data-resource-id="send" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/check-circle.svg"  data-resource-id="check-circle" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/file-text.svg"     data-resource-id="file-text" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/check.svg"         data-resource-id="check" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/chevron-left.svg"  data-resource-id="chevron-left" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/play.svg"          data-resource-id="play" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/camera.svg"        data-resource-id="camera" />
+  <meta name="ext-resource-dependency" content="https://unpkg.com/lucide-static@latest/icons/mail.svg"          data-resource-id="mail" />
+
+  <!-- Splash thumbnail shown while the bundle unpacks / when JS is disabled -->
+  <template id="__bundler_thumbnail" data-bg-color="#FAFAF7">
+    <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
+      <rect width="1200" height="800" fill="#FAFAF7"/>
+      <path d="M 360 480 L 360 280 L 560 280 L 640 480 Z" fill="#C45A2C"/>
+      <text x="700" y="455" font-family="Archivo, system-ui, sans-serif" font-weight="900" font-size="160" letter-spacing="-5" fill="#14110D">
+        Build<tspan fill="#C45A2C">Core</tspan>
+      </text>
+      <text x="600" y="600" font-family="ui-monospace, monospace" font-size="22" fill="#6E6860" letter-spacing="4" text-anchor="middle">
+        WALK IT · LOG IT · CLOSE IT OUT
+      </text>
+    </svg>
+  </template>
+
+  <link rel="stylesheet" href="../../colors_and_type.css">
   <style>
-    html, body { margin: 0; }
-    html { scroll-behavior: smooth; }
+    html, body { margin: 0; overflow-x: hidden; }
     body {
       background: var(--bc-paper);
       color: var(--bc-ink);
       font-family: var(--font-body);
     }
     section + section { border-top: 0; }
-    section[id] { scroll-margin-top: 88px; }
+    img { max-width: 100%; height: auto; }
+
+    /* ─── Mobile responsiveness ─────────────────────────────────
+       Triggers at viewport widths typical of phones. Uses !important
+       to override the inline styles set by the React components. */
+    @media (max-width: 768px) {
+
+      /* Header */
+      .bc-header-row { padding: 0 20px !important; gap: 12px !important; }
+      .bc-nav { display: none !important; }
+
+      /* Section padding */
+      section { padding: 56px 20px !important; }
+
+      /* Hero — stack columns, scale type down */
+      .bc-hero-grid {
+        grid-template-columns: 1fr !important;
+        gap: 36px !important;
+      }
+      .bc-hero-headline { font-size: 48px !important; line-height: 0.95 !important; }
+      .bc-hero-subhead  { font-size: 17px !important; }
+      .bc-hero-ctas {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 10px !important;
+      }
+      .bc-hero-ctas > * {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      .bc-hero-note { font-size: 11px !important; }
+
+      /* Phone — scale to fit narrow viewports */
+      .bc-phone-wrap {
+        transform: scale(0.92);
+        transform-origin: top center;
+        margin-top: -6px;
+      }
+
+      /* Section headings */
+      .bc-section-h2 { font-size: 32px !important; }
+
+      /* WhatItDoes — single column, stack icon + text */
+      .bc-features-grid { grid-template-columns: 1fr !important; }
+      .bc-feature-card { padding: 20px !important; }
+
+      /* DayInTheLife — tighten column widths so the rail still works */
+      .bc-day-step {
+        grid-template-columns: 70px 24px 1fr !important;
+        gap: 12px !important;
+        padding: 14px 0 !important;
+      }
+
+      /* Pricing — single column */
+      .bc-pricing-grid { grid-template-columns: 1fr !important; }
+
+      /* Footer */
+      .bc-footer-row {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 28px !important;
+        padding: 48px 20px 24px !important;
+      }
+      .bc-footer-meta {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 6px !important;
+        padding: 16px 20px !important;
+      }
+    }
+
+    /* Extra-narrow phones (iPhone SE etc.) */
+    @media (max-width: 380px) {
+      .bc-hero-headline { font-size: 40px !important; }
+      .bc-section-h2 { font-size: 26px !important; }
+      .bc-phone-wrap {
+        transform: scale(0.82);
+        margin-top: -40px;
+      }
+    }
   </style>
 
-  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-  <script type="text/babel" src="/components.jsx"></script>
-  <script type="text/babel" src="/phone.jsx"></script>
+  <script type="text/babel" src="components.jsx"></script>
+  <script type="text/babel" src="phone.jsx"></script>
 </head>
 <body>
   <div id="root"></div>
