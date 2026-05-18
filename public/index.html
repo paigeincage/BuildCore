@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>BuildCore — Built in the field. Not in a meeting.</title>
+  <title>BuildCore — Walk it. Log it. Close it out.</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#C45A2C">
   <meta name="description" content="Punch lists, daily reports, and trade comms — one mobile app, offline-first, built for residential construction managers.">
@@ -23,6 +23,7 @@
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 
   <script type="text/babel" src="/components.jsx"></script>
+  <script type="text/babel" src="/phone.jsx"></script>
 </head>
 <body>
   <div id="root"></div>
@@ -32,13 +33,9 @@
         <div>
           <SiteHeader />
           <Hero />
-          <LogoStrip />
-          <FeatureTrio />
-          <StatBand />
-          <ConDeepDive />
-          <FounderNote />
+          <WhatItDoes />
+          <DayInTheLife />
           <Pricing />
-          <CtaBand />
           <Footer />
         </div>
       );
