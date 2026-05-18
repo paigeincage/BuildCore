@@ -2,11 +2,10 @@
 // Replaces the static PhoneMockup defined earlier. The user can:
 //   1. Tap a punch ticket → see the punch detail
 //   2. Tap "Send to trade" → success toast, ticket marks closed, back to list
-//   3. Tap "Clock In on this address" → email capture screen
+//   3. Tap "Try it on your jobsite" → email capture screen
 //   4. Submit email → success screen with iOS / Android send-link buttons
 //
 // Goal: a real dopamine loop inside the marketing site. Every tap moves something.
-// No "lot" / "lot number" anywhere — addresses only.
 
 (function () {
   const { useState, useEffect } = React;
@@ -14,14 +13,16 @@
 
   // ─────────────────────────────────────────────────────────────
   // Sample data — mutable status so "send to trade" closes it locally.
-  // All three punches are at the same address (one house, one punch list).
   // ─────────────────────────────────────────────────────────────
+  // All three punches are for the same house — that's what a punch list is.
+  // Addresses only — never "lot" or lot numbers per brand rules.
+  const HOUSE_ADDR = '14 Sycamore Ln';
   const INITIAL_TICKETS = [
-    { id: 'PL-1023', addr: '14 Sycamore', title: 'Hairline crack — master bath tile, north wall', trade: 'Tile',       due: '05/19', status: 'blocked',  photos: 3, partner: 'J. Morales · Pro Tile Co.', initials: 'JM',
+    { id: 'PL-1023', addr: HOUSE_ADDR, title: 'Hairline crack — master bath tile, north wall', trade: 'Tile',       due: '05/19', status: 'blocked',  photos: 3, partner: 'J. Morales · Pro Tile Co.', initials: 'JM',
       note: 'North wall crack reappeared after settling. Please swing by this week.' },
-    { id: 'PL-1020', addr: '14 Sycamore', title: 'Outlet missing cover plate — powder rm',         trade: 'Electrical', due: '05/18', status: 'open',     photos: 1, partner: 'R. Tanaka · Volt Electric',   initials: 'RT',
+    { id: 'PL-1020', addr: HOUSE_ADDR, title: 'Outlet missing cover plate — powder rm',         trade: 'Electrical', due: '05/18', status: 'open',     photos: 1, partner: 'R. Tanaka · Volt Electric',   initials: 'RT',
       note: 'Buyer noticed during 30-day walk. Quick fix — five minutes.' },
-    { id: 'PL-1018', addr: '14 Sycamore', title: 'Door rub on master closet',                       trade: 'Doors',      due: '05/18', status: 'open',     photos: 2, partner: 'D. Kowalski · Doorworks',     initials: 'DK',
+    { id: 'PL-1018', addr: HOUSE_ADDR, title: 'Door rub on master closet',                       trade: 'Doors',      due: '05/18', status: 'open',     photos: 2, partner: 'D. Kowalski · Doorworks',     initials: 'DK',
       note: 'Sanding the bottom should do it. Confirm before walk.' },
   ];
 
@@ -58,6 +59,9 @@
     );
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // Reusable chrome
+  // ─────────────────────────────────────────────────────────────
   function PhoneShell({ children }) {
     return (
       <div style={{
@@ -66,6 +70,7 @@
         boxShadow: '0 30px 60px rgba(20,17,13,0.25), 0 0 0 2px var(--bc-ink)',
         position: 'relative',
       }}>
+        {/* Dynamic island */}
         <div style={{
           position: 'absolute', top: 14, left: '50%', transform:'translateX(-50%)',
           width: 110, height: 28, background: '#000', borderRadius: 18, zIndex: 5,
@@ -81,6 +86,9 @@
     );
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // Top status spacer (clears the iOS notch)
+  // ─────────────────────────────────────────────────────────────
   function StatusSpacer({ children }) {
     return (
       <div style={{
@@ -111,7 +119,7 @@
       <Anim>
         <StatusSpacer />
         <div style={{ padding: '6px 18px 2px' }}>
-          <div style={{ fontFamily:'var(--font-mono)', fontSize: 10, textTransform:'uppercase', letterSpacing:'0.05em', color:'var(--bc-ink-3)' }}>14 Sycamore Ln</div>
+          <div style={{ fontFamily:'var(--font-mono)', fontSize: 10, textTransform:'uppercase', letterSpacing:'0.05em', color:'var(--bc-ink-3)' }}>14 Sycamore Ln · Ashford</div>
           <div style={{ fontFamily:'var(--font-display)', fontWeight:800, fontSize: 22, letterSpacing:'-0.02em', color:'var(--bc-ink)', marginTop: 2 }}>Punch list</div>
         </div>
         <div style={{ display:'flex', gap: 6, padding: '10px 18px 10px' }}>
@@ -228,6 +236,7 @@
             {ticket.title}
           </div>
 
+          {/* Photos */}
           <div style={{ display:'flex', gap: 6 }}>
             {[0, 1, 2].map(i => (
               <div key={i} style={{
@@ -248,6 +257,7 @@
             ))}
           </div>
 
+          {/* Voice memo */}
           <div style={{
             border:'2px solid var(--bc-line-strong)', borderRadius:'var(--r-4)',
             background:'var(--bc-paper)', padding: 10,
@@ -273,6 +283,7 @@
             </div>
           </div>
 
+          {/* Trade partner card */}
           <div style={{
             border: '2px solid var(--bc-line-strong)', borderRadius:'var(--r-4)',
             background:'var(--bc-paper)', padding: 10,
@@ -469,6 +480,9 @@
     );
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // Shared: in-phone CTA button + Icon helper
+  // ─────────────────────────────────────────────────────────────
   function CtaInPhone({ children, onClick, type, disabled, accent }) {
     return (
       <button type={type || 'button'} onClick={onClick} disabled={disabled} style={{
@@ -497,6 +511,9 @@
     );
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // Anim — fade + 8px translate in
+  // ─────────────────────────────────────────────────────────────
   function Anim({ children }) {
     return (
       <div style={{
@@ -506,6 +523,9 @@
     );
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // Toast — bottom of phone, slides up
+  // ─────────────────────────────────────────────────────────────
   function Toast({ children }) {
     return (
       <div style={{
@@ -523,10 +543,13 @@
     );
   }
 
+  // ─────────────────────────────────────────────────────────────
+  // PhoneMockup — top-level interactive component (overrides window.PhoneMockup)
+  // ─────────────────────────────────────────────────────────────
   function PhoneMockup() {
     const [tickets, setTickets] = useState(INITIAL_TICKETS);
     const [filter,  setFilter]  = useState('open');
-    const [screen,  setScreen]  = useState('list');
+    const [screen,  setScreen]  = useState('list'); // list | detail | email | success
     const [openId,  setOpenId]  = useState(null);
     const [sending, setSending] = useState(false);
     const [toast,   setToast]   = useState(null);
@@ -570,8 +593,12 @@
     );
   }
 
+  // Override the static PhoneMockup defined in components.jsx.
+  // Order in index.html: components.jsx loads first, phone.jsx loads second, so
+  // by the time React renders, window.PhoneMockup points to this interactive version.
   Object.assign(window, { PhoneMockup });
 
+  // Inject animation keyframes (idempotent)
   if (!document.getElementById('bc-phone-anims')) {
     const s = document.createElement('style');
     s.id = 'bc-phone-anims';

@@ -1,9 +1,11 @@
 // Components.jsx — BuildCore Ops marketing site (revised, field-focused)
-// All visual decisions follow /colors_and_type.css.
-// No real builder names appear anywhere in copy or imagery.
-// No "lot" / "lot number" — addresses only.
+// All visual decisions follow ../../colors_and_type.css.
+// NOTE: No real builder names appear anywhere in copy or imagery on this page.
 
 const { useState } = React;
+// Icon URL resolver. In standalone-bundled builds, icons are inlined into
+// window.__resources keyed by their lucide name. In the source/dev build we
+// fall back to the unpkg CDN.
 const I = (n) => (typeof window !== 'undefined' && window.__resources && window.__resources[n]) || `https://unpkg.com/lucide-static@latest/icons/${n}.svg`;
 
 // ─────────────────────────────────────────────────────────────
@@ -21,7 +23,7 @@ function SiteHeader() {
         maxWidth: 1240, margin: '0 auto', padding: '0 32px',
         height: 72, display: 'flex', alignItems: 'center', gap: 32,
       }}>
-        <a href="#" aria-label="BuildCore home" style={{ display:'flex', alignItems:'center', gap: 10, textDecoration: 'none' }}>
+        <a href="#top" aria-label="BuildCore home" style={{ display:'flex', alignItems:'center', gap: 10, textDecoration: 'none' }}>
           <div style={{ width: 28, height: 22, background: 'var(--bc-orange)', clipPath: 'polygon(0 100%, 0 0, 70% 0, 100% 100%)' }} />
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
@@ -29,15 +31,20 @@ function SiteHeader() {
           }}>BuildCore</span>
         </a>
         <nav style={{ display: 'flex', gap: 28, marginLeft: 24 }}>
-          {['What it does', 'A CM\u2019s day', 'Get access', 'Field notes'].map(l => (
-            <a key={l} href="#" style={{
+          {[
+            { label: 'What it does', href: '#what' },
+            { label: 'A CM\u2019s day', href: '#day' },
+            { label: 'Get access',    href: '#get-access' },
+            { label: 'Field notes',   href: '#' },
+          ].map(l => (
+            <a key={l.label} href={l.href} style={{
               fontFamily: 'var(--font-body)', fontWeight: 500, fontSize: 15,
               color: 'var(--bc-ink-2)', textDecoration: 'none',
-            }}>{l}</a>
+            }}>{l.label}</a>
           ))}
         </nav>
         <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 12 }}>
-          <a href="https://condenser-app-production.up.railway.app/" target="_blank" rel="noopener noreferrer" style={{
+          <a href={CONDENSER_URL} target="_blank" rel="noopener noreferrer" style={{
             fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: 14,
             color: 'var(--bc-ink-2)', textDecoration: 'none',
             textTransform: 'uppercase', letterSpacing: '0.04em',
@@ -51,14 +58,24 @@ function SiteHeader() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// Wired destinations — single source of truth
+// ─────────────────────────────────────────────────────────────
+const CONDENSER_URL = 'https://condenser-app-production.up.railway.app/';
+const CONTACT_EMAIL = 'hello@buildcore.io';
+
+// ─────────────────────────────────────────────────────────────
 // Primary / secondary CTAs (stamped buttons)
 // ─────────────────────────────────────────────────────────────
-function PrimaryCTA({ children, size = 'lg', icon = 'arrow-right' }) {
+function PrimaryCTA({ children, size = 'lg', icon = 'arrow-right', href = CONDENSER_URL, external = true }) {
   const h = size === 'sm' ? 40 : 60;
   const fs = size === 'sm' ? 14 : 18;
   const shadow = size === 'sm' ? '2px 2px 0 0 var(--bc-ink)' : '4px 4px 0 0 var(--bc-ink)';
   return (
-    <a href="https://condenser-app-production.up.railway.app/" target="_blank" rel="noopener noreferrer" style={{
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      style={{
       display: 'inline-flex', alignItems: 'center', gap: 10,
       height: h, padding: '0 24px',
       fontFamily: 'var(--font-body)', fontWeight: 700, fontSize: fs,
@@ -74,12 +91,15 @@ function PrimaryCTA({ children, size = 'lg', icon = 'arrow-right' }) {
     >{children}<img src={I(icon)} width={size==='sm'?14:20} height={size==='sm'?14:20} alt="" style={{filter:'invert(98%) sepia(2%) saturate(123%) hue-rotate(45deg) brightness(108%)'}} /></a>
   );
 }
-function SecondaryCTA({ children, size = 'lg', href = '#', external }) {
+function SecondaryCTA({ children, size = 'lg', href = '#', external = false }) {
   const h = size === 'sm' ? 40 : 60;
   const fs = size === 'sm' ? 14 : 17;
-  const extProps = external ? { target: '_blank', rel: 'noopener noreferrer' } : {};
   return (
-    <a href={href} {...extProps} style={{
+    <a
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      style={{
       display: 'inline-flex', alignItems: 'center', gap: 8,
       height: h, padding: '0 22px',
       fontFamily: 'var(--font-body)', fontWeight: 600, fontSize: fs,
@@ -146,7 +166,7 @@ function Hero() {
           </p>
           <div style={{ display: 'flex', gap: 12, marginTop: 32, alignItems: 'center' }}>
             <PrimaryCTA icon="arrow-right">Clock In</PrimaryCTA>
-            <SecondaryCTA>See it run a walk</SecondaryCTA>
+            <SecondaryCTA href="#day">See it run a walk</SecondaryCTA>
           </div>
           <div style={{
             display: 'flex', gap: 22, marginTop: 32,
@@ -167,7 +187,13 @@ function Hero() {
   );
 }
 
-// PhoneMockup is provided by /phone.jsx — assigned to window after this file loads.
+// ─────────────────────────────────────────────────────────────
+// Phone mockup — INTERACTIVE version is in phone.jsx, which assigns
+// window.PhoneMockup after this script loads. Hero references PhoneMockup
+// as a global; do not re-declare it here.
+// ─────────────────────────────────────────────────────────────
+
+// (PhoneMockup, SegOn, SegOff, Ticket, Stamp, Pill — see ./phone.jsx)
 
 // ─────────────────────────────────────────────────────────────
 // "What it does" — 4 plain-language capability blocks
@@ -266,6 +292,7 @@ function DayInTheLife() {
           display: 'flex', flexDirection: 'column', gap: 0,
           position: 'relative',
         }}>
+          {/* Vertical rail */}
           <div style={{
             position: 'absolute', left: 81, top: 18, bottom: 18,
             width: 2, background: 'var(--bc-ink)', zIndex: 0,
@@ -375,8 +402,8 @@ function Pricing() {
               {t.on
                 ? <PrimaryCTA size="lg">Clock In</PrimaryCTA>
                 : t.name === 'Builder'
-                  ? <SecondaryCTA size="lg" href="mailto:hello@buildcore.io?subject=BuildCore%20Builder%20tier%20inquiry">Talk to us</SecondaryCTA>
-                  : <SecondaryCTA size="lg" href="https://condenser-app-production.up.railway.app/" external>Try it</SecondaryCTA>}
+                  ? <SecondaryCTA size="lg" href={`mailto:${CONTACT_EMAIL}?subject=BuildCore Builder tier inquiry`}>Talk to us</SecondaryCTA>
+                  : <SecondaryCTA size="lg" href={CONDENSER_URL} external>Try it</SecondaryCTA>}
             </div>
           </div>
         ))}
@@ -430,6 +457,7 @@ function Footer() {
   );
 }
 
+// Export — only the sections actually used on the page
 Object.assign(window, {
   SiteHeader, PrimaryCTA, SecondaryCTA, Section, Eyebrow,
   Hero, WhatItDoes, DayInTheLife, Pricing, Footer,

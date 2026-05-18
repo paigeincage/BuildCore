@@ -10,12 +10,14 @@
   <link rel="stylesheet" href="/colors_and_type.css">
   <style>
     html, body { margin: 0; }
+    html { scroll-behavior: smooth; }
     body {
       background: var(--bc-paper);
       color: var(--bc-ink);
       font-family: var(--font-body);
     }
     section + section { border-top: 0; }
+    section[id] { scroll-margin-top: 88px; }
   </style>
 
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
