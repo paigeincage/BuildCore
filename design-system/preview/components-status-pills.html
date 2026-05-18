@@ -1,0 +1,42 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 24px 28px; display:flex; flex-direction:column; gap: 14px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 5px 9px;
+    border-radius: var(--r-2);
+    border: 1.5px solid currentColor;
+  }
+  .pill .dot { width:8px; height:8px; border-radius:999px; background: currentColor; }
+  .open    { color: #1F5A8A; background:#D9E5F0; }
+  .progress{ color: #8A6300; background:#FBF1CC; }
+  .done    { color: #2E7D3A; background:#DEEFD8; }
+  .blocked { color: #B82A1F; background:#F6DDD7; }
+  .trade   { color: #14110D; background:#E5E2DA; }
+  .late    { color: #FAFAF7; background:#B82A1F; border-color:#14110D; }
+  .tag { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--fg-3); }
+</style></head><body>
+  <div class="tag">Status pills — squared, not rounded</div>
+  <div class="row">
+    <span class="pill open"><span class="dot"></span>Open</span>
+    <span class="pill progress"><span class="dot"></span>In progress</span>
+    <span class="pill done"><span class="dot"></span>Closed</span>
+    <span class="pill blocked"><span class="dot"></span>Blocked</span>
+    <span class="pill late">⚠ Late · 3 days</span>
+  </div>
+  <div class="tag" style="margin-top:6px">Trade tags</div>
+  <div class="row">
+    <span class="pill trade">Plumbing</span>
+    <span class="pill trade">Drywall</span>
+    <span class="pill trade">Electrical</span>
+    <span class="pill trade">HVAC</span>
+    <span class="pill trade">Framing</span>
+    <span class="pill trade">Paint</span>
+  </div>
+</body></html>

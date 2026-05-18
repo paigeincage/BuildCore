@@ -1,0 +1,55 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 28px; }
+  .ticket {
+    background: var(--bc-paper);
+    border: var(--bw-2) solid var(--bc-ink);
+    border-radius: var(--r-4);
+    box-shadow: 3px 3px 0 0 var(--bc-ink);
+    padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 10px;
+    max-width: 480px;
+  }
+  .top { display: flex; align-items: center; gap: 10px; }
+  .id {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--fg-1);
+    background: var(--bc-paper-2);
+    padding: 3px 8px;
+    border-radius: var(--r-2);
+    border: 1.5px solid var(--bc-line);
+  }
+  .pill {
+    margin-left: auto;
+    font-family: var(--font-mono); font-weight: 600;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+    padding: 4px 8px; border-radius: var(--r-2);
+    background: #F6DDD7; color: #B82A1F; border: 1.5px solid #B82A1F;
+    display: inline-flex; align-items: center; gap: 5px;
+  }
+  .pill .dot { width:7px;height:7px;background:currentColor;border-radius:999px; }
+  .title { font-family: var(--font-display); font-weight: 800; font-size: 20px; letter-spacing: -0.015em; color: var(--bc-ink); }
+  .meta { display: flex; flex-wrap: wrap; gap: 10px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--fg-3); }
+  .meta b { color: var(--fg-2); font-weight: 600; }
+  .footer { display: flex; align-items: center; gap: 10px; padding-top: 8px; border-top: 1.5px solid var(--bc-line); }
+  .avatar { width: 26px; height: 26px; border-radius: 999px; background: var(--bc-orange); color: var(--bc-paper); display: inline-flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-weight: 600; font-size: 11px; }
+  .who { font-size: 13px; color: var(--fg-2); }
+</style></head><body>
+  <div class="ticket">
+    <div class="top">
+      <span class="id">PL-1023</span>
+      <span class="id" style="background:var(--bc-paper-3)">Lot 247</span>
+      <span class="pill"><span class="dot"></span>Blocked</span>
+    </div>
+    <div class="title">Hairline crack in master bath tile — north wall</div>
+    <div class="meta"><span><b>Trade</b> Tile</span><span><b>Walked</b> 05/14</span><span><b>Due</b> 05/19</span></div>
+    <div class="footer">
+      <span class="avatar">JM</span>
+      <span class="who">Assigned · J. Morales (Pro Tile Co.)</span>
+    </div>
+  </div>
+</body></html>

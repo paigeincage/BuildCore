@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Condenser — UI Kit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../colors_and_type.css">
+  <style>
+    html, body { margin: 0; min-height: 100%; background: var(--bc-paper-2); }
+    body {
+      font-family: var(--font-body);
+      color: var(--bc-ink);
+      padding: 32px 24px 64px;
+    }
+
+    .stage {
+      max-width: 1280px; margin: 0 auto;
+      display: grid; grid-template-columns: minmax(360px, 1fr) minmax(360px, 1fr); gap: 32px;
+      align-items: start;
+    }
+    @media (max-width: 900px) { .stage { grid-template-columns: 1fr; } }
+
+    .left h1 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 44px; letter-spacing: -0.03em; line-height: 1; margin: 0;
+    }
+    .left h1 em { color: var(--bc-orange); font-style: normal; }
+    .left p {
+      max-width: 480px; margin: 16px 0 0;
+      color: var(--bc-ink-2); font-size: 17px;
+    }
+    .left .meta { margin-top: 18px; }
+
+    .nav {
+      margin: 28px 0 0;
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .nav button {
+      font-family: var(--font-mono); font-weight: 600;
+      font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase;
+      padding: 10px 14px;
+      border: 2px solid var(--bc-line);
+      background: var(--bc-paper); color: var(--bc-ink-2);
+      border-radius: var(--r-2); cursor: pointer;
+    }
+    .nav button.on {
+      border-color: var(--bc-ink);
+      background: var(--bc-ink); color: var(--bc-paper);
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+    }
+
+    .phone-wrap {
+      display: flex; justify-content: center;
+      position: sticky; top: 32px;
+    }
+
+    /* Inside-phone content needs top padding to clear the iOS status bar (~62px) */
+    .screen-content { padding-top: 62px; min-height: 100%; }
+
+    /* Footer note */
+    .legend {
+      max-width: 1280px; margin: 56px auto 0;
+      padding: 18px 22px;
+      border: 2px solid var(--bc-line-strong); border-radius: var(--r-4);
+      background: var(--bc-paper);
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px;
+    }
+    .legend h3 { font-family: var(--font-display); font-weight: 800; font-size: 14px; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 6px; color: var(--bc-ink); }
+    .legend p { margin: 0; font-size: 14px; color: var(--bc-ink-2); }
+    @media (max-width: 900px) { .legend { grid-template-columns: 1fr; } }
+
+    /* Bottom dock — like a phone home but we use this only when on tab routes */
+    .dock-spacer { height: 82px; } /* clears bottom tab bar + home indicator */
+  </style>
+
+  <!-- React + Babel -->
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="ios-frame.jsx"></script>
+  <script type="text/babel" src="components.jsx"></script>
+  <script type="text/babel" src="screens.jsx"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const SCREENS = [
+      { id: 'today',     label: 'Today',      component: TodayScreen,     tab: 'today' },
+      { id: 'lots',      label: 'Lots',       component: LotsScreen,      tab: 'lots' },
+      { id: 'punchList', label: 'Punch list', component: PunchListScreen, tab: 'punch' },
+      { id: 'detail',    label: 'Punch view', component: PunchDetailScreen, tab: 'punch' },
+      { id: 'new',       label: 'New punch',  component: NewPunchScreen,  tab: 'punch' },
+    ];
+
+    function App() {
+      const [screen, setScreen] = useState('today');
+      const cur = SCREENS.find(s => s.id === screen);
+      const Comp = cur.component;
+      const showTabs = ['today','lots','punchList'].includes(screen);
+
+      return (
+        <div className="stage">
+
+          <div className="left">
+            <img src="../../assets/condenser-icon.svg" width="56" height="56" alt="" style={{display:'block', marginBottom:16}} />
+            <h1>The <em>Condenser</em></h1>
+            <p>
+              Mobile-first punch list management. Built for the CM standing in a half-finished house, holding a phone in one hand and a flashlight in the other.
+              Photos, voice memos, trade comms — offline, in sunlight, with gloves on.
+            </p>
+            <div className="meta">UI kit · 5 screens · click through →</div>
+
+            <div className="nav">
+              {SCREENS.map(s => (
+                <button key={s.id} className={s.id === screen ? 'on' : ''} onClick={() => setScreen(s.id)}>
+                  {s.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="legend">
+              <div>
+                <h3>Tap targets</h3>
+                <p>List rows 64–72px. Bottom tab bar 64px. Hero CTA 56px with 3px stamp shadow.</p>
+              </div>
+              <div>
+                <h3>Color</h3>
+                <p>90% paper + ink. Orange only on the primary action and the active tab. Red only on blockers.</p>
+              </div>
+              <div>
+                <h3>Type</h3>
+                <p>Archivo for titles. Geist for body at 17px. Geist Mono for IDs, lot #s and tabular data — uppercase.</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="phone-wrap">
+            <IOSDevice width={402} height={874}>
+              <div className="screen-content" style={{ background: 'var(--bc-paper)', display:'flex', flexDirection:'column', minHeight: '100%' }}>
+                <div style={{ flex: 1 }}>
+                  <Comp go={setScreen} />
+                </div>
+                {showTabs ? (
+                  <BottomTabs tab={cur.tab} onTab={(t) => {
+                    if (t === 'today') setScreen('today');
+                    else if (t === 'lots') setScreen('lots');
+                    else if (t === 'punch') setScreen('punchList');
+                    else if (t === 'trades') setScreen('today');
+                    else setScreen('today');
+                  }} />
+                ) : null}
+                <div className="dock-spacer" style={{ height: 30 }} />
+              </div>
+            </IOSDevice>
+          </div>
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

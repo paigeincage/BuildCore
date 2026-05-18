@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BuildCore — Built in the field. Not in a meeting.</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#C45A2C">
+  <meta name="description" content="Punch lists, daily reports, and trade comms — one mobile app, offline-first, built for residential construction managers.">
+  <link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+  <link rel="stylesheet" href="/colors_and_type.css">
+  <style>
+    html, body { margin: 0; }
+    body {
+      background: var(--bc-paper);
+      color: var(--bc-ink);
+      font-family: var(--font-body);
+    }
+    section + section { border-top: 0; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="/components.jsx"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    function App() {
+      return (
+        <div>
+          <SiteHeader />
+          <Hero />
+          <LogoStrip />
+          <FeatureTrio />
+          <StatBand />
+          <ConDeepDive />
+          <FounderNote />
+          <Pricing />
+          <CtaBand />
+          <Footer />
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

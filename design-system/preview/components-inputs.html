@@ -1,0 +1,45 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 28px; display:flex; flex-direction:column; gap: 14px; }
+  .field { display: flex; flex-direction: column; gap: 6px; }
+  .lbl { font-family: var(--font-body); font-weight:600; font-size: 13px; letter-spacing:0.02em; color: var(--bc-ink); text-transform: uppercase; }
+  .input, .select, .textarea {
+    font-family: var(--font-body);
+    font-size: 17px;
+    color: var(--bc-ink);
+    background: var(--bc-paper);
+    border: var(--bw-2) solid var(--bc-line-strong);
+    border-radius: var(--r-2);
+    padding: 0 14px;
+    height: 56px;
+    outline: none;
+  }
+  .input:focus, .select:focus, .textarea:focus { box-shadow: 0 0 0 3px var(--bc-orange-tint); }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .seg { display: flex; border: var(--bw-2) solid var(--bc-line-strong); border-radius: var(--r-2); overflow: hidden; height: 48px; }
+  .seg button {
+    flex: 1; font-family: var(--font-body); font-weight: 600; font-size: 14px;
+    border: 0; background: var(--bc-paper); color: var(--bc-ink-3); cursor: pointer;
+    border-right: var(--bw-2) solid var(--bc-line-strong);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .seg button:last-child { border-right: 0; }
+  .seg button.on { background: var(--bc-ink); color: var(--bc-paper); }
+  .check { display:flex; align-items:center; gap: 12px; }
+  .box { width: 26px; height: 26px; border: var(--bw-2) solid var(--bc-line-strong); background: var(--bc-paper); border-radius: 4px; display: inline-flex; align-items:center; justify-content:center; }
+  .box.on { background: var(--bc-orange); color: var(--bc-paper); }
+</style></head><body>
+  <div class="row">
+    <div class="field"><label class="lbl">Lot</label><input class="input" value="247"></div>
+    <div class="field"><label class="lbl">Trade</label><select class="select"><option>Plumbing ▾</option></select></div>
+  </div>
+  <div class="seg" role="tablist">
+    <button class="on">Open</button>
+    <button>In progress</button>
+    <button>Closed</button>
+  </div>
+  <div class="check">
+    <span class="box on">✓</span>
+    <span style="font-size:16px;">Notify trade when closed</span>
+  </div>
+</body></html>

@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 22px 28px; }
+  .stack { display: flex; flex-direction: column; gap: 10px; }
+  .row { display: flex; align-items: center; gap: 16px; padding: 8px 0; border-bottom: 1px solid var(--bc-line); }
+  .row:last-child { border-bottom: 0; }
+  .lbl { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-2); font-weight: 600; width: 86px; flex-shrink: 0; }
+  .v { font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); margin-left: auto; }
+  .demo { flex: 1; }
+  .tick { height: 4px; background: var(--bc-ink); width: 0%; animation-iteration-count: infinite; animation-direction: alternate; }
+  .a-100 { animation: tk 100ms cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate; }
+  .a-160 { animation: tk 160ms cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate; }
+  .a-240 { animation: tk 240ms cubic-bezier(0.2, 0.7, 0.2, 1) infinite alternate; }
+  @keyframes tk { from { width: 0% } to { width: 100% } }
+  .curve { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); }
+</style></head><body>
+  <div class="stack">
+    <div class="row"><span class="lbl">Dur-1</span><div class="demo"><div class="tick a-100"></div></div><span class="v">100ms</span></div>
+    <div class="row"><span class="lbl">Dur-2</span><div class="demo"><div class="tick a-160"></div></div><span class="v">160ms</span></div>
+    <div class="row"><span class="lbl">Dur-3</span><div class="demo"><div class="tick a-240"></div></div><span class="v">240ms</span></div>
+    <div class="row" style="margin-top:8px"><span class="lbl">Ease-out</span><span class="curve">cubic-bezier(0.2, 0.7, 0.2, 1)</span><span class="v">Default · 95% of moves</span></div>
+    <div class="row"><span class="lbl">Rules</span><span class="curve">No bounce · no spring · no parallax · fade + ≤8px translate</span></div>
+  </div>
+</body></html>
