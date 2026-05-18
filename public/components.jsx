@@ -64,7 +64,7 @@ function SiteHeader() {
 // ─────────────────────────────────────────────────────────────
 // Wired destinations — single source of truth
 // ─────────────────────────────────────────────────────────────
-const CONDENSER_URL = 'https://condenser-app-production.up.railway.app/';
+const CONDENSER_URL = '/design-system/pages/The%20Condenser%20App.html';
 const CONTACT_EMAIL = 'hello@buildcore.io';
 
 // ─────────────────────────────────────────────────────────────
