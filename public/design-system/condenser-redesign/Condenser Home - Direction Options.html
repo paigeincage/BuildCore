@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Condenser Home — Direction Options</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    html, body { margin: 0; background: var(--bc-paper); color: var(--bc-ink); font-family: var(--font-body); }
+
+    /* Audit pane at top — sticky brief above the canvas */
+    .audit {
+      max-width: 1240px; margin: 0 auto;
+      padding: 40px 32px 24px;
+    }
+    .audit .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 12px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .audit .eyebrow::before { content: ''; display: inline-block; width: 18px; height: 2px; background: currentColor; }
+    .audit h1 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 44px; letter-spacing: -0.03em; line-height: 1; margin: 14px 0 10px;
+    }
+    .audit p { font-size: 16px; line-height: 1.55; color: var(--bc-ink-2); max-width: 760px; margin: 0; }
+
+    .findings {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+      margin-top: 28px;
+    }
+    .finding {
+      border: 2px solid var(--bc-ink); border-radius: var(--r-4); padding: 16px 18px;
+      background: var(--bc-paper);
+    }
+    .finding .tag {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 2px 7px; border-radius: var(--r-2); display: inline-block;
+    }
+    .finding .tag.keep { background: #DEEFD8; color: #2E7D3A; border: 1.5px solid #2E7D3A; }
+    .finding .tag.fix  { background: #F6DDD7; color: #B82A1F; border: 1.5px solid #B82A1F; }
+    .finding h3 { font-family: var(--font-display); font-weight: 800; font-size: 17px; letter-spacing: -0.015em; margin: 8px 0 6px; }
+    .finding p  { font-size: 13.5px; line-height: 1.5; color: var(--bc-ink-2); margin: 0; }
+
+    .direction-intro {
+      max-width: 1240px; margin: 56px auto 18px;
+      padding: 0 32px;
+    }
+    .direction-intro h2 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 36px; letter-spacing: -0.03em; line-height: 1.05; margin: 0;
+    }
+    .direction-intro p { font-size: 15px; color: var(--bc-ink-2); margin: 8px 0 0; max-width: 720px; }
+
+    /* iOS frame replacement — simpler shell for these mockups */
+    .phone {
+      width: 360px; height: 720px;
+      background: #14110D; border-radius: 42px; padding: 8px;
+      box-shadow: 0 30px 60px rgba(20,17,13,0.18), 0 0 0 2px var(--bc-ink);
+      position: relative;
+    }
+    .phone .notch {
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 26px; background: #000; border-radius: 18px; z-index: 5;
+    }
+    .phone .screen {
+      width: 100%; height: 100%; background: var(--bc-paper);
+      border-radius: 34px; overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
+    }
+
+    /* Direction caption inside each artboard */
+    .caption {
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      background: var(--bc-paper);
+      border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4);
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+    }
+    .caption .lbl {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-orange);
+    }
+    .caption h4 { font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; margin: 4px 0 6px; }
+    .caption p  { font-size: 13px; color: var(--bc-ink-2); margin: 0; line-height: 1.5; }
+    .caption .pros { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
+    .caption .chip {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 3px 7px; border-radius: var(--r-2); border: 1.5px solid var(--bc-line);
+      background: var(--bc-paper-2); color: var(--bc-ink);
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="home-directions.jsx"></script>
+</head>
+<body>
+
+  <!-- AUDIT — text + findings, sits above the canvas -->
+  <section class="audit">
+    <div class="eyebrow">Phase 2 · Audit</div>
+    <h1>The Condenser doesn't feel like a BuildCore product yet.</h1>
+    <p>
+      The existing kit uses the design system's tokens (warm bone paper, ink, the orange + status palette, Archivo+Geist+Mono) but it doesn't <em>announce</em> the BuildCore brand — no wedge mark, no parent-product framing, and the language still says "Lot 247" everywhere. Below: what's already working, what's drifting, and what to change first.
+    </p>
+
+    <div class="findings">
+      <div class="finding">
+        <span class="tag keep">Keep</span>
+        <h3>Token discipline is real</h3>
+        <p>All screens use <code>colors_and_type.css</code>. Stamp shadow + heavy borders + warm paper are correctly applied. This is the foundation we'll build on.</p>
+      </div>
+      <div class="finding">
+        <span class="tag keep">Keep</span>
+        <h3>Information architecture is sound</h3>
+        <p>5 screens (Today / Sites / Punch list / Detail / New) match a real CM's mental model. We're not changing the bones — just the surface and the home-screen hierarchy.</p>
+      </div>
+      <div class="finding">
+        <span class="tag fix">Fix · brand</span>
+        <h3>No visible BuildCore connection</h3>
+        <p>Nothing on the home screen says "this is the field arm of BuildCore." After Clock In, the user should land somewhere that <em>feels like the same company</em>. Every direction below adds the wedge + wordmark in the header.</p>
+      </div>
+      <div class="finding">
+        <span class="tag fix">Fix · copy</span>
+        <h3>"Lot" is everywhere</h3>
+        <p>"Lot 247", "Lots in walk-down", "Lots" tab — locked rule: addresses only. All three directions below rename to <b>Sites</b> in nav and address-only ("14 Sycamore Ln") in the body.</p>
+      </div>
+      <div class="finding">
+        <span class="tag fix">Fix · hierarchy</span>
+        <h3>The home is a stat dashboard, not a starting point</h3>
+        <p>The current Today screen leads with three small stat tiles. For a CM about to walk into a house, the question is "what do I do <em>next</em>" — not "what are my totals." Directions B and C reframe around that.</p>
+      </div>
+      <div class="finding">
+        <span class="tag fix">Fix · CTA</span>
+        <h3>Primary action is generic</h3>
+        <p>"Add punch" is technically correct but uninspiring. We should consider "Start the walk" / "Walk it now" — verbs tied to the activity, not the database operation. Each direction tries a different CTA.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIRECTIONS — design canvas below -->
+  <section class="direction-intro">
+    <div class="eyebrow" style="font-family: var(--font-mono); font-weight: 600; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange); display: inline-flex; align-items: center; gap: 8px;">
+      <span style="display: inline-block; width: 18px; height: 2px; background: currentColor;"></span>
+      Phase 3 · Direction options
+    </div>
+    <h2>Three takes on the home screen.</h2>
+    <p>
+      Drag artboards to reorder, double-click any title to rename, click the focus icon to expand one fullscreen. All three use the BuildCore tokens — what differs is hierarchy, density, and what the screen <em>tells you to do next</em>.
+    </p>
+  </section>
+
+  <div id="canvas-root"></div>
+
+  <script type="text/babel">
+    function Phone({ children }) {
+      return (
+        <div className="phone">
+          <div className="notch"></div>
+          <div className="screen">{children}</div>
+        </div>
+      );
+    }
+
+    function Caption({ tag, title, desc, chips }) {
+      return (
+        <div className="caption">
+          <div className="lbl">{tag}</div>
+          <h4>{title}</h4>
+          <p>{desc}</p>
+          <div className="pros">
+            {chips.map(c => <span key={c} className="chip">{c}</span>)}
+          </div>
+        </div>
+      );
+    }
+
+    function Canvas() {
+      return (
+        <DesignCanvas backgroundColor="var(--bc-paper-2)">
+
+          <DCSection id="directions" title="Home screen — three directions">
+
+            <DCArtboard id="direction-a" label="A · Faithful translation" width={400} height={920}>
+              <Caption
+                tag="Direction A · Safest"
+                title="Dashboard, but make it BuildCore."
+                desc="Keep the structure you have. Add the wedge mark + wordmark up top. Drop every 'Lot'. Rename the section to 'Active sites'. Same CTA ('Add punch')."
+                chips={['Smallest behavior change', 'Brand-anchored header', 'Address-only', 'Familiar feel']}
+              />
+              <Phone>
+                <HomeA />
+              </Phone>
+            </DCArtboard>
+
+            <DCArtboard id="direction-b" label="B · Today's walks (sequencer)" width={400} height={920}>
+              <Caption
+                tag="Direction B · Field-first"
+                title="One number, then your day."
+                desc="Lead with the day's open-punch count as a hero number. Below it: an ordered timeline of today's three walks with the next one stamped. One primary action: 'Start walk · 14 Sycamore Ln'."
+                chips={['Glanceable', 'Sequenced', 'Single decision', 'Mirrors the marketing day-in-life']}
+              />
+              <Phone>
+                <HomeB />
+              </Phone>
+            </DCArtboard>
+
+            <DCArtboard id="direction-c" label="C · Site board (whiteboard)" width={400} height={920}>
+              <Caption
+                tag="Direction C · Densest"
+                title="A foreman's whiteboard."
+                desc="Each active site is a full-width stamped card showing address, three micro-stats (open / blocked / next walk), and the top punches inline. Tap-target dense, scrolls vertically."
+                chips={['Most context per screen', 'No drill-down needed', 'Bigger touch targets', 'Sites tab is now home']}
+              />
+              <Phone>
+                <HomeC />
+              </Phone>
+            </DCArtboard>
+
+          </DCSection>
+
+        </DesignCanvas>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('canvas-root')).render(<Canvas />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="_card.css">
+<style>
+  body { padding: 0; }
+  .wrap {
+    display: flex; align-items: center; gap: 28px;
+    padding: 28px 32px;
+    background: var(--bc-paper);
+    border-bottom: var(--bw-2) solid var(--bc-line-strong);
+  }
+  .wm {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 56px;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    color: var(--bc-ink);
+  }
+  .wm em { font-style: normal; color: var(--bc-orange); }
+  .wedge {
+    width: 56px; height: 44px;
+    clip-path: polygon(0 100%, 0 0, 70% 0, 100% 100%);
+    background: var(--bc-orange);
+  }
+  .meta-row {
+    padding: 14px 32px;
+    display: flex; gap: 22px; align-items: baseline;
+    background: var(--bc-paper-2);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--fg-3);
+  }
+  .meta-row .k { color: var(--fg-2); font-weight: 600; }
+  .placeholder-flag {
+    margin-left: auto;
+    color: var(--bc-red);
+    font-weight: 600;
+  }
+</style></head><body>
+  <div class="wrap">
+    <div class="wedge"></div>
+    <div class="wm">Build<em>Core</em></div>
+  </div>
+  <div class="meta-row">
+    <span><span class="k">Family</span> Archivo 900</span>
+    <span><span class="k">Tracking</span> -0.035em</span>
+    <span><span class="k">Mark</span> Orange wedge</span>
+    <span class="placeholder-flag">⚠ Placeholder — awaiting real lockup</span>
+  </div>
+</body></html>

@@ -1,0 +1,256 @@
+/* =========================================================================
+   BuildCore — Colors & Type
+   Function over decoration. Built for the field, in sunlight, with gloves on.
+   ========================================================================= */
+
+/* ---------- Webfonts ---------- */
+/* Display: Archivo  — industrial geometric grotesque, good for headlines + big numbers
+   Body:    Geist    — neutral modern sans for UI/body
+   Mono:    Geist Mono — lot numbers, ticket IDs, data tables */
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap');
+
+:root {
+  /* =========================================================
+     COLOR — base palette
+     ========================================================= */
+
+  /* Brand */
+  --bc-orange:        #C45A2C;   /* BuildCore Orange — primary action / brand */
+  --bc-orange-press:  #A84A22;   /* darker press state */
+  --bc-orange-tint:   #FBEDE3;   /* very light wash for backgrounds */
+  --bc-orange-line:   #E8B79A;   /* tinted borders */
+
+  /* Hi-vis safety yellow — caution / warning */
+  --bc-hi-vis:        #F0B500;
+  --bc-hi-vis-tint:   #FBF1CC;
+  --bc-hi-vis-line:   #E8D068;
+
+  /* Status */
+  --bc-green:         #2E7D3A;   /* complete / pass */
+  --bc-green-tint:    #DEEFD8;
+  --bc-green-line:    #9CC79B;
+
+  --bc-red:           #B82A1F;   /* defect / blocker / fail */
+  --bc-red-tint:      #F6DDD7;
+  --bc-red-line:      #DD9A92;
+
+  --bc-blue:          #1F5A8A;   /* info / inspection */
+  --bc-blue-tint:     #D9E5F0;
+  --bc-blue-line:     #93B4D0;
+
+  /* Neutral — paper & ink, NOT pure white/black */
+  --bc-paper:         #FAFAF7;   /* main background — slight warm bone */
+  --bc-paper-2:       #F1EFE9;   /* secondary surface */
+  --bc-paper-3:       #E5E2DA;   /* tertiary / hover surface */
+  --bc-line:          #D6D2C7;   /* default borders */
+  --bc-line-strong:   #2A2722;   /* heavy borders (cards, inputs) */
+  --bc-ink:           #14110D;   /* primary text — rich near-black */
+  --bc-ink-2:         #3A3530;   /* secondary text */
+  --bc-ink-3:         #6E6860;   /* tertiary / meta text */
+  --bc-ink-4:         #9A938A;   /* placeholder / disabled */
+
+  /* Inverse (dark surfaces — rare; used for bottom sheets, modals) */
+  --bc-dark:          #14110D;
+  --bc-dark-2:        #2A2722;
+  --bc-dark-3:        #3A3530;
+  --bc-on-dark:       #FAFAF7;
+  --bc-on-dark-2:     #C7C2B8;
+
+  /* =========================================================
+     SEMANTIC color aliases
+     ========================================================= */
+  --fg-1: var(--bc-ink);
+  --fg-2: var(--bc-ink-2);
+  --fg-3: var(--bc-ink-3);
+  --fg-4: var(--bc-ink-4);
+  --bg-1: var(--bc-paper);
+  --bg-2: var(--bc-paper-2);
+  --bg-3: var(--bc-paper-3);
+  --line: var(--bc-line);
+  --line-strong: var(--bc-line-strong);
+  --accent: var(--bc-orange);
+  --accent-press: var(--bc-orange-press);
+
+  /* =========================================================
+     TYPE — families
+     ========================================================= */
+  --font-display: 'Archivo', 'Archivo Black', system-ui, sans-serif;
+  --font-body:    'Geist', 'Helvetica Neue', sans-serif;
+  --font-mono:    'Geist Mono', 'JetBrains Mono', ui-monospace, monospace;
+
+  /* =========================================================
+     TYPE — scale (mobile-first, large for sunlight readability)
+     ========================================================= */
+  --fs-display-xl: 64px;   /* hero numbers, marketing display */
+  --fs-display-l:  48px;
+  --fs-display-m:  36px;
+  --fs-h1:         28px;
+  --fs-h2:         22px;
+  --fs-h3:         18px;
+  --fs-body:       16px;   /* min body */
+  --fs-body-l:     17px;   /* main app body — bumped for field */
+  --fs-small:      14px;
+  --fs-meta:       12px;   /* badges, timestamps */
+
+  --lh-tight:    1.05;
+  --lh-snug:     1.2;
+  --lh-normal:   1.4;
+  --lh-relaxed:  1.55;
+
+  --tracking-display: -0.02em;
+  --tracking-label:    0.04em;   /* small caps labels */
+  --tracking-mono:    -0.01em;
+
+  /* =========================================================
+     SPACING (4-base, mobile-friendly)
+     ========================================================= */
+  --sp-0:  0;
+  --sp-1:  4px;
+  --sp-2:  8px;
+  --sp-3:  12px;
+  --sp-4:  16px;
+  --sp-5:  20px;
+  --sp-6:  24px;
+  --sp-7:  32px;
+  --sp-8:  40px;
+  --sp-9:  56px;
+  --sp-10: 72px;
+  --sp-11: 96px;
+
+  /* =========================================================
+     RADII — small, slightly squared. Construction-grade, not pillowy.
+     ========================================================= */
+  --r-0:  0;
+  --r-1:  2px;
+  --r-2:  4px;        /* default — buttons, chips, inputs */
+  --r-3:  6px;
+  --r-4:  8px;        /* cards */
+  --r-5:  12px;       /* sheets, modals */
+  --r-pill: 999px;    /* used SPARINGLY — status dots only */
+
+  /* =========================================================
+     BORDERS — heavy. Strong contour > soft shadow.
+     ========================================================= */
+  --bw-hair: 1px;
+  --bw-1:    1.5px;   /* default UI border */
+  --bw-2:    2px;     /* card / input border */
+  --bw-3:    3px;     /* focus ring, emphasis */
+
+  /* =========================================================
+     SHADOWS — restrained. Used to lift sheets only, not decoration.
+     ========================================================= */
+  --shadow-0: none;
+  --shadow-1: 0 1px 0 0 rgba(20,17,13,0.06);
+  --shadow-2: 0 2px 6px -2px rgba(20,17,13,0.12), 0 1px 0 0 rgba(20,17,13,0.06);
+  --shadow-3: 0 12px 32px -12px rgba(20,17,13,0.28), 0 2px 0 0 rgba(20,17,13,0.08);
+  /* "Stamp" — flat offset shadow used for ticket / punch cards */
+  --shadow-stamp: 3px 3px 0 0 var(--bc-ink);
+
+  /* =========================================================
+     TOUCH TARGETS — glove-friendly minimums
+     ========================================================= */
+  --tap-min:     48px;   /* never smaller */
+  --tap-comfort: 56px;   /* primary actions */
+  --tap-hero:    64px;   /* bottom-bar / FAB / submit */
+
+  /* =========================================================
+     MOTION — quick & decisive. No bounces, no spring.
+     ========================================================= */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-in:  cubic-bezier(0.6, 0, 0.8, 0.3);
+  --dur-1:    100ms;
+  --dur-2:    160ms;
+  --dur-3:    240ms;
+}
+
+/* =========================================================
+   SEMANTIC element styles — apply directly to tags
+   Use these where possible; the .h1/.body classes are escape hatches.
+   ========================================================= */
+
+html, body {
+  background: var(--bg-1);
+  color: var(--fg-1);
+  font-family: var(--font-body);
+  font-size: var(--fs-body-l);
+  line-height: var(--lh-relaxed);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, .h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-display);
+  color: var(--fg-1);
+  margin: 0;
+}
+h2, .h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h2);
+  line-height: var(--lh-snug);
+  letter-spacing: var(--tracking-display);
+  color: var(--fg-1);
+  margin: 0;
+}
+h3, .h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h3);
+  line-height: var(--lh-snug);
+  color: var(--fg-1);
+  margin: 0;
+}
+.display-xl, .display-l, .display-m {
+  font-family: var(--font-display);
+  font-weight: 900;
+  line-height: var(--lh-tight);
+  letter-spacing: -0.03em;
+  color: var(--fg-1);
+  text-wrap: balance;
+}
+.display-xl { font-size: var(--fs-display-xl); }
+.display-l  { font-size: var(--fs-display-l); }
+.display-m  { font-size: var(--fs-display-m); }
+
+p, .body {
+  font-size: var(--fs-body-l);
+  line-height: var(--lh-relaxed);
+  color: var(--fg-2);
+  text-wrap: pretty;
+  margin: 0;
+}
+.small { font-size: var(--fs-small); line-height: var(--lh-normal); color: var(--fg-3); }
+.meta  {
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tracking-mono);
+  color: var(--fg-3);
+  text-transform: uppercase;
+}
+.label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-meta);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+code, kbd, samp, .mono {
+  font-family: var(--font-mono);
+  font-size: 0.95em;
+  letter-spacing: var(--tracking-mono);
+}
+
+/* IDs and lot numbers get a stamped treatment */
+.id-stamp {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-meta);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--fg-1);
+}

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Condenser — Photo capture</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); overflow-x: hidden; }
+    .phone *::-webkit-scrollbar { width:0; height:0; display:none; }
+    .phone * { scrollbar-width: none; -ms-overflow-style: none; }
+
+    .page { max-width: 1240px; margin: 0 auto; padding: 32px 28px 60px; }
+
+    .lead { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; margin-bottom: 28px; }
+    @media (max-width: 720px) { .lead { flex-direction: column; gap: 14px; } }
+    .lead .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lead .eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+    .lead h1 { font-family: var(--font-display); font-weight: 900; font-size: 36px; letter-spacing: -0.03em; line-height: 1; margin: 10px 0 6px; max-width: 720px; }
+    .lead p { font-size: 14.5px; color: var(--bc-ink-2); margin: 0; max-width: 640px; line-height: 1.55; }
+
+    .postit {
+      flex: 0 0 280px;
+      background: #FBF1CC; border: 1.5px solid #E8D068; border-radius: var(--r-2);
+      padding: 12px 14px; box-shadow: 3px 3px 0 0 var(--bc-ink);
+      font-family: var(--font-mono); font-size: 11px; line-height: 1.5; color: var(--bc-ink-2);
+    }
+    .postit b { color: var(--bc-ink); }
+
+    .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    @media (max-width: 880px) { .stage { grid-template-columns: 1fr; } }
+
+    .col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .col-head { width: 100%; display: flex; flex-direction: column; gap: 4px; }
+    .col-num { font-family: var(--font-mono); font-weight: 600; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange); }
+    .col h2 { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em; margin: 0; line-height: 1.05; }
+    .col p { font-size: 13.5px; color: var(--bc-ink-2); margin: 4px 0 0; line-height: 1.5; max-width: 380px; }
+
+    .phone-fit { --s: 1; width: calc(360px * var(--s)); height: calc(720px * var(--s)); position: relative; flex-shrink: 0; }
+    .phone {
+      width: 360px; height: 720px; background: #14110D; border-radius: 42px; padding: 8px;
+      box-shadow: 0 30px 60px rgba(20,17,13,0.18), 0 0 0 2px var(--bc-ink);
+      position: absolute; top: 0; left: 0;
+      transform: scale(var(--s)); transform-origin: top left;
+    }
+    .phone .notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 100px; height: 26px; background: #000; border-radius: 18px; z-index: 5; }
+    .phone .screen { width: 100%; height: 100%; background: #14110D; border-radius: 34px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="photo.jsx"></script>
+</head>
+<body>
+  <div class="page">
+
+    <div class="lead">
+      <div>
+        <div class="eyebrow">Native app · Round 2 · Screen 3 of 8</div>
+        <h1>Photo capture</h1>
+        <p>Two states — viewfinder (camera live, multi-shot tray below, location pinned to current site) and annotation (draw a circle around the defect, drop a location pin, write a caption). Camera UI is dark; the rest of the app stays light.</p>
+      </div>
+      <div class="postit">
+        <b>⚠ Sample data only.</b><br>
+        Photo content is a stylized placeholder. At runtime: real camera feed, real shutter, real EXIF/GPS auto-attached to the site of record.
+      </div>
+    </div>
+
+    <div class="stage">
+
+      <div class="col">
+        <div class="col-head">
+          <span class="col-num">01 · Viewfinder</span>
+          <h2>Frame and shoot</h2>
+          <p>Pill in the top bar pins the current site so EXIF + site context get attached automatically. Big white shutter ring. Library + Annotate flank the shutter as ghost buttons. Tray underneath shows shots already taken this session.</p>
+        </div>
+        <div class="phone-fit"><div class="phone">
+          <div class="notch"></div>
+          <div class="screen" id="screen-viewfinder"></div>
+        </div></div>
+      </div>
+
+      <div class="col">
+        <div class="col-head">
+          <span class="col-num">02 · Annotate</span>
+          <h2>Mark up the defect</h2>
+          <p>Right-side glass toolbar: draw · pin · text · undo · delete. The red circle + leader line is one drawing gesture; "North wall" is a location pin with a typed label. Caption field below the photo. "Done" returns to the tray.</p>
+        </div>
+        <div class="phone-fit"><div class="phone">
+          <div class="notch"></div>
+          <div class="screen" id="screen-annotate"></div>
+        </div></div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 40px; padding: 16px 18px; background: var(--bc-ink); color: var(--bc-paper); border-radius: var(--r-4); box-shadow: 4px 4px 0 0 var(--bc-orange); max-width: 760px;">
+      <div style="font-family: var(--font-mono); font-weight: 600; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);">Up next · Screen 4 of 8 · Punch tab</div>
+      <p style="margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: rgba(250,250,247,0.92);">All-items view, filterable by site / trade / status / priority. Same density discipline as Home + Sites.</p>
+    </div>
+
+  </div>
+
+  <script>
+    function fitPhones() {
+      const wraps = document.querySelectorAll('.phone-fit');
+      if (!wraps.length) return;
+      const col = wraps[0].parentElement.getBoundingClientRect();
+      const sW = (col.width - 4) / 360;
+      const s = Math.max(0.5, Math.min(1, sW));
+      wraps.forEach(w => w.style.setProperty('--s', s));
+    }
+    window.addEventListener('resize', fitPhones, { passive: true });
+    fitPhones();
+  </script>
+  <script type="text/babel">
+    const mount = (id, Comp) => {
+      const el = document.getElementById(id);
+      if (!el || typeof Comp === 'undefined') { requestAnimationFrame(() => mount(id, Comp)); return; }
+      ReactDOM.createRoot(el).render(<Comp />);
+    };
+    requestAnimationFrame(() => {
+      mount('screen-viewfinder', window.PhotoViewfinderScreen);
+      mount('screen-annotate',   window.PhotoAnnotateScreen);
+      requestAnimationFrame(fitPhones);
+    });
+  </script>
+</body>
+</html>

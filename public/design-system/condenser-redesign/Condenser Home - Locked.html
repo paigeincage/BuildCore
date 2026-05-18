@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Condenser — Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    html, body { margin: 0; height: 100%; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); overflow: hidden; overscroll-behavior: none; }
+
+    /* Hide scrollbars on every scrollable region inside the phone — the phone IS
+       scrollable (real iOS scroll), we just don't want grey-bar OS scrollbars
+       showing up on the marketing/preview surface. */
+    .phone *::-webkit-scrollbar { width: 0; height: 0; display: none; }
+    .phone * { scrollbar-width: none; -ms-overflow-style: none; }
+
+    /* Single-page stage — no scroll. Phone always fits on screen. */
+    .stage {
+      height: 100dvh; min-height: 100dvh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; padding: 14px 12px;
+      box-sizing: border-box;
+    }
+
+    .label {
+      font-family: var(--font-mono); font-weight: 600;
+      font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--bc-ink-3);
+      flex-shrink: 0;
+    }
+
+    /* Outer wrapper scales with --s so it actually consumes the scaled box
+       (transform: scale alone wouldn't shrink the layout box). */
+    .phone-fit {
+      --s: 1;
+      width: calc(360px * var(--s));
+      height: calc(720px * var(--s));
+      position: relative;
+      flex-shrink: 0;
+    }
+    .phone {
+      width: 360px; height: 720px;
+      background: #14110D; border-radius: 42px; padding: 8px;
+      box-shadow: 0 30px 60px rgba(20,17,13,0.18), 0 0 0 2px var(--bc-ink);
+      box-sizing: border-box;
+      position: absolute; top: 0; left: 0;
+      transform: scale(var(--s));
+      transform-origin: top left;
+    }
+    .phone .notch {
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 26px; background: #000; border-radius: 18px; z-index: 5;
+    }
+    .phone .screen {
+      width: 100%; height: 100%; background: var(--bc-paper);
+      border-radius: 34px; overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="home-locked.jsx"></script>
+</head>
+<body>
+  <div class="stage">
+    <div class="label">The Condenser · Home</div>
+    <div class="phone-fit">
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="screen" id="phone-screen"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Fit the phone to whatever viewport we land in — desktop, tablet, or any phone.
+    function fitPhone() {
+      const wrap = document.querySelector('.phone-fit');
+      if (!wrap) return;
+      const marginX = 24;            // 12px padding each side
+      const marginY = 60;            // label + padding
+      const vw = Math.max(280, window.innerWidth  - marginX);
+      const vh = Math.max(420, window.innerHeight - marginY);
+      const s = Math.min(1, vw / 360, vh / 720);
+      wrap.style.setProperty('--s', s);
+    }
+    window.addEventListener('resize', fitPhone, { passive: true });
+    window.addEventListener('orientationchange', fitPhone, { passive: true });
+    fitPhone();
+  </script>
+
+  <script type="text/babel">
+    const mount = () => {
+      const el = document.getElementById('phone-screen');
+      if (!el || typeof HomeLocked === 'undefined') { requestAnimationFrame(mount); return; }
+      ReactDOM.createRoot(el).render(<HomeLocked />);
+      requestAnimationFrame(fitPhone);
+    };
+    mount();
+  </script>
+</body>
+</html>

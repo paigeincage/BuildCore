@@ -1,0 +1,28 @@
+/* Shared chrome for preview cards. Each card is ~700px wide, variable height.
+   The card renders inside a sandboxed iframe in the Design System tab — no surrounding chrome,
+   just the swatches/specimens/tokens themselves on the paper background. */
+
+@import url('../colors_and_type.css');
+
+html, body {
+  margin: 0;
+  padding: 24px;
+  background: var(--bc-paper);
+  color: var(--bc-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+* { box-sizing: border-box; }
+
+.row { display: flex; gap: 12px; align-items: stretch; }
+.col { display: flex; flex-direction: column; gap: 12px; }
+.grid { display: grid; gap: 12px; }
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}

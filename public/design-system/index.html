@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>BuildCore Design System</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bc-paper); color: var(--bc-ink); font-family: var(--font-body); }
+
+    .page { max-width: 1080px; margin: 0 auto; padding: 48px 28px 80px; }
+
+    .lead .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 12px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lead .eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+    .lead h1 { font-family: var(--font-display); font-weight: 900; font-size: 56px; letter-spacing: -0.035em; line-height: 0.95; margin: 14px 0 16px; max-width: 720px; }
+    .lead h1 em { color: var(--bc-orange); font-style: normal; }
+    .lead p { font-size: 17px; color: var(--bc-ink-2); line-height: 1.55; max-width: 640px; margin: 0; }
+
+    .section { margin-top: 48px; }
+    .section .h-eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-bottom: 14px;
+    }
+    .section .h-eyebrow::before { content:''; display:inline-block; width:14px; height:2px; background:currentColor; }
+    .section h2 {
+      font-family: var(--font-display); font-weight: 800; font-size: 26px;
+      letter-spacing: -0.025em; margin: 0 0 18px;
+    }
+
+    .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+    @media (max-width: 720px) { .grid { grid-template-columns: 1fr; } }
+
+    .card {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 18px 22px;
+      background: var(--bc-paper);
+      border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4);
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+      text-decoration: none; color: inherit;
+      transition: transform 100ms var(--ease-out), box-shadow 100ms var(--ease-out);
+    }
+    .card:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 0 var(--bc-ink); }
+    .card .tag {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-orange);
+    }
+    .card h3 { font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; margin: 2px 0 4px; }
+    .card p { font-size: 14px; color: var(--bc-ink-2); margin: 0; line-height: 1.5; }
+    .card .arrow { margin-top: 6px; font-family: var(--font-mono); font-size: 12px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink); display: inline-flex; align-items: center; gap: 6px; }
+    .card .arrow::after { content: '→'; }
+
+    footer { margin-top: 56px; padding-top: 22px; border-top: 1.5px solid var(--bc-line); display: flex; justify-content: space-between; gap: 12px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--bc-ink-3); }
+    @media (max-width: 540px) { footer { flex-direction: column; gap: 8px; } }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="lead">
+      <div class="eyebrow">BuildCore Design System</div>
+      <h1>Everything <em>BuildCore</em> ships, in one place.</h1>
+      <p>Tokens, components, and the live screens for both BuildCore Ops (marketing) and The Condenser (app). Every artifact is hosted under <code>/design-system/</code> for review.</p>
+    </div>
+
+    <section class="section">
+      <div class="h-eyebrow">Live pages</div>
+      <h2>The product surfaces</h2>
+      <div class="grid">
+        <a class="card" href="pages/The%20Condenser%20App.html">
+          <span class="tag">App · responsive</span>
+          <h3>The Condenser App</h3>
+          <p>The redesigned native app — mobile phone view at &lt;1024px, desktop shell with sidebar at ≥1024px.</p>
+          <span class="arrow">Open</span>
+        </a>
+        <a class="card" href="pages/The%20Condenser%20Landing%20Page.html">
+          <span class="tag">Marketing</span>
+          <h3>The Condenser Landing</h3>
+          <p>The dedicated marketing page for The Condenser product.</p>
+          <span class="arrow">Open</span>
+        </a>
+        <a class="card" href="ui_kits/buildcore-ops/index.html">
+          <span class="tag">Marketing</span>
+          <h3>BuildCore Ops Landing</h3>
+          <p>The marketing site for the BuildCore suite (umbrella brand).</p>
+          <span class="arrow">Open</span>
+        </a>
+        <a class="card" href="BuildCore%20Ops%20Landing.html">
+          <span class="tag">Marketing · standalone</span>
+          <h3>BuildCore Ops Landing (bundled)</h3>
+          <p>Same marketing page, inlined into a single offline-capable HTML file.</p>
+          <span class="arrow">Open</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="h-eyebrow">Condenser app screens</div>
+      <h2>All 11 native screens</h2>
+      <div class="grid">
+        <a class="card" href="condenser-redesign/Condenser%20Home%20-%20Locked.html"><span class="tag">Home</span><h3>Today</h3><p>The Today/Home dashboard with walks timeline.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/Condenser%20-%20Home%20+%20Sites.html"><span class="tag">Side by side</span><h3>Home + Sites</h3><p>Two phone screens together for comparison.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Sign%20in.html"><span class="tag">Auth</span><h3>Sign in (Phone + SMS)</h3><p>Phone number entry → 6-digit code verification.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Voice%20capture.html"><span class="tag">Capture</span><h3>Voice capture</h3><p>Idle + recording states with live waveform.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Photo%20capture.html"><span class="tag">Capture</span><h3>Photo capture</h3><p>Viewfinder + per-shot annotation tools.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Upload%20Workflow.html"><span class="tag">Workflow</span><h3>Upload → Review → Send</h3><p>Critical 3-screen workflow.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Punch%20tab.html"><span class="tag">Tab</span><h3>Punch tab</h3><p>Cross-site punch list, filterable.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Trades%20tab.html"><span class="tag">Tab</span><h3>Trades tab</h3><p>Contacts directory with role + channel preference.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Me%20tab.html"><span class="tag">Settings</span><h3>Me / Settings</h3><p>Consolidated settings — 6 grouped sections.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Site%20detail.html"><span class="tag">Detail</span><h3>Site detail</h3><p>Site hero, stats, actions, open punches, activity.</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Empty%20states.html"><span class="tag">First-run</span><h3>Empty states</h3><p>Four first-run views (sites, punches, contacts, files).</p><span class="arrow">Open</span></a>
+        <a class="card" href="condenser-redesign/The%20Condenser%20-%20Desktop%20Shell.html"><span class="tag">Desktop foundation</span><h3>Desktop Shell rules</h3><p>Sidebar nav, breakpoint, per-screen treatment table.</p><span class="arrow">Open</span></a>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="h-eyebrow">System</div>
+      <h2>Tokens, types &amp; foundations</h2>
+      <div class="grid">
+        <a class="card" href="colors_and_type.css"><span class="tag">Tokens</span><h3>colors_and_type.css</h3><p>All CSS custom properties — color, type, spacing, motion.</p><span class="arrow">View</span></a>
+        <a class="card" href="README.md"><span class="tag">Reference</span><h3>Design System README</h3><p>Brand context, content fundamentals, visual foundations, iconography.</p><span class="arrow">Read</span></a>
+        <a class="card" href="SKILL.md"><span class="tag">Skill manifest</span><h3>SKILL.md</h3><p>Agent-Skill manifest. Drop folder into Claude Code as a skill.</p><span class="arrow">Read</span></a>
+        <a class="card" href="preview/"><span class="tag">Cards</span><h3>Token preview cards</h3><p>All design system tokens rendered as small inspectable cards.</p><span class="arrow">Browse</span></a>
+      </div>
+    </section>
+
+    <footer>
+      <span>© 2026 BuildCore Inc.</span>
+      <span>Static design system · served by Railway</span>
+    </footer>
+
+  </div>
+</body>
+</html>

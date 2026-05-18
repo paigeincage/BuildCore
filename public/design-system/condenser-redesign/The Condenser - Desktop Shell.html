@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Condenser — Desktop shell rules</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); overflow-x: hidden; }
+
+    .page { max-width: 1400px; margin: 0 auto; padding: 36px 28px 64px; }
+
+    .lead { margin-bottom: 28px; }
+    .lead .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lead .eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+    .lead h1 { font-family: var(--font-display); font-weight: 900; font-size: 40px; letter-spacing: -0.03em; line-height: 1; margin: 12px 0 10px; max-width: 880px; }
+    .lead p { font-size: 15px; color: var(--bc-ink-2); margin: 0; max-width: 720px; line-height: 1.55; }
+
+    /* Browser-frame mock */
+    .browser {
+      width: 100%; border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4); overflow: hidden;
+      box-shadow: 4px 4px 0 0 var(--bc-ink);
+      background: var(--bc-paper);
+    }
+    .browser-bar {
+      height: 34px; background: var(--bc-paper-2);
+      border-bottom: 1.5px solid var(--bc-line-strong);
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 14px;
+    }
+    .browser-bar .dot { width: 11px; height: 11px; border-radius: 999px; background: var(--bc-line); border: 1.5px solid var(--bc-line-strong); }
+    .browser-bar .url {
+      flex: 1; margin-left: 10px;
+      height: 22px; padding: 0 10px;
+      background: var(--bc-paper); border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2);
+      display: flex; align-items: center;
+      font-family: var(--font-mono); font-size: 11px; color: var(--bc-ink-3);
+    }
+    .browser-body { height: 640px; overflow: hidden; }
+
+    /* Sample content placeholders inside the shell */
+    .demo-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    @media (max-width: 1080px) { .demo-cards { grid-template-columns: repeat(2, 1fr); } }
+    .demo-card {
+      background: var(--bc-paper); border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4); padding: 14px;
+      display: flex; flex-direction: column; gap: 8px;
+      min-height: 160px;
+    }
+    .demo-card .addr {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+    .demo-card h3 {
+      font-family: var(--font-display); font-weight: 800; font-size: 16px;
+      letter-spacing: -0.02em; margin: 0; color: var(--bc-ink);
+    }
+    .demo-card .stats {
+      display: flex; gap: 12px; padding-top: 6px; border-top: 1.5px solid var(--bc-line);
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+    .demo-card .stats b { color: var(--bc-ink); }
+
+    /* Rules section */
+    .rules {
+      margin-top: 40px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    @media (max-width: 880px) { .rules { grid-template-columns: 1fr; } }
+    .rule-card {
+      background: var(--bc-paper); border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4); padding: 18px 20px;
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+    }
+    .rule-card .num {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.06em; color: var(--bc-orange);
+    }
+    .rule-card h3 {
+      font-family: var(--font-display); font-weight: 800; font-size: 18px;
+      letter-spacing: -0.02em; margin: 4px 0 8px;
+    }
+    .rule-card p {
+      font-size: 13.5px; color: var(--bc-ink-2); margin: 0 0 8px;
+      line-height: 1.55;
+    }
+    .rule-card code {
+      background: var(--bc-paper-2); padding: 1px 6px;
+      border: 1.5px solid var(--bc-line); border-radius: 3px;
+      font-family: var(--font-mono); font-size: 12px; color: var(--bc-ink);
+    }
+
+    /* Per-screen treatment table */
+    .treatment {
+      margin-top: 32px;
+      border: 2px solid var(--bc-ink); border-radius: var(--r-4); overflow: hidden;
+      background: var(--bc-paper);
+    }
+    .treatment .row {
+      display: grid;
+      grid-template-columns: 200px 140px 1fr;
+      gap: 0;
+      border-bottom: 1.5px solid var(--bc-line);
+    }
+    .treatment .row:last-child { border-bottom: 0; }
+    .treatment .row.head {
+      background: var(--bc-ink); color: var(--bc-paper);
+      border-bottom: 2px solid var(--bc-ink);
+    }
+    .treatment .cell {
+      padding: 12px 16px;
+      border-right: 1.5px solid var(--bc-line);
+      font-size: 13.5px;
+    }
+    .treatment .cell:last-child { border-right: 0; }
+    .treatment .row.head .cell {
+      border-right: 1.5px solid rgba(250,250,247,0.18);
+      font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .treatment .cell.screen { font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: -0.015em; }
+    .treatment .cell.type {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .treatment .cell.type.wide { color: var(--bc-orange); }
+    .treatment .cell.type.single { color: var(--bc-ink-3); }
+    .treatment .cell.notes { color: var(--bc-ink-2); line-height: 1.5; }
+
+    /* Annotation pills overlaid on the browser demo */
+    .annot {
+      position: absolute;
+      background: #FBF1CC;
+      border: 1.5px solid #E8D068;
+      border-radius: var(--r-2);
+      padding: 6px 10px;
+      box-shadow: 2px 2px 0 0 var(--bc-ink);
+      font-family: var(--font-mono);
+      font-size: 10.5px; font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--bc-ink);
+      max-width: 180px;
+      line-height: 1.45;
+    }
+    .annot b { display: block; color: var(--bc-orange); font-size: 9.5px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 2px; }
+    .stage-wrap { position: relative; }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="desktop-shell.jsx"></script>
+</head>
+<body>
+  <div class="page">
+
+    <div class="lead">
+      <div class="eyebrow">Direction C · Hybrid · Foundation</div>
+      <h1>The Condenser, on a 27" monitor.</h1>
+      <p>The mobile design is the source of truth. The desktop version uses a left sidebar instead of a bottom tab bar, gives the high-density screens (Sites · Punch · Site detail) wider treatment, and keeps the simple screens (Today · Trades · Me · New punch) single-column. Below: the shell + the rules.</p>
+    </div>
+
+    <!-- Live shell demo with a mocked Sites screen inside -->
+    <div class="stage-wrap">
+      <div class="browser">
+        <div class="browser-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <div class="url">condenser.buildcore.io / sites</div>
+        </div>
+        <div class="browser-body" id="shell-mount"></div>
+      </div>
+
+      <div class="annot" style="top: 90px; left: -150px;">
+        <b>240px sidebar</b>
+        Replaces the bottom tab bar at desktop width. Active item gets an orange left bar.
+      </div>
+      <div class="annot" style="top: 120px; right: -160px;">
+        <b>Topbar · 64px</b>
+        Contextual title + ⌘K global search + notifications bell with dot.
+      </div>
+      <div class="annot" style="bottom: 60px; left: -150px;">
+        <b>Wide treatment</b>
+        Sites = 3-up grid (this view). On mobile, same data was a stacked list.
+      </div>
+    </div>
+
+    <!-- Breakpoint + visual rules -->
+    <div class="rules">
+      <div class="rule-card">
+        <span class="num">RULE 01</span>
+        <h3>The breakpoint</h3>
+        <p><code>min-width: 1024px</code> — switch to sidebar. Below that, the bottom-tab-bar mobile layout stays exactly as-shipped. No tablet-specific layout for round 1; we treat tablet as "big phone."</p>
+      </div>
+      <div class="rule-card">
+        <span class="num">RULE 02</span>
+        <h3>The sidebar</h3>
+        <p>Fixed <code>240px</code> wide. Brand lockup top · orange <code>New punch</code> CTA · 4 nav items · profile chip + ⚙ at the bottom. Active item: ink background, paper text, orange 3px left bar. Inactive: muted icon + dark ink label.</p>
+      </div>
+      <div class="rule-card">
+        <span class="num">RULE 03</span>
+        <h3>The content area</h3>
+        <p>Max-width <code>1240px</code>, centered, with <code>32px</code> gutters. Inside that, each screen picks its own column layout. Simple screens stay narrow (~760px max). Wide screens fill the canvas.</p>
+      </div>
+      <div class="rule-card">
+        <span class="num">RULE 04</span>
+        <h3>What stays the same</h3>
+        <p>All tokens (color, type, spacing, radius, shadow). All atoms (Stamp · Pill · PriorityDot · stamped CTA). All copy. The only thing that changes is the layout container around the same React components.</p>
+      </div>
+    </div>
+
+    <!-- Per-screen treatment -->
+    <h2 style="font-family: var(--font-display); font-weight: 900; font-size: 28px; letter-spacing: -0.025em; margin: 40px 0 14px;">
+      Per-screen treatment
+    </h2>
+    <div class="treatment">
+      <div class="row head">
+        <div class="cell">Screen</div>
+        <div class="cell">Treatment</div>
+        <div class="cell">Notes</div>
+      </div>
+      <div class="row"><div class="cell screen">Today</div>           <div class="cell type single">Single col</div>      <div class="cell notes">Hero number + walk timeline. Mobile layout centered in a 760px column. Nothing wider.</div></div>
+      <div class="row"><div class="cell screen">Sites</div>           <div class="cell type wide">Wide · 3-up grid</div>  <div class="cell notes">Same site card, 3 per row at 1240px. Stat strip + progress bar unchanged. Drops to 2-up at 1080px.</div></div>
+      <div class="row"><div class="cell screen">Punch list</div>      <div class="cell type wide">Wide · table</div>      <div class="cell notes">Sortable table — Address · Item · Trade · Priority · Due · Status. Filter chips stay above. Each row click → punch detail.</div></div>
+      <div class="row"><div class="cell screen">Site detail</div>     <div class="cell type wide">Wide · 2-col</div>      <div class="cell notes">Left col (550px): address hero + stats + actions + activity. Right col: open punch list. Punch list scrolls independently.</div></div>
+      <div class="row"><div class="cell screen">Punch detail</div>    <div class="cell type wide">Wide · 2-col</div>      <div class="cell notes">Left: photo gallery + voice memo. Right: metadata + trade contact + send / close actions. Better than mobile where you scroll past photos.</div></div>
+      <div class="row"><div class="cell screen">New punch</div>       <div class="cell type single">Single col</div>      <div class="cell notes">Form with capture buttons. 560px max-width column, centered. Same flow as mobile.</div></div>
+      <div class="row"><div class="cell screen">Intake (upload)</div> <div class="cell type single">Single col</div>      <div class="cell notes">Drop zone is bigger and tap-target friendlier. File queue list. 760px max-width.</div></div>
+      <div class="row"><div class="cell screen">Review</div>          <div class="cell type single">Single col, comfy</div><div class="cell notes">Item list grows from 360 → 760 wide. More items per row legibly. Same grouped-by-trade structure.</div></div>
+      <div class="row"><div class="cell screen">Send sheet</div>      <div class="cell type single">Modal · centered</div><div class="cell notes">Becomes a centered modal (not a bottom sheet). 520px wide. Same internals.</div></div>
+      <div class="row"><div class="cell screen">Trades</div>          <div class="cell type single">Single col</div>      <div class="cell notes">Directory list, same as mobile. Optional: 2-up at very wide widths. Default: stay single.</div></div>
+      <div class="row"><div class="cell screen">Me / Settings</div>   <div class="cell type single">Single col</div>      <div class="cell notes">Grouped settings, mobile layout. ~720px column, centered. Profile card up top.</div></div>
+    </div>
+
+    <!-- Caveats -->
+    <div style="margin-top: 32px; padding: 18px 22px; background: var(--bc-ink); color: var(--bc-paper); border-radius: var(--r-4); box-shadow: 4px 4px 0 0 var(--bc-orange); max-width: 920px;">
+      <div style="font-family: var(--font-mono); font-weight: 600; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);">
+        Open questions before screen work begins
+      </div>
+      <ul style="margin: 8px 0 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; color: rgba(250,250,247,0.92);">
+        <li><b style="color: var(--bc-paper);">⌘K command palette</b> — I added the keyboard shortcut affordance but the actual search UX isn't designed yet. Want it for the desktop shell, or save for later?</li>
+        <li><b style="color: var(--bc-paper);">Multiple workspaces</b> — does a single account ever have more than one Condenser workspace (e.g., a CM working for two builders)? If yes, the sidebar top needs a workspace switcher.</li>
+        <li><b style="color: var(--bc-paper);">Keyboard navigation</b> — desktop = expected. The Site/Punch tables need arrow-key row selection, Enter to open, etc. Worth a spec doc on its own.</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script type="text/babel">
+    const mount = () => {
+      const el = document.getElementById('shell-mount');
+      if (!el || typeof DesktopShell === 'undefined') { requestAnimationFrame(mount); return; }
+
+      // Sample content shown inside the shell — a wide-treatment Sites grid
+      const SitesGrid = () => (
+        <DesktopShell active="sites" title="Sites" subtitle="Ashford · Hampton · Maple Ridge">
+          <div className="demo-cards">
+            <div className="demo-card">
+              <div className="addr">ASHFORD · PRE-WALK</div>
+              <h3>14 Sycamore Ln</h3>
+              <div className="stats"><span><b>12</b> open</span><span><b>1</b> blocked</span><span><b>72%</b> done</span></div>
+            </div>
+            <div className="demo-card">
+              <div className="addr">ASHFORD · FRAME</div>
+              <h3>23 Birchwood Ct</h3>
+              <div className="stats"><span><b>4</b> open</span><span><b>0</b> blocked</span><span><b>69%</b> done</span></div>
+            </div>
+            <div className="demo-card">
+              <div className="addr">HAMPTON · FINAL</div>
+              <h3>11 Willow Bend</h3>
+              <div className="stats"><span><b>6</b> open</span><span><b>1</b> late</span><span><b>86%</b> done</span></div>
+            </div>
+            <div className="demo-card">
+              <div className="addr">HAMPTON · ROUGH-IN</div>
+              <h3>57 Cedar Hollow</h3>
+              <div className="stats"><span><b>9</b> open</span><span><b>0</b> blocked</span><span><b>61%</b> done</span></div>
+            </div>
+            <div className="demo-card">
+              <div className="addr">MAPLE RIDGE · PRE-WALK</div>
+              <h3>802 Maple Crest</h3>
+              <div className="stats"><span><b>2</b> open</span><span><b>0</b> blocked</span><span><b>94%</b> done</span></div>
+            </div>
+            <div className="demo-card">
+              <div className="addr">MAPLE RIDGE · FRAME</div>
+              <h3>318 Oakdale Pl</h3>
+              <div className="stats"><span><b>5</b> open</span><span><b>0</b> blocked</span><span><b>52%</b> done</span></div>
+            </div>
+          </div>
+        </DesktopShell>
+      );
+
+      ReactDOM.createRoot(el).render(<SitesGrid />);
+    };
+    mount();
+  </script>
+</body>
+</html>

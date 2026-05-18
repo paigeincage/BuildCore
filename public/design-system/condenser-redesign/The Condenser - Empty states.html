@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Condenser — Empty states</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); overflow-x: hidden; }
+    .phone *::-webkit-scrollbar { width:0; height:0; display:none; }
+    .phone * { scrollbar-width: none; -ms-overflow-style: none; }
+
+    .page { max-width: 1480px; margin: 0 auto; padding: 28px 24px 60px; }
+
+    .lead { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+    .lead .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lead .eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+    .lead h1 { font-family: var(--font-display); font-weight: 900; font-size: 32px; letter-spacing: -0.03em; line-height: 1; margin: 8px 0 6px; }
+    .lead p { font-size: 13.5px; color: var(--bc-ink-2); margin: 0; max-width: 640px; line-height: 1.55; }
+
+    .stage { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: start; }
+    @media (max-width: 1280px) { .stage { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 700px)  { .stage { grid-template-columns: 1fr; } }
+
+    .col { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .col-head { width: 100%; text-align: center; }
+    .col-num { font-family: var(--font-mono); font-weight: 600; font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange); }
+    .col h2 { font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: -0.02em; margin: 4px 0 0; line-height: 1.1; }
+
+    .phone-fit { --s: 1; width: calc(360px * var(--s)); height: calc(720px * var(--s)); position: relative; flex-shrink: 0; }
+    .phone {
+      width: 360px; height: 720px; background: #14110D; border-radius: 42px; padding: 8px;
+      box-shadow: 0 30px 60px rgba(20,17,13,0.18), 0 0 0 2px var(--bc-ink);
+      position: absolute; top: 0; left: 0; transform: scale(var(--s)); transform-origin: top left;
+    }
+    .phone .notch { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 100px; height: 26px; background: #000; border-radius: 18px; z-index: 5; }
+    .phone .screen { width: 100%; height: 100%; background: var(--bc-paper); border-radius: 34px; overflow: hidden; position: relative; display: flex; flex-direction: column; }
+
+    .closer {
+      margin-top: 36px; padding: 18px 22px;
+      background: var(--bc-ink); color: var(--bc-paper);
+      border-radius: var(--r-4); box-shadow: 4px 4px 0 0 var(--bc-orange);
+      max-width: 760px;
+    }
+    .closer .lbl { font-family: var(--font-mono); font-weight: 600; font-size: 10.5px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange); }
+    .closer p { margin: 8px 0 0; font-size: 13.5px; line-height: 1.55; color: rgba(250,250,247,0.92); }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="empty-states.jsx"></script>
+</head>
+<body>
+  <div class="page">
+
+    <div class="lead">
+      <div>
+        <div class="eyebrow">Native app · Round 2 · Screen 8 of 8 · Final</div>
+        <h1>Empty states</h1>
+        <p>Four first-run views. Each one names what's missing, says it plainly, then offers one orange action and one quieter alt. Stamped icon block uses orange-tint with an ink border for a real surface — not a tinted rectangle floating in space.</p>
+      </div>
+    </div>
+
+    <div class="stage">
+
+      <div class="col">
+        <div class="col-head"><div class="col-num">01 · Sites</div><h2>No sites yet</h2></div>
+        <div class="phone-fit"><div class="phone"><div class="notch"></div><div class="screen" id="s1"></div></div></div>
+      </div>
+
+      <div class="col">
+        <div class="col-head"><div class="col-num">02 · Punches</div><h2>You're caught up</h2></div>
+        <div class="phone-fit"><div class="phone"><div class="notch"></div><div class="screen" id="s2"></div></div></div>
+      </div>
+
+      <div class="col">
+        <div class="col-head"><div class="col-num">03 · Contacts</div><h2>No contacts yet</h2></div>
+        <div class="phone-fit"><div class="phone"><div class="notch"></div><div class="screen" id="s3"></div></div></div>
+      </div>
+
+      <div class="col">
+        <div class="col-head"><div class="col-num">04 · Files</div><h2>Nothing uploaded</h2></div>
+        <div class="phone-fit"><div class="phone"><div class="notch"></div><div class="screen" id="s4"></div></div></div>
+      </div>
+
+    </div>
+
+    <div class="closer">
+      <div class="lbl">Round 2 complete · 8 of 8 screens delivered</div>
+      <p>Sign in · Voice capture · Photo capture · Punch tab · Trades tab · Me/Settings · Site detail · Empty states. Plus the original Round 1 trio (Intake · Review · Send). The native app's primary surfaces now match the BuildCore brand and the locked rules. Next: tablet layouts, Android variants, dashboard/analytics — when you're ready for a Round 3.</p>
+    </div>
+
+  </div>
+
+  <script>
+    function fitPhones() {
+      const wraps = document.querySelectorAll('.phone-fit');
+      if (!wraps.length) return;
+      const col = wraps[0].parentElement.getBoundingClientRect();
+      const sW = (col.width - 4) / 360;
+      const s = Math.max(0.4, Math.min(1, sW));
+      wraps.forEach(w => w.style.setProperty('--s', s));
+    }
+    window.addEventListener('resize', fitPhones, { passive: true });
+    fitPhones();
+  </script>
+  <script type="text/babel">
+    const mount = (id, Comp) => {
+      const el = document.getElementById(id);
+      if (!el || typeof Comp === 'undefined') { requestAnimationFrame(() => mount(id, Comp)); return; }
+      ReactDOM.createRoot(el).render(<Comp />);
+    };
+    requestAnimationFrame(() => {
+      mount('s1', window.EmptySites);
+      mount('s2', window.EmptyPunches);
+      mount('s3', window.EmptyContacts);
+      mount('s4', window.EmptyFiles);
+      requestAnimationFrame(fitPhones);
+    });
+  </script>
+</body>
+</html>
