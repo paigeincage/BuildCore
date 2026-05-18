@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Condenser — Upload Workflow</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); overflow-x: hidden; }
+
+    /* Hide scrollbars inside phone screens — content is sized to fit */
+    .phone *::-webkit-scrollbar { width: 0; height: 0; display: none; }
+    .phone * { scrollbar-width: none; -ms-overflow-style: none; }
+
+    .page {
+      max-width: 1480px; margin: 0 auto; padding: 32px 28px 60px;
+    }
+
+    /* Header strip — title + sample-data disclaimer */
+    .lead {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 32px;
+      margin-bottom: 28px;
+    }
+    @media (max-width: 720px) { .lead { flex-direction: column; gap: 14px; } }
+    .lead .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lead .eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+    .lead h1 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 36px; letter-spacing: -0.03em; line-height: 1;
+      margin: 10px 0 6px; max-width: 720px;
+    }
+    .lead p { font-size: 14.5px; color: var(--bc-ink-2); margin: 0; max-width: 640px; line-height: 1.55; }
+
+    .postit {
+      flex: 0 0 280px;
+      background: #FBF1CC;
+      border: 1.5px solid #E8D068;
+      border-radius: var(--r-2);
+      padding: 12px 14px;
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+      font-family: var(--font-mono); font-size: 11px; line-height: 1.5;
+      color: var(--bc-ink-2);
+    }
+    .postit b { color: var(--bc-ink); }
+
+    /* Stage — three phones side by side, with under-captions */
+    .stage {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+    @media (max-width: 1200px) { .stage { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 720px)  { .stage { grid-template-columns: 1fr; } }
+
+    .col { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .col-head {
+      width: 100%;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+    }
+    .col-num {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+    }
+    .col h2 {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 22px; letter-spacing: -0.02em; line-height: 1.05; margin: 0;
+    }
+    .col p {
+      font-size: 13.5px; color: var(--bc-ink-2); margin: 4px 0 0;
+      line-height: 1.5; max-width: 340px;
+    }
+
+    /* Phone scaffolding */
+    .phone-fit { --s: 1; width: calc(360px * var(--s)); height: calc(720px * var(--s)); position: relative; flex-shrink: 0; }
+    .phone {
+      width: 360px; height: 720px;
+      background: #14110D; border-radius: 42px; padding: 8px;
+      box-shadow: 0 30px 60px rgba(20,17,13,0.18), 0 0 0 2px var(--bc-ink);
+      position: absolute; top: 0; left: 0;
+      transform: scale(var(--s)); transform-origin: top left;
+    }
+    .phone .notch {
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 26px; background: #000; border-radius: 18px; z-index: 5;
+    }
+    .phone .screen {
+      width: 100%; height: 100%; background: var(--bc-paper);
+      border-radius: 34px; overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
+    }
+
+    .footer-note {
+      margin-top: 40px;
+      padding: 16px 18px;
+      background: var(--bc-ink); color: var(--bc-paper);
+      border-radius: var(--r-4);
+      box-shadow: 4px 4px 0 0 var(--bc-orange);
+      max-width: 760px;
+    }
+    .footer-note .lbl {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10.5px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+    }
+    .footer-note p { margin: 6px 0 0; font-size: 13.5px; line-height: 1.55; color: rgba(250,250,247,0.92); }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel" src="workflow.jsx"></script>
+</head>
+<body>
+  <div class="page">
+
+    <div class="lead">
+      <div>
+        <div class="eyebrow">Native app · Round 1 · Critical workflow</div>
+        <h1>Upload → Auto-sort → Send</h1>
+        <p>
+          The product's core moment of value. A user uploads a punch list (PDF, photo, doc); The Condenser extracts every item, auto-sorts by trade, lets the user edit, then sends the trade-specific list to the right contact. Three screens — designed to feel like one continuous flow.
+        </p>
+      </div>
+      <div class="postit">
+        <b>⚠ Sample data only.</b><br>
+        Every address, file name, trade, and contact below is placeholder. At runtime, content is driven by:<br><br>
+        <b>user profile</b> → communities → sites → trades → contacts.
+      </div>
+    </div>
+
+    <div class="stage">
+
+      <div class="col">
+        <div class="col-head">
+          <span class="col-num">01 · Intake</span>
+          <h2>Upload files</h2>
+          <p>Drop PDFs, docs, spreadsheets, or jobsite photos. The drop zone is also the iOS file/photo picker on tap. Files queue up with type + size + remove.</p>
+        </div>
+        <div class="phone-fit"><div class="phone">
+          <div class="notch"></div>
+          <div class="screen" id="screen-intake"></div>
+        </div></div>
+      </div>
+
+      <div class="col">
+        <div class="col-head">
+          <span class="col-num">02 · Review</span>
+          <h2>Auto-sorted by trade</h2>
+          <p>Items return grouped by trade, with priority dots, location chips, and source-file captions. Tap to edit any line. Items marked "repaired" auto-deselect.</p>
+        </div>
+        <div class="phone-fit"><div class="phone">
+          <div class="notch"></div>
+          <div class="screen" id="screen-review"></div>
+        </div></div>
+      </div>
+
+      <div class="col">
+        <div class="col-head">
+          <span class="col-num">03 · Send sheet</span>
+          <h2>Bottom sheet · iOS</h2>
+          <p>Trade-by-trade. Auto-matches a contact from the user's address book by trade preference. Two-up primary actions: Email · Text. Disabled if the contact's channel is invalid.</p>
+        </div>
+        <div class="phone-fit"><div class="phone">
+          <div class="notch"></div>
+          <div class="screen" id="screen-send"></div>
+        </div></div>
+      </div>
+
+    </div>
+
+    <div class="footer-note">
+      <div class="lbl">Round 1 delivered · 3 of N screens</div>
+      <p>
+        Next batches (held for review): phone-number sign-up + SMS · voice capture · photo capture · Punch tab · Trades tab · Me / Settings · Site detail · empty states. Each will follow the same density discipline as Home + Sites and reuse the brand row + tab bar + stamp shadow on the active CTA.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    function fitPhones() {
+      const wraps = document.querySelectorAll('.phone-fit');
+      if (!wraps.length) return;
+      const col = wraps[0].parentElement.getBoundingClientRect();
+      const sW = (col.width - 4) / 360;
+      const s = Math.max(0.45, Math.min(1, sW));
+      wraps.forEach(w => w.style.setProperty('--s', s));
+    }
+    window.addEventListener('resize', fitPhones, { passive: true });
+    window.addEventListener('orientationchange', fitPhones, { passive: true });
+    fitPhones();
+  </script>
+
+  <script type="text/babel">
+    const mount = (id, Comp) => {
+      const el = document.getElementById(id);
+      if (!el || typeof Comp === 'undefined') { requestAnimationFrame(() => mount(id, Comp)); return; }
+      ReactDOM.createRoot(el).render(<Comp />);
+    };
+    requestAnimationFrame(() => {
+      mount('screen-intake', window.IntakeScreen);
+      mount('screen-review', window.ReviewScreen);
+      mount('screen-send',   window.SendSheet);
+      requestAnimationFrame(fitPhones);
+    });
+  </script>
+</body>
+</html>

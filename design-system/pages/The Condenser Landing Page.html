@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Condenser — Landing</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; overflow-x: hidden;
+      background: var(--bc-paper); color: var(--bc-ink);
+      font-family: var(--font-body);
+    }
+    img { max-width: 100%; height: auto; }
+    a { color: inherit; }
+
+    /* ─── Sticky header ─────────────────────────────── */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(250,250,247,0.92);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1.5px solid var(--bc-line);
+    }
+    .nav {
+      max-width: 1240px; margin: 0 auto; padding: 0 28px;
+      height: 68px; display: flex; align-items: center; gap: 28px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .wedge { width: 26px; height: 20px; background: var(--bc-orange); clip-path: polygon(0 100%, 0 0, 70% 0, 100% 100%); flex-shrink: 0; }
+    .brand-name {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 20px; letter-spacing: -0.03em; color: var(--bc-ink);
+    }
+    .brand-sub {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink-3);
+      margin-left: 4px;
+    }
+    .nav-links { display: flex; gap: 22px; margin-left: 18px; }
+    .nav-links a {
+      font-family: var(--font-body); font-weight: 500; font-size: 14px;
+      color: var(--bc-ink-2); text-decoration: none;
+    }
+    .nav-cta { margin-left: auto; }
+    @media (max-width: 720px) {
+      .nav-links { display: none; }
+      .nav { padding: 0 18px; gap: 14px; }
+    }
+
+    /* ─── Buttons ─────────────────────────────── */
+    .cta-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      height: 56px; padding: 0 22px;
+      font-family: var(--font-body); font-weight: 700; font-size: 16px;
+      background: var(--bc-orange); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      text-decoration: none; box-shadow: 4px 4px 0 0 var(--bc-ink);
+      transition: transform 100ms var(--ease-out), box-shadow 100ms var(--ease-out), background 160ms var(--ease-out);
+      white-space: nowrap;
+    }
+    .cta-primary:hover { background: var(--bc-orange-press); }
+    .cta-primary:active { transform: translate(4px, 4px); box-shadow: 0 0 0 0 var(--bc-ink); }
+    .cta-primary.sm { height: 40px; padding: 0 16px; font-size: 14px; box-shadow: 2px 2px 0 0 var(--bc-ink); }
+    .cta-secondary {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 56px; padding: 0 22px;
+      font-family: var(--font-body); font-weight: 600; font-size: 16px;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      text-decoration: none;
+    }
+
+    /* ─── Hero ─────────────────────────────── */
+    .hero {
+      max-width: 1240px; margin: 0 auto;
+      padding: 80px 32px 88px;
+      display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center;
+    }
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; gap: 40px; padding: 56px 20px 56px; }
+    }
+    .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 12px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .eyebrow::before { content: ''; display: inline-block; width: 18px; height: 2px; background: currentColor; }
+    .hero h1 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 76px; line-height: 0.92; letter-spacing: -0.035em;
+      margin: 18px 0 0; color: var(--bc-ink); text-wrap: balance;
+    }
+    .hero h1 em { color: var(--bc-orange); font-style: normal; }
+    .hero p.lede {
+      font-size: 19px; line-height: 1.5; color: var(--bc-ink-2);
+      max-width: 540px; margin: 22px 0 0; text-wrap: pretty;
+    }
+    .hero .cta-row {
+      display: flex; gap: 12px; margin-top: 30px; align-items: center; flex-wrap: wrap;
+    }
+    .hero .note {
+      margin-top: 24px; max-width: 520px;
+      font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.06em; color: var(--bc-ink-3);
+      line-height: 1.6;
+    }
+    @media (max-width: 880px) {
+      .hero h1 { font-size: 48px; }
+      .hero p.lede { font-size: 16px; }
+      .cta-row .cta-primary, .cta-row .cta-secondary { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 380px) {
+      .hero h1 { font-size: 40px; }
+    }
+
+    /* ─── Phone scaffolding (re-uses home-locked.jsx) ─────── */
+    .phone-stage { display: flex; justify-content: center; align-items: center; }
+    .phone-fit { --s: 1; width: calc(360px * var(--s)); height: calc(720px * var(--s)); position: relative; }
+    .phone {
+      width: 360px; height: 720px;
+      background: #14110D; border-radius: 42px; padding: 8px;
+      box-shadow: 0 30px 60px rgba(20,17,13,0.22), 0 0 0 2px var(--bc-ink);
+      position: absolute; top: 0; left: 0;
+      transform: scale(var(--s)); transform-origin: top left;
+    }
+    .phone .notch {
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 26px; background: #000; border-radius: 18px; z-index: 5;
+    }
+    .phone .screen {
+      width: 100%; height: 100%; background: var(--bc-paper);
+      border-radius: 34px; overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
+    }
+    .phone *::-webkit-scrollbar { width: 0; height: 0; display: none; }
+    .phone * { scrollbar-width: none; -ms-overflow-style: none; }
+
+    /* ─── What it does ─────────────────────────────── */
+    .section {
+      max-width: 1240px; margin: 0 auto;
+      padding: 88px 32px;
+      border-top: 1.5px solid var(--bc-line);
+    }
+    .section.alt { background: var(--bc-paper-2); }
+    @media (max-width: 720px) { .section { padding: 56px 20px; } }
+    .section h2 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 44px; letter-spacing: -0.03em; line-height: 1;
+      margin: 16px 0 12px; max-width: 720px; text-wrap: balance;
+    }
+    .section p.intro {
+      font-size: 17px; color: var(--bc-ink-2); max-width: 620px; margin: 0;
+    }
+    @media (max-width: 720px) {
+      .section h2 { font-size: 32px; }
+    }
+    .features {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;
+      margin-top: 44px;
+    }
+    @media (max-width: 720px) { .features { grid-template-columns: 1fr; } }
+    .feature {
+      background: var(--bc-paper);
+      border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4);
+      padding: 22px;
+      display: flex; gap: 16px; align-items: flex-start;
+      box-shadow: 4px 4px 0 0 var(--bc-ink);
+    }
+    .feature .ico-box {
+      width: 50px; height: 50px; flex-shrink: 0;
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      background: var(--bc-orange-tint);
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .feature h3 {
+      font-family: var(--font-display); font-weight: 800; font-size: 20px;
+      letter-spacing: -0.02em; margin: 0; line-height: 1.15;
+    }
+    .feature p {
+      font-size: 14px; color: var(--bc-ink-2); margin: 6px 0 0;
+      line-height: 1.5; text-wrap: pretty;
+    }
+
+    /* ─── Final CTA ─────────────────────────────── */
+    .closer {
+      background: var(--bc-orange);
+      padding: 72px 32px;
+    }
+    .closer .inner {
+      max-width: 1240px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: center;
+    }
+    @media (max-width: 720px) {
+      .closer { padding: 48px 20px; }
+      .closer .inner { grid-template-columns: 1fr; gap: 28px; }
+    }
+    .closer h2 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: 48px; letter-spacing: -0.035em; line-height: 0.98;
+      color: var(--bc-paper); margin: 0; text-wrap: balance;
+    }
+    @media (max-width: 720px) { .closer h2 { font-size: 32px; } }
+    .closer .alt-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      height: 60px; padding: 0 24px;
+      font-family: var(--font-body); font-weight: 700; font-size: 17px;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      text-decoration: none; box-shadow: 4px 4px 0 0 var(--bc-ink);
+      white-space: nowrap;
+    }
+    .closer .note {
+      font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: rgba(250,250,247,0.88); margin-top: 12px;
+    }
+
+    /* ─── Footer ─────────────────────────────── */
+    footer {
+      background: var(--bc-ink); color: var(--bc-on-dark);
+    }
+    .footer-row {
+      max-width: 1240px; margin: 0 auto;
+      padding: 48px 32px 24px;
+      display: flex; align-items: flex-end; justify-content: space-between; gap: 28px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 720px) {
+      .footer-row { flex-direction: column; align-items: flex-start; gap: 24px; padding: 40px 20px 20px; }
+    }
+    .footer-row p { color: var(--bc-on-dark-2); margin: 12px 0 0; font-size: 14px; line-height: 1.55; max-width: 360px; }
+    .footer-meta {
+      max-width: 1240px; margin: 0 auto;
+      padding: 14px 32px;
+      border-top: 1px solid rgba(250,250,247,0.12);
+      font-family: var(--font-mono); font-size: 10.5px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--bc-on-dark-2);
+      display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    @media (max-width: 720px) {
+      .footer-meta { padding: 14px 20px; flex-direction: column; align-items: flex-start; gap: 6px; }
+    }
+  </style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <!-- Mount the polished home screen inside the hero phone -->
+  <script type="text/babel" src="../condenser-redesign/home-locked.jsx"></script>
+</head>
+<body>
+
+  <!-- ─── Header ─────────────────────────────── -->
+  <header>
+    <nav class="nav">
+      <a class="brand" href="#top">
+        <div class="wedge"></div>
+        <span class="brand-name">BuildCore</span>
+        <span class="brand-sub">· The Condenser</span>
+      </a>
+      <div class="nav-links">
+        <a href="#what">What it does</a>
+        <a href="#start">Get started</a>
+      </div>
+      <div class="nav-cta">
+        <a class="cta-primary sm" href="https://condenser-app-production.up.railway.app/">Clock In</a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ─── Hero ─────────────────────────────── -->
+  <section class="hero" id="top">
+    <div>
+      <div class="eyebrow">A BuildCore product · field-tested by working CMs</div>
+      <h1>
+        Walk it.<br>
+        Log it.<br>
+        <em>Close it out.</em>
+      </h1>
+      <p class="lede">
+        The Condenser turns the chaos of a residential punch list into one clean dashboard.
+        Voice, photos, and trade comms — built for one-handed use in a half-finished house.
+      </p>
+      <div class="cta-row">
+        <a class="cta-primary" href="https://condenser-app-production.up.railway.app/">
+          Clock In
+          <img src="https://unpkg.com/lucide-static@latest/icons/arrow-right.svg" width="18" height="18" alt="" style="filter: invert(98%) sepia(2%) saturate(123%) hue-rotate(45deg) brightness(108%);">
+        </a>
+        <a class="cta-secondary" href="#what">See how it works</a>
+      </div>
+      <div class="note">
+        Built by a working CM · in active use on residential jobsites · 60-day trial
+      </div>
+    </div>
+
+    <!-- Phone mockup with live HomeLocked screen -->
+    <div class="phone-stage">
+      <div class="phone-fit">
+        <div class="phone">
+          <div class="notch"></div>
+          <div class="screen" id="phone-screen"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── What it does ─────────────────────────────── -->
+  <section class="section alt" id="what">
+    <div class="eyebrow">What it does</div>
+    <h2>Punch lists that close themselves out.</h2>
+    <p class="intro">
+      Four jobs, one app. The Condenser replaces the spreadsheets, sticky notes, and group texts that run most jobsites today.
+    </p>
+
+    <div class="features">
+      <div class="feature">
+        <div class="ico-box">
+          <img src="https://unpkg.com/lucide-static@latest/icons/mic.svg" width="22" height="22" alt="" style="filter: invert(33%) sepia(89%) saturate(395%) hue-rotate(346deg) brightness(91%) contrast(82%);">
+        </div>
+        <div style="min-width:0;flex:1;">
+          <h3>Capture in 10 seconds</h3>
+          <p>Tap, talk, walk away. Photo and voice get the address, trade, and timestamp attached for you. No typing, no folder-naming.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="ico-box">
+          <img src="https://unpkg.com/lucide-static@latest/icons/send.svg" width="22" height="22" alt="" style="filter: invert(33%) sepia(89%) saturate(395%) hue-rotate(346deg) brightness(91%) contrast(82%);">
+        </div>
+        <div style="min-width:0;flex:1;">
+          <h3>Send to trade. One tap.</h3>
+          <p>The trade's phone gets the photo, the address, the door code, and the due date. No chasing in a group text.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="ico-box">
+          <img src="https://unpkg.com/lucide-static@latest/icons/check-circle.svg" width="22" height="22" alt="" style="filter: invert(33%) sepia(89%) saturate(395%) hue-rotate(346deg) brightness(91%) contrast(82%);">
+        </div>
+        <div style="min-width:0;flex:1;">
+          <h3>Close out from the doorway</h3>
+          <p>Inspect, snap a closeout photo, sign it. Done before you walk to the next house. Buyer sees a clean punch list at handoff.</p>
+        </div>
+      </div>
+
+      <div class="feature">
+        <div class="ico-box">
+          <img src="https://unpkg.com/lucide-static@latest/icons/cloud-off.svg" width="22" height="22" alt="" style="filter: invert(33%) sepia(89%) saturate(395%) hue-rotate(346deg) brightness(91%) contrast(82%);">
+        </div>
+        <div style="min-width:0;flex:1;">
+          <h3>Offline-first</h3>
+          <p>Works in the basement of an unfinished house. Syncs when you hit signal. No "loading" spinners in your way.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Final CTA ─────────────────────────────── -->
+  <section class="closer" id="start">
+    <div class="inner">
+      <h2>Stop running your jobsite from a group text.</h2>
+      <div>
+        <a class="alt-cta" href="https://condenser-app-production.up.railway.app/">
+          Clock In
+          <img src="https://unpkg.com/lucide-static@latest/icons/arrow-right.svg" width="18" height="18" alt="">
+        </a>
+        <div class="note">No card. No demo call. 60-day trial.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ─────────────────────────────── -->
+  <footer>
+    <div class="footer-row">
+      <div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="wedge"></div>
+          <span style="font-family: var(--font-display); font-weight: 900; font-size: 20px; letter-spacing: -0.03em;">BuildCore</span>
+          <span style="font-family: var(--font-mono); font-weight: 600; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-on-dark-2);">· The Condenser</span>
+        </div>
+        <p>Software for residential construction managers. Built from the inside, in the field, by people who run jobsites.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <div style="font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-on-dark-2);">Get in touch</div>
+        <a href="mailto:hello@buildcore.io" style="font-family: var(--font-display); font-weight: 800; font-size: 20px; letter-spacing: -0.02em; color: var(--bc-on-dark); text-decoration: none; border-bottom: 2px solid var(--bc-orange); padding-bottom: 2px; align-self: flex-start;">hello@buildcore.io</a>
+      </div>
+    </div>
+    <div class="footer-meta">
+      <span>© 2026 BuildCore Inc.</span>
+      <span style="opacity:0.7;">Privacy · Terms · Status — coming soon</span>
+    </div>
+  </footer>
+
+  <!-- Mount the live home screen into the phone -->
+  <script>
+    function fitPhone() {
+      const wrap = document.querySelector('.phone-fit');
+      if (!wrap) return;
+      // Constrain by both the parent column and a reasonable cap (1× max).
+      const parent = wrap.parentElement.getBoundingClientRect();
+      const sW = (parent.width  - 8) / 360;
+      const sH = 720 / 720; // never larger than 1×
+      const s = Math.max(0.5, Math.min(1, sW, sH));
+      wrap.style.setProperty('--s', s);
+    }
+    window.addEventListener('resize', fitPhone, { passive: true });
+    window.addEventListener('orientationchange', fitPhone, { passive: true });
+    fitPhone();
+  </script>
+  <script type="text/babel">
+    const mount = () => {
+      const el = document.getElementById('phone-screen');
+      if (!el || typeof HomeLocked === 'undefined') { requestAnimationFrame(mount); return; }
+      ReactDOM.createRoot(el).render(<HomeLocked />);
+      requestAnimationFrame(fitPhone);
+    };
+    mount();
+  </script>
+</body>
+</html>
