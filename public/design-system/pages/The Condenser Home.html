@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Condenser — Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); }
+
+    .page { max-width: 1240px; margin: 0 auto; padding: 36px 28px 80px; }
+
+    /* Header */
+    .top {
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
+      padding-bottom: 28px; border-bottom: 1.5px solid var(--bc-line); margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; }
+    .wedge { width: 26px; height: 20px; background: var(--bc-orange); clip-path: polygon(0 100%, 0 0, 70% 0, 100% 100%); flex-shrink: 0; }
+    .brand .name { font-family: var(--font-display); font-weight: 900; font-size: 22px; letter-spacing: -0.025em; color: var(--bc-ink); }
+    .brand .sub  { font-family: var(--font-mono); font-weight: 600; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink-3); margin-left: 4px; }
+    .top-actions { display: flex; gap: 10px; }
+    .top-actions a, .top-actions button {
+      height: 40px; padding: 0 14px; cursor: pointer; text-decoration: none;
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+
+    /* Hero CTA */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      margin-bottom: 36px;
+    }
+    @media (max-width: 720px) { .hero { grid-template-columns: 1fr; } }
+    .hero-card {
+      padding: 22px 24px;
+      background: var(--bc-paper); border: 2px solid var(--bc-ink); border-radius: var(--r-4);
+      box-shadow: 4px 4px 0 0 var(--bc-ink);
+      cursor: pointer; text-decoration: none; color: inherit;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .hero-card.primary { background: var(--bc-orange); color: var(--bc-paper); box-shadow: 4px 4px 0 0 var(--bc-ink); }
+    .hero-card .lbl  { font-family: var(--font-mono); font-weight: 600; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; opacity: 0.7; }
+    .hero-card h2    { font-family: var(--font-display); font-weight: 900; font-size: 28px; letter-spacing: -0.025em; line-height: 1.05; margin: 0; }
+    .hero-card p     { font-size: 13.5px; margin: 0; line-height: 1.55; opacity: 0.85; }
+
+    /* Section */
+    section { margin-bottom: 36px; }
+    .sec-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px; gap: 8px;
+    }
+    .sec-head h3 {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px; margin: 0;
+    }
+    .sec-head h3::before { content: ''; display: inline-block; width: 18px; height: 2px; background: currentColor; }
+    .sec-head .add {
+      height: 32px; padding: 0 12px; cursor: pointer;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 1.5px solid var(--bc-ink); border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 700; font-size: 10.5px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+
+    /* Folder grid */
+    .folder-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px;
+    }
+    .folder {
+      padding: 18px 18px 16px;
+      background: var(--bc-paper); border: 2px solid var(--bc-ink); border-radius: var(--r-4);
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+      display: flex; flex-direction: column; gap: 8px;
+      cursor: grab; position: relative;
+    }
+    .folder:hover { box-shadow: 4px 4px 0 0 var(--bc-orange); }
+    .folder.dragging { opacity: 0.5; }
+    .folder.drop-target { box-shadow: 4px 4px 0 0 var(--bc-orange); transform: translateY(-1px); }
+    .folder .ico { font-family: var(--font-mono); font-weight: 700; font-size: 22px; color: var(--bc-orange); }
+    .folder .nm {
+      font-family: var(--font-display); font-weight: 800; font-size: 17px;
+      letter-spacing: -0.02em; color: var(--bc-ink);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      cursor: text;
+    }
+    .folder .nm[contenteditable="true"]:focus { outline: 1.5px solid var(--bc-orange); outline-offset: 2px; }
+    .folder .meta {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+    .folder .actions {
+      position: absolute; top: 8px; right: 8px;
+      display: flex; gap: 4px; opacity: 0;
+      transition: opacity 100ms;
+    }
+    .folder:hover .actions { opacity: 1; }
+    .folder .actions button {
+      width: 24px; height: 24px; padding: 0; cursor: pointer;
+      background: var(--bc-paper); border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 700; font-size: 11px; color: var(--bc-ink-3);
+    }
+    .folder .actions button:hover { color: var(--bc-ink); border-color: var(--bc-ink); }
+    .folder .actions button.del:hover { color: var(--bc-red); border-color: var(--bc-red); }
+
+    /* Empty state */
+    .empty {
+      padding: 36px 22px; text-align: center;
+      background: var(--bc-paper); border: 2px dashed var(--bc-line-strong); border-radius: var(--r-4);
+    }
+    .empty h4 { font-family: var(--font-display); font-weight: 800; font-size: 17px; letter-spacing: -0.015em; margin: 0 0 6px; }
+    .empty p  { font-size: 13.5px; color: var(--bc-ink-2); margin: 0; max-width: 420px; margin: 0 auto; line-height: 1.55; }
+
+    /* Reports list (inside a folder, simple inline) */
+    .report-list { display: flex; flex-direction: column; gap: 6px; }
+    .report-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--bc-paper); border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      cursor: pointer; text-decoration: none; color: inherit;
+    }
+    .report-row:hover { border-color: var(--bc-orange); }
+    .report-row .addr {
+      flex: 1; min-width: 0;
+      font-family: var(--font-display); font-weight: 700; font-size: 14px; letter-spacing: -0.015em; color: var(--bc-ink);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .report-row .tag {
+      font-family: var(--font-mono); font-weight: 600; font-size: 9.5px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 2px 7px; border-radius: var(--r-2); border: 1.5px solid var(--bc-line); color: var(--bc-ink-3);
+      flex-shrink: 0;
+    }
+    .report-row .tag.open { color: var(--bc-orange); border-color: var(--bc-orange); }
+    .report-row .tag.archived { color: var(--bc-green); border-color: var(--bc-green); }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      padding: 12px 16px; background: var(--bc-ink); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 4px 4px 0 0 var(--bc-orange);
+      font-family: var(--font-body); font-weight: 600; font-size: 13.5px;
+      z-index: 100; display: none;
+    }
+    .toast.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="top">
+      <div class="brand">
+        <div class="wedge"></div>
+        <span class="name">BuildCore</span>
+        <span class="sub">· The Condenser</span>
+      </div>
+      <div class="top-actions">
+        <a href="Trades Directory.html">Trades directory</a>
+        <a href="#" onclick="event.preventDefault(); showArchive();">Archive</a>
+      </div>
+    </div>
+
+    <!-- Hero CTAs -->
+    <div class="hero">
+      <a class="hero-card primary" href="New Punch List.html">
+        <span class="lbl">Start something new</span>
+        <h2>＋ New punch list</h2>
+        <p>Upload a 3rd-party inspection report or start a fresh punch list from scratch.</p>
+      </a>
+      <a class="hero-card" href="Trades Directory.html">
+        <span class="lbl">Your team</span>
+        <h2>Trade partners</h2>
+        <p>Add, edit, or import your trade contacts. Anyone here is pickable when sending a punch list.</p>
+      </a>
+    </div>
+
+    <!-- Folders -->
+    <section>
+      <div class="sec-head">
+        <h3>Work in progress</h3>
+        <button class="add" onclick="addFolder()">＋ New folder</button>
+      </div>
+      <div id="folder-grid" class="folder-grid"></div>
+    </section>
+
+    <!-- Reports inside selected folder (toggles on click) -->
+    <section id="reports-section" style="display: none;">
+      <div class="sec-head">
+        <h3 id="reports-title">Reports</h3>
+        <button class="add" onclick="closeFolderView()">Close</button>
+      </div>
+      <div id="reports-list" class="report-list"></div>
+    </section>
+
+    <!-- Archive view (toggles on click) -->
+    <section id="archive-section" style="display: none;">
+      <div class="sec-head">
+        <h3>Archive · closed-out reports</h3>
+        <button class="add" onclick="hideArchive()">Close</button>
+      </div>
+      <div id="archive-list" class="report-list"></div>
+    </section>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // Folder + report storage (localStorage for the demo).
+    //
+    // condenser_folders_v1 = [{ id, name, order }]
+    // condenser_reports_v1 = [{ id, folderId, address, source, status, createdAt }]
+    //
+    // For first-run, we seed 3 default folders to give the user a starting
+    // point — they can rename or delete any of them.
+    // ─────────────────────────────────────────────────────────────
+    const FOLDERS_KEY = 'condenser_folders_v1';
+    const REPORTS_KEY = 'condenser_reports_v1';
+
+    function loadFolders() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(FOLDERS_KEY) || 'null');
+        if (Array.isArray(saved) && saved.length) return saved;
+      } catch (e) {}
+      // Seed with 3 sensible defaults (renamable / deletable)
+      const seed = [
+        { id: 'f_active',  name: 'Active builds',   order: 0 },
+        { id: 'f_punch',   name: 'Punch in progress', order: 1 },
+        { id: 'f_closeout',name: 'Awaiting closeout', order: 2 },
+      ];
+      localStorage.setItem(FOLDERS_KEY, JSON.stringify(seed));
+      return seed;
+    }
+    function saveFolders(arr) { localStorage.setItem(FOLDERS_KEY, JSON.stringify(arr)); }
+
+    function loadReports() {
+      try { return JSON.parse(localStorage.getItem(REPORTS_KEY) || '[]') || []; }
+      catch (e) { return []; }
+    }
+    function saveReports(arr) { localStorage.setItem(REPORTS_KEY, JSON.stringify(arr)); }
+
+    // Seed the demo's existing report so it shows up in the first folder
+    function ensureDemoReport() {
+      const reports = loadReports();
+      if (reports.find(r => r.id === 'r_madelines_demo')) return;
+      const folders = loadFolders();
+      reports.push({
+        id: 'r_madelines_demo',
+        folderId: folders[0].id,
+        address: '516 Madelines Meadow Ln',
+        source: 'TREC REI 7-6 · Super Inspector',
+        status: 'open',
+        path: 'Inspection Test - 516 Madelines Meadow.html',
+        createdAt: '2026-03-09T09:00:00.000Z',
+      });
+      saveReports(reports);
+    }
+    ensureDemoReport();
+
+    // ── Render ─────────────────────────────────────────────────
+    function render() {
+      const folders = loadFolders().sort((a, b) => a.order - b.order);
+      const reports = loadReports();
+      const grid = document.getElementById('folder-grid');
+
+      if (!folders.length) {
+        grid.innerHTML = '<div class="empty"><h4>No folders yet</h4><p>Folders organize your active punch lists. Spec homes · Closing homes · Frame BQI · Final BQI — name them anything.</p></div>';
+        return;
+      }
+
+      grid.innerHTML = folders.map(f => {
+        const count = reports.filter(r => r.folderId === f.id && r.status !== 'archived').length;
+        return `
+          <div class="folder" draggable="true" data-id="${f.id}">
+            <div class="actions">
+              <button onclick="renameFolder('${f.id}')" title="Rename">✎</button>
+              <button class="del" onclick="removeFolder('${f.id}')" title="Delete">×</button>
+            </div>
+            <div class="ico">▢</div>
+            <div class="nm" data-folder-name="${f.id}">${escape(f.name)}</div>
+            <div class="meta">${count} report${count === 1 ? '' : 's'}</div>
+          </div>
+        `;
+      }).join('');
+
+      // Wire folder click → open
+      grid.querySelectorAll('.folder').forEach(el => {
+        el.addEventListener('click', (e) => {
+          if (e.target.closest('.actions') || e.target.closest('[contenteditable="true"]')) return;
+          openFolder(el.dataset.id);
+        });
+        // Drag-drop reorder
+        el.addEventListener('dragstart', (e) => {
+          el.classList.add('dragging');
+          e.dataTransfer.setData('text/plain', el.dataset.id);
+          e.dataTransfer.effectAllowed = 'move';
+        });
+        el.addEventListener('dragend', () => el.classList.remove('dragging'));
+        el.addEventListener('dragover', (e) => { e.preventDefault(); el.classList.add('drop-target'); });
+        el.addEventListener('dragleave', () => el.classList.remove('drop-target'));
+        el.addEventListener('drop', (e) => {
+          e.preventDefault();
+          el.classList.remove('drop-target');
+          const dragId = e.dataTransfer.getData('text/plain');
+          if (!dragId || dragId === el.dataset.id) return;
+          reorderFolder(dragId, el.dataset.id);
+        });
+      });
+    }
+
+    function addFolder() {
+      const name = prompt('New folder name:', '');
+      if (!name || !name.trim()) return;
+      const folders = loadFolders();
+      folders.push({
+        id: 'f_' + Date.now(),
+        name: name.trim(),
+        order: folders.length,
+      });
+      saveFolders(folders);
+      render();
+      toast(`Created: ${name.trim()}`);
+    }
+    function renameFolder(id) {
+      const folders = loadFolders();
+      const f = folders.find(x => x.id === id);
+      if (!f) return;
+      const newName = prompt('Rename folder:', f.name);
+      if (newName === null || !newName.trim()) return;
+      f.name = newName.trim();
+      saveFolders(folders);
+      render();
+    }
+    function removeFolder(id) {
+      const folders = loadFolders();
+      const reports = loadReports();
+      const inFolder = reports.filter(r => r.folderId === id && r.status !== 'archived');
+      const f = folders.find(x => x.id === id);
+      if (!f) return;
+      if (inFolder.length && !confirm(`"${f.name}" has ${inFolder.length} report${inFolder.length === 1 ? '' : 's'}. They'll move to the first remaining folder. Continue?`)) return;
+      const remaining = folders.filter(x => x.id !== id);
+      if (inFolder.length) {
+        const target = remaining[0];
+        if (!target) { alert('Need at least one other folder to move reports into.'); return; }
+        reports.forEach(r => { if (r.folderId === id && r.status !== 'archived') r.folderId = target.id; });
+        saveReports(reports);
+      }
+      saveFolders(remaining);
+      render();
+      toast(`Deleted: ${f.name}`);
+    }
+    function reorderFolder(dragId, dropOnId) {
+      const folders = loadFolders().sort((a, b) => a.order - b.order);
+      const dragIdx = folders.findIndex(f => f.id === dragId);
+      const dropIdx = folders.findIndex(f => f.id === dropOnId);
+      if (dragIdx < 0 || dropIdx < 0) return;
+      const [moved] = folders.splice(dragIdx, 1);
+      folders.splice(dropIdx, 0, moved);
+      folders.forEach((f, i) => f.order = i);
+      saveFolders(folders);
+      render();
+    }
+    function openFolder(id) {
+      const folders = loadFolders();
+      const reports = loadReports();
+      const f = folders.find(x => x.id === id);
+      if (!f) return;
+      hideArchive();
+      const inFolder = reports.filter(r => r.folderId === id && r.status !== 'archived');
+      document.getElementById('reports-title').textContent = f.name + ' · ' + inFolder.length + ' report' + (inFolder.length === 1 ? '' : 's');
+      document.getElementById('reports-list').innerHTML = inFolder.length === 0
+        ? `<div class="empty"><h4>No reports in this folder yet</h4><p>Start a new punch list and the report will land here.</p></div>`
+        : inFolder.map(r => reportRowHtml(r)).join('');
+      document.getElementById('reports-section').style.display = 'block';
+      document.getElementById('reports-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function closeFolderView() {
+      document.getElementById('reports-section').style.display = 'none';
+    }
+    function showArchive() {
+      closeFolderView();
+      // Clear the "open archive" flag if it was used to land here
+      sessionStorage.removeItem('open_archive');
+      const reports = loadReports().filter(r => r.status === 'archived');
+      document.getElementById('archive-list').innerHTML = reports.length === 0
+        ? `<div class="empty"><h4>No closed-out reports yet</h4><p>When you mark a report complete, it lands here. All photos, voice notes, the original 3rd-party PDF, and your punch list stay attached.</p></div>`
+        : reports.map(r => reportRowHtml(r)).join('');
+      document.getElementById('archive-section').style.display = 'block';
+      document.getElementById('archive-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function hideArchive() { document.getElementById('archive-section').style.display = 'none'; }
+    window.showArchive = showArchive;
+    window.hideArchive = hideArchive;
+
+    function reportRowHtml(r) {
+      const date = new Date(r.createdAt).toLocaleDateString();
+      return `
+        <a class="report-row" href="${r.path || '#'}">
+          <span class="addr">${escape(r.address)}</span>
+          <span class="tag">${escape(r.source || 'Punch list')}</span>
+          <span class="tag">${date}</span>
+          <span class="tag ${r.status}">${r.status === 'archived' ? 'Closed' : 'Open'}</span>
+        </a>
+      `;
+    }
+
+    function escape(s) {
+      return String(s || '').replace(/[<>&"']/g, c => ({ '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+
+    window.addFolder = addFolder;
+    window.renameFolder = renameFolder;
+    window.removeFolder = removeFolder;
+    window.closeFolderView = closeFolderView;
+
+    render();
+
+    // If we just arrived from "Mark complete" or the Archive link, auto-open the archive view
+    if (sessionStorage.getItem('open_archive') === '1') {
+      sessionStorage.removeItem('open_archive');
+      setTimeout(() => showArchive(), 50);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,2520 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Inspection Test — 516 Madelines Meadow Ln</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); }
+
+    /* ─── Top bar ─── */
+    .topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: var(--bc-paper); border-bottom: 1.5px solid var(--bc-line-strong);
+      padding: 0 24px;
+      height: 56px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .topbar .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 36px; padding: 0 12px;
+      background: var(--bc-paper); color: var(--bc-ink); text-decoration: none;
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 700; font-size: 11px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .topbar .back:hover { border-color: var(--bc-ink); }
+    .topbar .center {
+      flex: 1; min-width: 0;
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-display); font-weight: 800; font-size: 16px;
+      letter-spacing: -0.02em; color: var(--bc-ink);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .topbar .center .wedge { width: 16px; height: 12px; background: var(--bc-orange); clip-path: polygon(0 100%, 0 0, 70% 0, 100% 100%); flex-shrink: 0; }
+    .topbar .right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .topbar .saved {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .topbar .saved::before {
+      content: ''; width: 6px; height: 6px; border-radius: 999px; background: var(--bc-green);
+    }
+    .topbar .mark-complete {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 36px; padding: 0 14px; cursor: pointer;
+      background: var(--bc-orange); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 2px 2px 0 0 var(--bc-ink);
+      font-family: var(--font-body); font-weight: 700; font-size: 13px;
+    }
+
+    /* ─── Bottom bar ─── */
+    .bottombar {
+      position: sticky; bottom: 0; z-index: 40;
+      background: var(--bc-paper); border-top: 2px solid var(--bc-line-strong);
+      padding: 12px 24px;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      flex-wrap: wrap;
+    }
+    .bottombar a {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 40px; padding: 0 14px;
+      background: var(--bc-paper); color: var(--bc-ink); text-decoration: none;
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 700; font-size: 11px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .bottombar a:hover { border-color: var(--bc-ink); }
+    .bottombar a.primary {
+      background: var(--bc-orange); color: var(--bc-paper);
+      border-color: var(--bc-ink); box-shadow: 2px 2px 0 0 var(--bc-ink);
+    }
+
+    @media (max-width: 600px) {
+      .topbar { padding: 0 14px; height: 52px; gap: 8px; }
+      .topbar .center { font-size: 14px; }
+      .topbar .mark-complete .label { display: none; }
+      .topbar .saved { display: none; }
+    }
+
+    .page { max-width: 1240px; margin: 0 auto; padding: 32px 28px 64px; }
+
+    .lead { display: flex; align-items: flex-start; justify-content: space-between; gap: 28px; margin-bottom: 28px; flex-wrap: wrap; }
+    .lead .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lead .eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+    .lead h1 { font-family: var(--font-display); font-weight: 900; font-size: 36px; letter-spacing: -0.03em; line-height: 1; margin: 12px 0 8px; max-width: 720px; }
+    .lead p { font-size: 14.5px; color: var(--bc-ink-2); margin: 0; max-width: 640px; line-height: 1.55; }
+
+    .postit {
+      flex: 0 0 300px;
+      background: #FBF1CC; border: 1.5px solid #E8D068; border-radius: var(--r-2);
+      padding: 12px 14px; box-shadow: 3px 3px 0 0 var(--bc-ink);
+      font-family: var(--font-mono); font-size: 11px; line-height: 1.55; color: var(--bc-ink-2);
+    }
+    .postit b { color: var(--bc-ink); }
+
+    .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+    @media (max-width: 1024px) { .stage { grid-template-columns: 1fr; } }
+
+    /* Phone column */
+    .col h2 { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em; margin: 0 0 8px; }
+    .col p.desc { font-size: 13.5px; color: var(--bc-ink-2); margin: 0 0 14px; line-height: 1.55; }
+
+    .phone-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    .phone {
+      width: 360px; height: 720px;
+      background: #14110D; border-radius: 42px; padding: 8px;
+      box-shadow: 0 30px 60px rgba(20,17,13,0.18), 0 0 0 2px var(--bc-ink);
+      position: relative;
+    }
+    .phone .notch {
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      width: 100px; height: 26px; background: #000; border-radius: 18px; z-index: 5;
+    }
+    .phone .screen {
+      width: 100%; height: 100%; background: var(--bc-paper);
+      border-radius: 34px; overflow: hidden; position: relative;
+      display: flex; flex-direction: column;
+    }
+    .phone *::-webkit-scrollbar { width:0; height:0; display:none; }
+    .phone * { scrollbar-width: none; -ms-overflow-style: none; }
+
+    /* Right-side data panel */
+    .panel {
+      background: var(--bc-paper); border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4); box-shadow: 3px 3px 0 0 var(--bc-ink);
+      padding: 18px 20px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .panel h3 {
+      font-family: var(--font-display); font-weight: 800; font-size: 18px;
+      letter-spacing: -0.02em; margin: 0;
+    }
+    .stat-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px;
+    }
+    .stat {
+      padding: 10px 12px;
+      background: var(--bc-paper-2);
+      border: 1.5px solid var(--bc-line-strong);
+      border-radius: var(--r-2);
+    }
+    .stat .v { font-family: var(--font-display); font-weight: 800; font-size: 22px; letter-spacing: -0.02em; line-height: 1; }
+    .stat .l { font-family: var(--font-mono); font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3); margin-top: 4px; }
+    .stat.accent { background: var(--bc-orange-tint); }
+
+    .breakdown { display: flex; flex-direction: column; gap: 4px; }
+    .b-row {
+      display: grid; grid-template-columns: 1fr 24px; gap: 8px; align-items: center;
+      padding: 6px 10px;
+      background: var(--bc-paper-2);
+      border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2);
+    }
+    .b-row .t { font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bc-ink); }
+    .b-row .c { font-family: var(--font-display); font-weight: 800; font-size: 14px; text-align: right; color: var(--bc-ink); }
+
+    .exports { display: flex; gap: 8px; flex-wrap: wrap; }
+    .exports button {
+      flex: 1; min-width: 120px;
+      height: 44px; padding: 0 14px;
+      cursor: pointer; border: 2px solid var(--bc-ink);
+      background: var(--bc-paper); color: var(--bc-ink);
+      border-radius: var(--r-2);
+      font-family: var(--font-body); font-weight: 700; font-size: 13;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .exports button.primary {
+      background: var(--bc-orange); color: var(--bc-paper);
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+    }
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      padding: 12px 16px; background: var(--bc-ink); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 4px 4px 0 0 var(--bc-orange);
+      font-family: var(--font-body); font-weight: 600; font-size: 13.5;
+      z-index: 100; display: none;
+    }
+    .toast.show { display: block; animation: bc-toast 240ms cubic-bezier(0.2,0.7,0.2,1); }
+    @keyframes bc-toast { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+    /* ------ Send-to-Trade modal ------ */
+    .ssheet-scrim {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(20,17,13,0.55);
+      display: none; align-items: center; justify-content: center;
+      padding: 24px;
+      animation: bc-fade 200ms ease;
+    }
+    .ssheet-scrim.show { display: flex; }
+    @keyframes bc-fade { from { opacity: 0; } to { opacity: 1; } }
+    .ssheet {
+      width: 100%; max-width: 560px; max-height: 90vh;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-4);
+      box-shadow: 4px 4px 0 0 var(--bc-orange);
+      display: flex; flex-direction: column; overflow: hidden;
+      animation: bc-slide 240ms cubic-bezier(0.2,0.7,0.2,1);
+    }
+    @keyframes bc-slide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .ssheet-head {
+      padding: 16px 20px; border-bottom: 1.5px solid var(--bc-line);
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 14px;
+    }
+    .ssheet-head .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10.5px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+    .ssheet-head h3 {
+      font-family: var(--font-display); font-weight: 800; font-size: 20px;
+      letter-spacing: -0.02em; margin: 4px 0 0;
+    }
+    .ssheet-head .x {
+      width: 32px; height: 32px; padding: 0; cursor: pointer;
+      background: var(--bc-paper); border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 700; font-size: 14px;
+      color: var(--bc-ink-3);
+      display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .ssheet-body {
+      padding: 16px 20px; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .ssheet-section .lbl {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-ink-3);
+      margin-bottom: 6px;
+    }
+    .trade-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+    .trade-chip {
+      height: 30px; padding: 0 10px; cursor: pointer;
+      border: 1.5px solid var(--bc-line); background: var(--bc-paper); color: var(--bc-ink);
+      border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 600; font-size: 10.5px;
+      letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .trade-chip.on { background: var(--bc-ink); color: var(--bc-paper); border-color: var(--bc-ink); }
+    .trade-chip .ct { opacity: 0.7; font-size: 9px; margin-left: 4px; }
+
+    .contact-card {
+      padding: 12px 14px;
+      background: var(--bc-paper-2);
+      border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .contact-card .avatar {
+      width: 36px; height: 36px; border-radius: 999px; flex-shrink: 0;
+      background: var(--bc-orange); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-weight: 700; font-size: 11px;
+    }
+    .contact-card .name {
+      font-family: var(--font-display); font-weight: 700; font-size: 14.5px;
+      letter-spacing: -0.015em; color: var(--bc-ink);
+    }
+    .contact-card .meta {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+      margin-top: 2px;
+    }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 540px) { .form-grid { grid-template-columns: 1fr; } }
+    .field label {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink);
+      display: block; margin-bottom: 4px;
+    }
+    .field input {
+      width: 100%; height: 40px; padding: 0 12px;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      font-family: var(--font-body); font-size: 14px; outline: none;
+    }
+    .field input:focus { box-shadow: 0 0 0 3px var(--bc-orange-tint); }
+    .field input::placeholder { color: var(--bc-ink-4); }
+    .field .hint {
+      font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase; color: var(--bc-ink-3);
+      margin-top: 4px;
+    }
+    .field .hint.warn { color: var(--bc-red); }
+
+    .preview-pane {
+      padding: 12px 14px;
+      background: var(--bc-paper-2); border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2); max-height: 180px; overflow-y: auto;
+      font-family: var(--font-mono); font-size: 11px; line-height: 1.55; color: var(--bc-ink);
+      white-space: pre-wrap;
+    }
+
+    .ssheet-foot {
+      padding: 14px 20px; border-top: 1.5px solid var(--bc-line);
+      display: flex; flex-direction: column; gap: 8px;
+      background: var(--bc-paper);
+    }
+    .send-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .send-btn {
+      height: 48px; padding: 0 14px; cursor: pointer;
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+      font-family: var(--font-body); font-weight: 700; font-size: 14.5px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      background: var(--bc-orange); color: var(--bc-paper);
+      text-decoration: none;
+    }
+    .send-btn.email { background: var(--bc-paper); color: var(--bc-ink); }
+    .send-btn[disabled], .send-btn.disabled { opacity: 0.4; pointer-events: none; box-shadow: none; }
+    .send-row-sec { display: flex; gap: 6px; }
+    .send-row-sec button {
+      flex: 1; height: 36px; padding: 0 10px; cursor: pointer;
+      border: 1.5px solid var(--bc-line); background: var(--bc-paper); color: var(--bc-ink);
+      border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+
+    /* Phone-screen UI */
+    .top-bar {
+      padding: 18px 16px 10px; flex-shrink: 0;
+      border-bottom: 1.5px solid var(--bc-line);
+      background: var(--bc-paper);
+    }
+    .brand-row { display: flex; align-items: center; justify-content: space-between; }
+    .wedge-row { display: inline-flex; align-items: center; gap: 6px; }
+    .wedge { width: 18px; height: 14px; background: var(--bc-orange); clip-path: polygon(0 100%, 0 0, 70% 0, 100% 100%); }
+    .brand { font-family: var(--font-display); font-weight: 900; font-size: 12px; letter-spacing: -0.025em; color: var(--bc-ink); }
+    .brand-sub { font-family: var(--font-mono); font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3); margin-left: 4px; }
+    .meta { font-family: var(--font-mono); font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3); }
+
+    .title-row { margin-top: 12px; }
+    .title-row .eyebrow {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-ink-3);
+      margin-bottom: 2px;
+    }
+    .title-row .h {
+      font-family: var(--font-display); font-weight: 900; font-size: 22px;
+      letter-spacing: -0.025em; line-height: 1.05; color: var(--bc-ink);
+    }
+    .title-row .sub {
+      font-family: var(--font-mono); font-size: 9.5px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-orange);
+      margin-top: 4px;
+    }
+
+    .sel-bar {
+      padding: 8px 16px; border-bottom: 1px solid var(--bc-line); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bc-paper);
+    }
+    .sel-count {
+      font-family: var(--font-mono); font-size: 10.5px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink);
+    }
+    .sel-count .n {
+      font-family: var(--font-display); font-size: 14px; font-weight: 800;
+      letter-spacing: -0.015em; margin-right: 3px;
+    }
+    .sel-actions { display: flex; gap: 4px; }
+    .sel-actions button {
+      height: 26px; padding: 0 8px; cursor: pointer;
+      border: 1.5px solid var(--bc-line); background: var(--bc-paper);
+      border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 600; font-size: 9.5px;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink);
+    }
+
+    .list-region {
+      flex: 1; min-height: 0; overflow-y: auto;
+      padding: 8px 16px 8px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .trade-group { display: flex; flex-direction: column; gap: 6px; }
+    .trade-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 4px 4px 2px;
+    }
+    .trade-head .name {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink);
+    }
+    .trade-head .ct {
+      font-family: var(--font-mono); font-size: 9px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+
+    .item {
+      display: flex; align-items: flex-start; gap: 8px;
+      padding: 8px 10px;
+      background: var(--bc-paper);
+      border: 1.5px solid var(--bc-line-strong);
+      border-radius: var(--r-2);
+    }
+    .item.unselected { opacity: 0.5; background: var(--bc-paper-2); }
+    .item .cb {
+      width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;
+      border: 2px solid var(--bc-ink); border-radius: 3px;
+      background: var(--bc-paper); cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .item .cb.on { background: var(--bc-ink); color: var(--bc-paper); }
+    .item .body { flex: 1; min-width: 0; }
+    .item .t {
+      font-family: var(--font-body); font-weight: 500; font-size: 12.5px;
+      color: var(--bc-ink); line-height: 1.3; text-wrap: pretty;
+    }
+    .item .meta-row {
+      display: flex; align-items: center; gap: 6px; margin-top: 5px; flex-wrap: wrap;
+    }
+    .item select.trade-pick {
+      margin-left: auto;
+      max-width: 130px;
+      font-family: var(--font-mono); font-weight: 600; font-size: 9px;
+      letter-spacing: 0.03em; text-transform: uppercase;
+      padding: 2px 4px; border-radius: var(--r-2);
+      border: 1.5px solid var(--bc-line); background: var(--bc-paper); color: var(--bc-ink);
+      cursor: pointer; outline: none;
+    }
+    .item select.trade-pick:focus { border-color: var(--bc-orange); box-shadow: 0 0 0 2px var(--bc-orange-tint); }
+
+    /* ------ Per-item photo attachments ------ */
+    .photos-strip {
+      width: 100%;
+      display: flex; gap: 5px; flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .photo-thumb {
+      width: 44px; height: 44px;
+      border: 1.5px solid var(--bc-line-strong);
+      border-radius: var(--r-2);
+      background-size: cover; background-position: center;
+      position: relative; cursor: pointer; flex-shrink: 0;
+      background-color: var(--bc-paper-2);
+    }
+    .photo-thumb .del {
+      position: absolute; top: -5px; right: -5px;
+      width: 18px; height: 18px;
+      border-radius: 999px;
+      background: var(--bc-ink); color: var(--bc-paper);
+      border: 1.5px solid var(--bc-paper); padding: 0;
+      font-size: 11px; font-weight: 700; line-height: 14px;
+      cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .photo-thumb .del:hover { background: var(--bc-red); }
+    .photo-add {
+      width: 44px; height: 44px; flex-shrink: 0;
+      border: 1.5px dashed var(--bc-line-strong);
+      border-radius: var(--r-2);
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; background: var(--bc-paper);
+      font-family: var(--font-mono); font-size: 18px; font-weight: 400;
+      color: var(--bc-ink-3); line-height: 1;
+    }
+    .photo-add:hover { color: var(--bc-orange); border-color: var(--bc-orange); }
+    .photo-add input { display: none; }
+
+    /* ------ Photo lightbox ------ */
+    .lightbox {
+      position: fixed; inset: 0; z-index: 300;
+      background: rgba(20,17,13,0.88);
+      display: none; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .lightbox.show { display: flex; animation: bc-fade 200ms ease; }
+    .lightbox img {
+      max-width: 100%; max-height: 80vh;
+      border: 2px solid var(--bc-paper);
+      border-radius: var(--r-4);
+      background: var(--bc-ink);
+    }
+    .lightbox-actions {
+      position: absolute; top: 20px; right: 20px;
+      display: flex; gap: 8px;
+    }
+    .lightbox-actions button {
+      height: 42px; padding: 0 16px; cursor: pointer;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 3px 3px 0 0 var(--bc-orange);
+      font-family: var(--font-body); font-weight: 700; font-size: 13px;
+    }
+    .lightbox-actions button.danger { background: var(--bc-red); color: var(--bc-paper); border-color: var(--bc-ink); }
+
+    /* ------ Multi-step / sequence modal ------ */
+    .steps-scrim {
+      position: fixed; inset: 0; z-index: 280;
+      background: rgba(20,17,13,0.55);
+      display: none; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .steps-scrim.show { display: flex; animation: bc-fade 200ms ease; }
+    .steps-panel {
+      width: 100%; max-width: 620px; max-height: 88vh;
+      background: var(--bc-paper); border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4); box-shadow: 4px 4px 0 0 var(--bc-orange);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .steps-head {
+      padding: 16px 20px; border-bottom: 1.5px solid var(--bc-line);
+      display: flex; justify-content: space-between; align-items: flex-start;
+    }
+    .steps-head .lbl {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+    .steps-head h3 {
+      font-family: var(--font-display); font-weight: 800; font-size: 18px;
+      letter-spacing: -0.02em; margin: 4px 0 0; max-width: 440px;
+    }
+    .steps-body { padding: 12px 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+    .step-row {
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      padding: 10px 12px;
+      background: var(--bc-paper);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .step-row.done { opacity: 0.6; }
+    .step-top { display: flex; align-items: center; gap: 8px; }
+    .step-num {
+      width: 22px; height: 22px; border-radius: 999px; flex-shrink: 0;
+      background: var(--bc-ink); color: var(--bc-paper); border: 2px solid var(--bc-ink);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-weight: 700; font-size: 10px;
+    }
+    .step-trade {
+      flex: 1; min-width: 0;
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink);
+      padding: 6px 10px;
+      background: var(--bc-paper-2); border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2);
+    }
+    .step-arrows { display: flex; gap: 2px; flex-shrink: 0; }
+    .step-arrows button, .step-del {
+      width: 28px; height: 28px; padding: 0; cursor: pointer;
+      background: var(--bc-paper); border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 700; font-size: 12px;
+      color: var(--bc-ink-3); flex-shrink: 0;
+    }
+    .step-arrows button:hover, .step-del:hover { color: var(--bc-ink); border-color: var(--bc-ink); }
+    .step-del:hover { color: var(--bc-red); border-color: var(--bc-red); }
+    .step-arrows button[disabled] { opacity: 0.3; pointer-events: none; }
+    .step-fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+    @media (max-width: 540px) { .step-fields { grid-template-columns: 1fr; } }
+    .step-field label {
+      font-family: var(--font-mono); font-weight: 600; font-size: 9px;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+      display: block; margin-bottom: 3px;
+    }
+    .step-field select, .step-field input {
+      width: 100%; height: 32px; padding: 0 8px;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 1.5px solid var(--bc-line); border-radius: var(--r-2);
+      font-family: var(--font-body); font-size: 12.5px; outline: none;
+    }
+    .step-field.notes input { min-height: 32px; }
+    .step-status-pending { color: var(--bc-ink-3); }
+    .step-status-sent    { color: var(--bc-orange); }
+    .step-status-done    { color: var(--bc-green); }
+
+    .steps-add-row { display: flex; gap: 8px; align-items: stretch; }
+    .steps-add-row select {
+      flex: 1; height: 38px; padding: 0 10px;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.04em; text-transform: uppercase; outline: none;
+    }
+    .steps-add-row button {
+      height: 38px; padding: 0 14px; cursor: pointer;
+      background: var(--bc-orange); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 2px 2px 0 0 var(--bc-ink);
+      font-family: var(--font-body); font-weight: 700; font-size: 12.5px;
+      flex-shrink: 0;
+    }
+    .steps-foot {
+      padding: 12px 16px; border-top: 1.5px solid var(--bc-line);
+      display: flex; gap: 8px;
+    }
+    .steps-foot button {
+      flex: 1; height: 44px; padding: 0 14px; cursor: pointer;
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      font-family: var(--font-body); font-weight: 700; font-size: 13.5px;
+    }
+    .steps-foot .save { background: var(--bc-orange); color: var(--bc-paper); box-shadow: 3px 3px 0 0 var(--bc-ink); }
+    .steps-foot .cancel { background: var(--bc-paper); color: var(--bc-ink); }
+    .item .loc-chip.multi-clickable { cursor: pointer; }
+
+    /* ------ Kebab menu (per-item actions popover) ------ */
+    .item .kebab {
+      width: 28px; height: 24px; padding: 0; cursor: pointer;
+      background: var(--bc-paper); border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2); flex-shrink: 0;
+      font-family: var(--font-mono); font-weight: 700; font-size: 14px;
+      color: var(--bc-ink-2); line-height: 1;
+    }
+    .item .kebab:hover { color: var(--bc-ink); border-color: var(--bc-ink); }
+
+    .kebab-menu {
+      position: fixed; z-index: 250;
+      min-width: 220px;
+      background: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 4px 4px 0 0 var(--bc-ink);
+      padding: 4px 0;
+      display: none;
+    }
+    .kebab-menu.show { display: block; animation: bc-fade 120ms ease; }
+    .kebab-menu button {
+      width: 100%; padding: 9px 14px;
+      background: transparent; border: 0; cursor: pointer;
+      text-align: left;
+      font-family: var(--font-body); font-weight: 500; font-size: 13px;
+      color: var(--bc-ink);
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    }
+    .kebab-menu button:hover:not([disabled]) { background: var(--bc-paper-2); }
+    .kebab-menu button[disabled] { opacity: 0.4; cursor: default; }
+    .kebab-menu .kmono {
+      font-family: var(--font-mono); font-weight: 600; font-size: 9.5px;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+    .kebab-menu hr {
+      border: 0; border-top: 1px solid var(--bc-line); margin: 4px 0;
+    }
+    .pri-dot {
+      width: 8px; height: 8px; border-radius: 999px;
+      border: 1.5px solid var(--bc-ink);
+    }
+    .pri-dot.hot { background: var(--bc-red); }
+    .pri-dot.elevated { background: var(--bc-orange); }
+    .pri-dot.normal { background: var(--bc-ink-3); }
+    .pri-lbl {
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+    .loc-chip, .src-chip {
+      font-family: var(--font-mono); font-size: 8.5px; font-weight: 600;
+      letter-spacing: 0.03em; text-transform: uppercase;
+      padding: 1px 6px; border-radius: var(--r-2);
+      border: 1.5px solid var(--bc-line); background: var(--bc-paper-2); color: var(--bc-ink);
+    }
+    .src-chip { color: var(--bc-ink-3); }
+
+    .cta-region {
+      padding: 10px 16px 12px;
+      background: var(--bc-paper); border-top: 1.5px solid var(--bc-line);
+      flex-shrink: 0;
+    }
+    .cta-region .primary {
+      width: 100%; height: 50px; padding: 0 14px;
+      background: var(--bc-orange); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+      font-family: var(--font-body); font-weight: 700; font-size: 14.5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <!-- ─── Top bar ─── -->
+  <nav class="topbar">
+    <a class="back" href="The Condenser Home.html">← Home</a>
+    <div class="center">
+      <span class="wedge"></span>
+      <span>516 Madelines Meadow Ln</span>
+    </div>
+    <div class="right">
+      <span class="saved" id="saved-indicator">Auto-saved</span>
+      <button class="mark-complete" onclick="markReportComplete()">
+        <span class="label">Mark complete</span> →
+      </button>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <div class="lead">
+      <div>
+        <div class="eyebrow">Live test · auto-sort + categorize + export</div>
+        <h1>516 Madelines Meadow Ln</h1>
+        <p>A real TREC REI 7-6 inspection report (44 pages) fed through The Condenser's extraction pipeline. The phone on the left shows what the user sees on mobile after the system reads the PDF. The panel on the right shows the structured data behind it — and lets you run the export buttons.</p>
+      </div>
+      <div class="postit">
+        <b>⚠ This is a working demo.</b><br>
+        Items were extracted from your uploaded PDF by parsing the TREC form structure. Trade auto-classification uses keyword heuristics. You can flag anything that's miscategorized below and we'll improve the rules.
+      </div>
+    </div>
+
+    <div class="stage">
+
+      <!-- LEFT: Mobile review screen -->
+      <div class="col">
+        <h2>Mobile · Review screen</h2>
+        <p class="desc">What the CM sees after extraction completes. Items grouped by trade, each tap-editable. Select/deselect, then commit.</p>
+        <div class="phone-wrap">
+          <div class="phone">
+            <div class="notch"></div>
+            <div class="screen" id="phone-screen">
+              <div class="top-bar">
+                <div class="brand-row">
+                  <div class="wedge-row">
+                    <div class="wedge"></div>
+                    <span class="brand">BuildCore</span>
+                    <span class="brand-sub">· Condenser</span>
+                  </div>
+                  <span class="meta">PDF · 44 pgs</span>
+                </div>
+                <div class="title-row">
+                  <div class="eyebrow">Review · auto-sorted by trade</div>
+                  <div class="h" id="item-count">— items found</div>
+                  <div class="sub">From 516_Madelines_Meadow_Ln…_Super_Inspector.pdf</div>
+                </div>
+              </div>
+
+              <div class="sel-bar">
+                <div class="sel-count"><span class="n" id="sel-n">—</span>of <span id="sel-total">—</span> selected</div>
+                <div class="sel-actions">
+                  <button id="btn-all">Select all</button>
+                  <button id="btn-none">Deselect</button>
+                </div>
+              </div>
+
+              <div class="list-region" id="list-region"></div>
+
+              <div class="cta-region">
+                <button class="primary" id="btn-add">Add — items to site</button>
+              </div>
+            </div>
+          </div>
+          <div class="meta">Drag, tap, edit — all live</div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Data panel + exports -->
+      <div class="col">
+        <h2>Extracted data</h2>
+        <p class="desc">31 items pulled from the inspection report's deficiency sections. Below: the stats and the export buttons. Click any export to test it on your real data.</p>
+
+        <div class="panel">
+          <h3>Stats</h3>
+          <div class="stat-grid">
+            <div class="stat accent"><div class="v" id="s-total">31</div><div class="l">Items found</div></div>
+            <div class="stat"><div class="v" id="s-hot">0</div><div class="l">Hot</div></div>
+            <div class="stat"><div class="v" id="s-elevated">2</div><div class="l">Elevated</div></div>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom: 8px;">By trade (auto-classified)</h3>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px; font-family:var(--font-mono); font-size:11px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; color:var(--bc-ink-3);">
+              <span style="display:inline-block; width:10px; height:10px; border-radius:999px; background:var(--bc-orange); border:1.5px solid var(--bc-ink);"></span>
+              <span id="learned-badge">No rules learned yet</span>
+              <button id="reset-rules" style="margin-left:auto; height:24px; padding:0 8px; font-family:var(--font-mono); font-weight:600; font-size:9px; letter-spacing:0.05em; text-transform:uppercase; background:transparent; border:1.5px solid var(--bc-line); border-radius:var(--r-2); cursor:pointer; color:var(--bc-ink-2);">Reset</button>
+            </div>
+            <div class="breakdown" id="breakdown"></div>
+          </div>
+
+          <div>
+            <h3 style="margin-bottom: 8px;">Export</h3>
+            <div class="exports">
+              <button id="exp-add">＋ Add note</button>
+              <button id="exp-copy">Copy to clipboard</button>
+              <button id="exp-download">Download</button>
+              <button class="primary" id="exp-send">Send to trade</button>
+            </div>
+          </div>
+
+          <div style="border-top: 1.5px solid var(--bc-line); padding-top: 14px; font-size: 13px; color: var(--bc-ink-2); line-height: 1.55;">
+            <b style="color: var(--bc-ink);">Known caveats</b> for this test extraction:
+            <ul style="margin: 6px 0 0; padding-left: 18px; font-size: 12.5px;">
+              <li>9 items got "Framing / Siding" because the TREC structural section mentions siding/trim/caulk together — some of these are really Trim / Baseboard / Caulk or Painting & Touch-Up.</li>
+              <li>Severity from a TREC inspection is mostly "Minor / Maintenance" — that maps to "normal" priority. Only 2 items hit "Marginal Concerns" (elevated). The live app's Claude-based extraction would weight these differently.</li>
+              <li>Location detection is heuristic — many items show empty location. The real extractor (using Claude) can pull location from the surrounding sentences better.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- ------ Per-item kebab menu (shared, repositioned on open) ------ -->
+    <div class="kebab-menu" id="kebab-menu" onclick="event.stopPropagation()">
+      <button data-kaction="schedule">Schedule date<span class="kmono" id="kmono-date">—</span></button>
+      <button data-kaction="sequence">Edit trade sequence<span class="kmono" id="kmono-steps">—</span></button>
+      <hr>
+      <button data-kaction="add-photo">Add photo from device<span class="kmono">FILES</span></button>
+      <button data-kaction="take-photo">Take a photo<span class="kmono">CAMERA</span></button>
+      <button data-kaction="view-photos">View attached photos<span class="kmono" id="kmono-photos">—</span></button>
+      <hr>
+      <button data-kaction="record-voice">Record voice note<span class="kmono">MIC</span></button>
+      <button data-kaction="play-voice">Play voice notes<span class="kmono" id="kmono-voices">—</span></button>
+    </div>
+
+    <!-- Recording modal -->
+    <div class="ssheet-scrim" id="rec-modal" onclick="cancelRecording()" style="z-index: 320;">
+      <div class="ssheet" onclick="event.stopPropagation()" style="max-width: 360px;">
+        <div style="padding: 24px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+          <div style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-red); display: inline-flex; align-items: center; gap: 8px;">
+            <span style="width: 10px; height: 10px; border-radius: 999px; background: var(--bc-red); animation: bc-rec-pulse 1.2s infinite;"></span>
+            Recording
+          </div>
+          <div id="rec-time" style="font-family: var(--font-display); font-weight: 900; font-size: 56px; letter-spacing: -0.04em; line-height: 1; color: var(--bc-ink);">00:00</div>
+          <p style="font-family: var(--font-body); font-size: 13px; color: var(--bc-ink-2); margin: 0; max-width: 240px;">Tap Stop to save your voice note. Tap outside to cancel.</p>
+          <div style="display: flex; gap: 10px; width: 100%;">
+            <button onclick="cancelRecording()" style="flex: 1; height: 48px; padding: 0 14px; cursor: pointer; border: 2px solid var(--bc-ink); background: var(--bc-paper); color: var(--bc-ink); border-radius: var(--r-2); font-family: var(--font-body); font-weight: 700; font-size: 14px;">Cancel</button>
+            <button onclick="stopRecording()" style="flex: 1; height: 48px; padding: 0 14px; cursor: pointer; border: 2px solid var(--bc-ink); background: var(--bc-red); color: var(--bc-paper); border-radius: var(--r-2); box-shadow: 3px 3px 0 0 var(--bc-ink); font-family: var(--font-body); font-weight: 700; font-size: 14px;">■ Stop &amp; save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>@keyframes bc-rec-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }</style>
+
+    <!-- Voice notes playback modal -->
+    <div class="ssheet-scrim" id="voice-modal" onclick="closeVoiceList()" style="z-index: 310;">
+      <div class="ssheet" onclick="event.stopPropagation()" style="max-width: 520px;">
+        <div class="ssheet-head">
+          <div>
+            <div class="eyebrow">Voice notes</div>
+            <h3 style="font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; margin: 4px 0 0;">Attached audio</h3>
+          </div>
+          <button class="x" onclick="closeVoiceList()" aria-label="Close">✕</button>
+        </div>
+        <div class="ssheet-body" id="voice-list" style="display: flex; flex-direction: column; gap: 8px;"></div>
+      </div>
+    </div>
+
+    <!-- Hidden file inputs driven by the kebab menu -->
+    <input type="file" id="kfile-add" accept="image/*" multiple style="display:none">
+    <input type="file" id="kfile-take" accept="image/*" capture="environment" style="display:none">
+    <input type="date" id="kdate" style="position:fixed; opacity:0; pointer-events:none; top:0; left:0; width:1px; height:1px;">
+
+    <!-- ──────── Add Note modal ──────── -->
+    <div class="ssheet-scrim" id="add-note-modal" onclick="closeAddNote()" style="z-index: 315;">
+      <div class="ssheet" onclick="event.stopPropagation()" style="max-width: 520px;">
+        <div class="ssheet-head">
+          <div>
+            <div class="eyebrow">Add a punch item</div>
+            <h3 style="font-family: var(--font-display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; margin: 4px 0 0;">Your side notes</h3>
+          </div>
+          <button class="x" onclick="closeAddNote()" aria-label="Close">✕</button>
+        </div>
+        <div class="ssheet-body">
+          <div class="ssheet-section">
+            <div class="lbl">Describe the punch</div>
+            <input id="note-title" type="text" placeholder="e.g. Add door stop at downstairs hall bath entry door" autocomplete="off"
+                   style="width:100%; height:42px; padding:0 12px; background:var(--bc-paper); color:var(--bc-ink); border:1.5px solid var(--bc-line-strong); border-radius:var(--r-2); font-family:var(--font-body); font-size:14px; outline:none;">
+            <p style="margin: 6px 0 0; font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bc-ink-3);">Auto-classified by trade after you save. You can change it inline if it's wrong.</p>
+          </div>
+          <div class="ssheet-section">
+            <div class="form-grid">
+              <div class="field">
+                <label for="note-loc">Location</label>
+                <input id="note-loc" type="text" placeholder="e.g. Master bath" autocomplete="off">
+              </div>
+              <div class="field">
+                <label for="note-pri">Priority</label>
+                <select id="note-pri">
+                  <option value="normal" selected>Normal</option>
+                  <option value="elevated">Elevated</option>
+                  <option value="hot">Hot</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="note-src">Source</label>
+                <input id="note-src" type="text" value="My side notes" placeholder="e.g. My side notes, Final walk, 3rd party" autocomplete="off">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ssheet-foot">
+          <div class="send-row">
+            <a class="send-btn email" onclick="closeAddNote(); return false;" href="javascript:void(0)">Cancel</a>
+            <a class="send-btn" id="note-save-btn" onclick="saveNote(); return false;" href="javascript:void(0)">＋ Add to list</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------ Photo lightbox ------ -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+      <div class="lightbox-actions" onclick="event.stopPropagation()">
+        <button class="danger" id="lb-delete">Delete</button>
+        <button onclick="closeLightbox()">Close</button>
+      </div>
+      <img id="lb-image" src="" alt="">
+    </div>
+
+    <!-- ------ Multi-step / sequence modal ------ -->
+    <div class="steps-scrim" id="steps-modal" onclick="closeStepsModal()">
+      <div class="steps-panel" onclick="event.stopPropagation()">
+        <div class="steps-head">
+          <div>
+            <div class="lbl">Trade sequence</div>
+            <h3 id="steps-item-title">—</h3>
+          </div>
+          <button onclick="closeStepsModal()" style="width:32px; height:32px; padding:0; cursor:pointer; background:var(--bc-paper); border:1.5px solid var(--bc-line); border-radius:var(--r-2); font-family:var(--font-mono); font-weight:700; font-size:14px; color:var(--bc-ink-3);">×</button>
+        </div>
+        <div class="steps-body" id="steps-body"></div>
+        <div class="steps-foot">
+          <button class="cancel" onclick="closeStepsModal()">Cancel</button>
+          <button class="save" id="steps-save">Save sequence</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ------ Send-to-Trade modal ------ -->
+    <div class="ssheet-scrim" id="ssheet" role="dialog" aria-modal="true" aria-labelledby="ssheet-title">
+      <div class="ssheet" onclick="event.stopPropagation()">
+        <div class="ssheet-head">
+          <div>
+            <div class="eyebrow">Send punch list</div>
+            <h3 id="ssheet-title">516 Madelines Meadow Ln</h3>
+          </div>
+          <button class="x" id="ssheet-close" aria-label="Close">✕</button>
+        </div>
+
+        <div class="ssheet-body">
+          <!-- TRADE PICKER -->
+          <div class="ssheet-section">
+            <div class="lbl">1 · Select trade</div>
+            <div class="trade-chips" id="ssheet-trades"></div>
+            <div style="margin-top: 10px; display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);">
+              <label for="email-provider" style="flex-shrink: 0;">Email via:</label>
+              <select id="email-provider" style="height: 28px; padding: 0 8px; background: var(--bc-paper); border: 1.5px solid var(--bc-line); border-radius: var(--r-2); font-family: var(--font-mono); font-weight: 600; font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bc-ink); cursor: pointer;">
+                <option value="outlook">Outlook</option>
+                <option value="gmail">Gmail</option>
+                <option value="yahoo">Yahoo</option>
+                <option value="default">Default mail app</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- AUTO-MATCHED CONTACT (placeholder until contacts are wired) -->
+          <div class="ssheet-section">
+            <div class="lbl">2 · Send to</div>
+            <div class="contact-card" id="ssheet-contact">
+              <div class="avatar" id="ssheet-avatar">—</div>
+              <div style="flex:1; min-width:0;">
+                <div class="name" id="ssheet-contact-name">No contact on file</div>
+                <div class="meta" id="ssheet-contact-meta">Add one below, or skip to the manual fields</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MANUAL CONTACT FIELDS -->
+          <div class="ssheet-section">
+            <div class="lbl">3 · Recipient details</div>
+            <div class="form-grid">
+              <div class="field">
+                <label for="send-name">Name</label>
+                <input id="send-name" type="text" placeholder="e.g. J. Morales" autocomplete="name" />
+              </div>
+              <div class="field">
+                <label for="send-company">Company</label>
+                <input id="send-company" type="text" placeholder="e.g. Pro Tile Co." autocomplete="organization" />
+              </div>
+              <div class="field">
+                <label for="send-phone">Mobile (for SMS)</label>
+                <input id="send-phone" type="tel" placeholder="(555) 123-4567" autocomplete="tel" inputmode="tel" />
+                <div class="hint" id="send-phone-hint">Required to send by text</div>
+              </div>
+              <div class="field">
+                <label for="send-email">Email</label>
+                <input id="send-email" type="email" placeholder="name@company.com" autocomplete="email" />
+                <div class="hint" id="send-email-hint">Required to send by email</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PREVIEW -->
+          <div class="ssheet-section">
+            <div class="lbl">4 · Preview <span id="send-pv-count" style="color: var(--bc-ink); font-weight: 700;"></span></div>
+            <div class="preview-pane" id="send-preview">Pick a trade above to see the message.</div>
+          </div>
+        </div>
+
+        <div class="ssheet-foot">
+          <div class="send-row">
+            <a class="send-btn email disabled" id="send-email-btn" href="#">✉ Email</a>
+            <a class="send-btn disabled" id="send-sms-btn" href="#">💬 Text</a>
+          </div>
+          <div class="send-row-sec">
+            <button id="send-copy">Copy message</button>
+            <button id="send-share">Share (native)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // Real items extracted from the uploaded inspection PDF
+    // ─────────────────────────────────────────────────────────────
+    const SITE_ADDRESS = '516 Madelines Meadow Ln';
+
+    fetch('../uploads/inspection-items.json')
+      .then(r => r.json())
+      .then(items => {
+        // Prefer cached items (preserves user edits, learned rules, photos)
+        const cached = loadFromCache();
+        renderAll(cached && cached.length ? cached : items);
+      })
+      .catch(err => {
+        const cached = loadFromCache();
+        if (cached && cached.length) renderAll(cached);
+        else renderAll(ITEMS_EMBED);
+      });
+
+    // Embedded fallback (small subset for offline preview)
+    const ITEMS_EMBED = []; // populated below
+
+    function renderAll(items) {
+      // STEP 1: Run the deterministic trade rules (CAULK / SEAL / CABINET / etc).
+      // These OVERRIDE the upstream auto-classification using the CM's playbook.
+      // Each item ends up with it.trades = [...] (1+ trades in sequence).
+      applyTradeRules(items);
+
+      // STEP 2: Apply any rules the CM has previously taught the system
+      // (per-title overrides saved to localStorage). These run AFTER the
+      // deterministic rules so a manual correction can override the playbook.
+      const learnedApplied = applyLearnedRules(items);
+      updateLearnedBadge();
+      if (learnedApplied > 0) {
+        setTimeout(() => showToast(`Applied ${learnedApplied} learned rule${learnedApplied === 1 ? '' : 's'} from past corrections`), 400);
+      }
+      window.__ITEMS = items;
+
+      // Stable ID + photos + source init
+      items.forEach((it, i) => {
+        it.id = it.id || ('it_' + i);
+        it.photos = it.photos || [];
+        it.selected = it.selected !== false;
+        it.source = it.source || 'Inspection report';
+      });
+
+      autoSave();
+
+      // Sort: hot → elevated → normal, within priority by trade
+      const priOrder = { hot: 0, elevated: 1, normal: 2 };
+      items.sort((a, b) => priOrder[a.priority] - priOrder[b.priority] || a.trade.localeCompare(b.trade));
+
+      // Group by trade
+      const byTrade = {};
+      items.forEach(it => {
+        if (!byTrade[it.trade]) byTrade[it.trade] = [];
+        byTrade[it.trade].push(it);
+      });
+
+      // Sort trades by item count desc
+      const tradeOrder = Object.keys(byTrade).sort((a, b) => byTrade[b].length - byTrade[a].length);
+
+      // Render list
+      const list = document.getElementById('list-region');
+      list.innerHTML = tradeOrder.map(trade => {
+        const items = byTrade[trade];
+        return `
+          <div class="trade-group">
+            <div class="trade-head">
+              <span class="name">${trade}</span>
+              <span class="ct">${items.length} item${items.length === 1 ? '' : 's'}</span>
+            </div>
+            ${items.map((it, i) => itemRowHtml(it, items.indexOf(it), trade)).join('')}
+          </div>
+        `;
+      }).join('');
+
+      // Render breakdown
+      const bd = document.getElementById('breakdown');
+      bd.innerHTML = tradeOrder.map(t => `
+        <div class="b-row">
+          <span class="t">${t}</span>
+          <span class="c">${byTrade[t].length}</span>
+        </div>
+      `).join('');
+
+      // Counts
+      const total = items.length;
+      const hot = items.filter(i => i.priority === 'hot').length;
+      const elev = items.filter(i => i.priority === 'elevated').length;
+      document.getElementById('s-total').textContent = total;
+      document.getElementById('s-hot').textContent = hot;
+      document.getElementById('s-elevated').textContent = elev;
+      document.getElementById('item-count').textContent = `${total} items found`;
+      updateSelection(items);
+
+      // Wire interactions
+      wireRows(items);
+      wireSelectAll(items);
+      wireExports(items);
+    }
+
+    // 26 canonical trades + 1 user-named trade contractor.
+    // "Leander 3T 2" is the CM's actual masonry/stone vendor — anything
+    // masonry/brick/stone/mortar auto-routes to them via the classifier.
+    // The user can add/remove/rename trades from pages/Trades Directory.html,
+    // which writes to localStorage 'condenser_trades_master_v1'.
+    const DEFAULT_TRADES = [
+      'Painters', 'Trim Carpenter', 'Flooring / Tile', 'Plumbing',
+      'HVAC', 'Door Hardware', 'Drywall', 'Concrete', 'Framing / Siding', 'Windows',
+      'Garage', 'Garage Door', 'Cleaners', 'Landscaping / Irrigation', 'Gutters',
+      'Electrical', 'Roofing', 'Insulation', 'Appliances', 'Cabinets / Countertops',
+      'Leander 3T 2', 'Mirrors / Shower Glass', 'Stucco / Plastering', 'Fencing',
+      'Pest Control', 'Uncategorized',
+    ];
+    function loadTradesMaster() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('condenser_trades_master_v1') || 'null');
+        if (Array.isArray(saved) && saved.length) return saved;
+      } catch (e) {}
+      return [...DEFAULT_TRADES];
+    }
+    let TRADES = loadTradesMaster();
+    // Re-read on every render so custom trades added in the Trades Directory
+    // show up here without a full page refresh.
+    function refreshTradesList() { TRADES = loadTradesMaster(); }
+
+    // ─────────────────────────────────────────────────────────────
+    // Deterministic trade rules — runs on every item, OVERRIDES the
+    // upstream auto-classifier. Each item ends up with it.trades = [...]
+    // (1+ trades, in execution order). it.trade is the primary.
+    //
+    // Rules from the CM playbook:
+    //   1.  "caulk" → Painters (unless tile/tub/shower)
+    //   2.  "seal" → look for clue word (tile/tub/shower=Flooring;
+    //        faucet/escutcheon=Plumbing; roof/flashing=Roofing;
+    //        window/wall=Painters)
+    //   3.  Nail pop + drywall/ceiling/interior → Drywall
+    //        Nail pop + exterior trim → Painters
+    //   4.  Interior trim/casing/baseboard → Trim Carpenter
+    //   5.  Anything cabinet → Trim Carpenter
+    //   6.  Tub/shower seal/caulk/surround → Flooring / Tile
+    //   7.  Faucet/escutcheon not sealed → Plumbing
+    //   8.  Garage FLOOR cracks → Concrete (garage = location)
+    //   9.  Foundation corner pops → Concrete
+    //   10. Porch post mechanical damage → Framing/Siding → Painters → Cleaners
+    // ─────────────────────────────────────────────────────────────
+    function classifyItemTrades(it) {
+      const t = ((it.title || '') + ' ' + (it.summary || '')).toLowerCase();
+      const title = (it.title || '').toLowerCase();
+
+      // Rule 10 — Porch post damage (exterior, no Cleaners)
+      if (/porch\s*post/.test(t) && /(damag|mechanical|crack|rot|chip)/.test(t)) {
+        return ['Framing / Siding', 'Painters'];
+      }
+      // Rule 11 — Drywall repair → paint after (interior; no Cleaners)
+      if (/drywall.*(repair|patch|hole|damage|crack)/.test(t) ||
+          /sheetrock.*(repair|patch|hole)/.test(t)) {
+        return ['Drywall', 'Painters'];
+      }
+      // Rule 12 — Interior door replacement → paint the new door
+      if (/(interior\s*door)/.test(t) && /(replace|new|install)/.test(t)) {
+        return ['Door Hardware', 'Painters'];
+      }
+      // Rule 13 — Broken floor plank near baseboard → flooring → trim → paint
+      if (/(lvp|laminate|hardwood|vinyl|floor\s*plank|plank).*(broken|damag|crack|cup|warp)/.test(t) ||
+          /(broken|damag|crack).*(lvp|floor\s*plank|plank)/.test(t)) {
+        return ['Flooring / Tile', 'Trim Carpenter', 'Painters'];
+      }
+      // Rule 9 — Foundation corner pop
+      if (/foundation\s*corner|corner\s*pop/.test(t)) return ['Concrete'];
+      // Rule 8 — Garage floor crack
+      if (/garage\s*floor.*(crack|shrink|settl)|(crack|shrink|settl).*garage\s*floor/.test(t)) return ['Concrete'];
+      // Rule 5 — Cabinet (broad)
+      if (/cabinet|drawer\s*front|countertop/.test(t)) return ['Trim Carpenter'];
+      // Rule 4 — Interior trim / casing / baseboard
+      if (/(interior\s*trim|baseboard|door\s*casing|door\s*frame|window\s*casing|trim\s*separation|cracked\s*trim|damaged\s*casing|case\s*bead|interior\s*casing|wall\s*trim\s*at\s*interior)/.test(t)) {
+        return ['Trim Carpenter'];
+      }
+      // Rule 7 — Faucet / escutcheon not sealed
+      if (/(faucet|escutcheon|valve|supply\s*line).*not\s*sealed/.test(t) ||
+          /seal.*(faucet|escutcheon|valve|supply\s*line)/.test(t) ||
+          /(faucet|escutcheon).*(seal|caulk)/.test(t)) {
+        return ['Plumbing'];
+      }
+      // Rule 6 — Tub/shower seal/caulk/surround
+      if (/(tub|shower).*(seal|caulk|surround|grout)|seal.*(tub|shower|tile|surround|grout)|caulk.*(tub|shower|tile|surround|grout)/.test(t)) {
+        return ['Flooring / Tile'];
+      }
+      // Rule 3a — Nail pop + interior surfaces → drywall then paint
+      if (/nail\s*pop/.test(t) && /(drywall|ceiling|interior|wall|sheetrock)/.test(t)) {
+        return ['Drywall', 'Painters'];
+      }
+      // Rule 3b — Nail pop + exterior trim
+      if (/nail\s*pop/.test(t) && /(exterior|outside|trim)/.test(t)) {
+        return ['Painters'];
+      }
+      // Rule 2 — "seal" with clue word
+      if (/\bseal\b/.test(t) && !/caulk/.test(t)) {
+        if (/roof|flashing|gutter/.test(t))                       return ['Roofing'];
+        if (/tile|tub|shower|grout|surround/.test(t))             return ['Flooring / Tile'];
+        if (/faucet|escutcheon|valve|supply\s*line|plumb/.test(t))return ['Plumbing'];
+        if (/window/.test(t))                                     return ['Painters'];
+        return ['Painters'];
+      }
+      // Rule 1 — "caulk" defaults to Painters
+      if (/caulk/.test(t)) {
+        if (/tile|tub|shower|grout|surround/.test(t)) return ['Flooring / Tile'];
+        return ['Painters'];
+      }
+
+      // Fallback heuristic — same logic as the original Python classifier,
+      // remapped to the new trade names.
+      if (/gutter|downspout/.test(t))                                       return ['Gutters'];
+      if (/roof|shingle|flashing|attic|soffit|fascia/.test(t))              return ['Roofing'];
+      if (/window|glazing|pane/.test(t))                                    return ['Windows'];
+      if (/door\s*(hardware|lock|knob|hinge|stop|threshold)|deadbolt|strike\s*plate/.test(t)) return ['Door Hardware'];
+      if (/garage\s*door|opener/.test(t))                                   return ['Garage Door'];
+      if (/garage(?!\s*door)/.test(t))                                      return ['Garage'];
+      if (/stucco|plaster/.test(t))                                         return ['Stucco / Plastering'];
+      if (/siding|fascia|wall trim|exterior\s*wall/.test(t))                return ['Framing / Siding'];
+      if (/mason|stone|veneer|brick|mortar/.test(t))                        return ['Leander 3T 2'];
+      if (/insulation/.test(t))                                             return ['Insulation'];
+      if (/drywall|sheetrock|nail\s*pop|wall\s*crack/.test(t))              return ['Drywall'];
+      if (/paint|stain|finish|touch[-\s]?up/.test(t))                       return ['Painters'];
+      if (/tile|grout/.test(t))                                             return ['Flooring / Tile'];
+      if (/stair|tread|riser|baluster|handrail|floor/.test(t))              return ['Flooring / Tile'];
+      if (/mirror|shower\s*glass|shower\s*door/.test(t))                    return ['Mirrors / Shower Glass'];
+      if (/landscape|irrigation|sprinkler|sod|grading/.test(t))             return ['Landscaping / Irrigation'];
+      if (/concrete|slab|driveway|sidewalk|foundation/.test(t))             return ['Concrete'];
+      if (/fence|gate/.test(t))                                             return ['Fencing'];
+      if (/pest|termite|wdi|wood\s*destroying/.test(t))                     return ['Pest Control'];
+      if (/clean/.test(t))                                                  return ['Cleaners'];
+      if (/plumb|toilet|drain|sewer/.test(t))                               return ['Plumbing'];
+      if (/electric|outlet|gfci|circuit|fixture/.test(t))                   return ['Electrical'];
+      if (/hvac|furnace|heating|air\s*condition|thermostat/.test(t))        return ['HVAC'];
+      if (/appliance|oven|range|fridge|dishwasher|microwave/.test(t))       return ['Appliances'];
+      return ['Uncategorized'];
+    }
+
+    function applyTradeRules(items) {
+      items.forEach(it => {
+        // If the item already has a saved steps sequence, don't re-classify
+        // — the CM has customized it (or a learned rule applied).
+        if (it.steps && it.steps.length) {
+          it.trades = it.steps.map(s => s.trade);
+          it.trade = it.trades[0];
+          if (it.trades.length > 1) it.multiTrade = true;
+          return;
+        }
+        const trades = classifyItemTrades(it);
+        it.trades = trades;
+        it.trade = trades[0];
+        if (trades.length > 1) it.multiTrade = true;
+        // Build initial step sequence — pending status, no date yet
+        it.steps = trades.map(tr => ({
+          trade: tr,
+          status: 'pending',
+          date: '',
+          notes: '',
+        }));
+      });
+    }
+
+    function itemRowHtml(it, idx, trade) {
+      const safeTitle = (it.title || it.summary).replace(/[<>&]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[s]));
+      const photosHtml = (it.photos || []).length === 0 ? '' : `
+        <div class="photos-strip" data-photos-for="${it.id}">
+          ${(it.photos || []).map((p, i) => `
+            <div class="photo-thumb" data-photo-idx="${i}" data-item-id="${it.id}" style="background-image:url('${p}')">
+              <button class="del" data-del="${i}" data-item-id="${it.id}" aria-label="Remove photo">×</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      return `
+        <div class="item ${it.selected ? '' : 'unselected'}" data-trade="${trade}" data-id="${it.id}">
+          <div class="cb on" data-toggle>✓</div>
+          <div class="body">
+            <div class="t">${safeTitle}</div>
+            <div class="meta-row">
+              <span class="pri-dot ${it.priority}"></span>
+              <span class="pri-lbl">${it.priority === 'hot' ? 'Hot' : it.priority === 'elevated' ? 'Elevated' : 'Normal'}</span>
+              ${it.location ? `<span class="loc-chip">${it.location}</span>` : ''}
+              ${it.learned ? '<span class="loc-chip" style="color: var(--bc-orange); border-color: var(--bc-orange);">Learned</span>' : ''}
+              ${(it.trades || []).length > 1 ? `<span class="loc-chip multi-clickable" style="color: var(--bc-orange); border-color: var(--bc-orange); background: var(--bc-orange-tint);" data-open-steps="${it.id}" title="Edit trade sequence">${it.trades.length} STEPS · ${it.trades.join(' → ')}</span>` : ''}
+              ${(it.steps && it.steps[0] && it.steps[0].date) ? `<span class="loc-chip" style="color: var(--bc-blue); border-color: var(--bc-blue);">📅 ${it.steps[0].date}</span>` : ''}
+              <span class="loc-chip src-tag" data-edit-source="${it.id}" style="color: var(--bc-ink-3); cursor: pointer;" title="Click to edit source">From: ${(it.source || 'Inspection report').replace(/[<>&]/g, s => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[s])).slice(0, 30)}</span>
+              ${(it.photos || []).length > 0 ? `<span class="loc-chip" style="color: var(--bc-ink); border-color: var(--bc-ink);">${it.photos.length} photo${it.photos.length === 1 ? '' : 's'}</span>` : ''}
+              ${(it.voiceIds || []).length > 0 ? `<span class="loc-chip" style="color: var(--bc-orange); border-color: var(--bc-orange);">🎙 ${it.voiceIds.length} voice</span>` : ''}
+              <select class="trade-pick" data-idx="${idx}">
+                ${TRADES.map(t => `<option value="${t}"${t === it.trade ? ' selected' : ''}>${t}</option>`).join('')}
+              </select>
+              <button class="kebab" data-kebab="${it.id}" aria-label="More actions" title="More">⋯</button>
+            </div>
+            ${photosHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    function wireRows(items) {
+      document.querySelectorAll('.item').forEach(row => {
+        const id = row.dataset.id;
+        const realItem = items.find(it => it.id === id);
+        if (!realItem) return;
+
+        // Checkbox toggle
+        row.querySelector('[data-toggle]').addEventListener('click', (e) => {
+          e.stopPropagation();
+          const wasOff = row.classList.contains('unselected');
+          if (wasOff) {
+            row.classList.remove('unselected');
+            row.querySelector('.cb').classList.add('on');
+            row.querySelector('.cb').textContent = '✓';
+          } else {
+            row.classList.add('unselected');
+            row.querySelector('.cb').classList.remove('on');
+            row.querySelector('.cb').textContent = '';
+          }
+          realItem.selected = !realItem.selected;
+          updateSelection(items);
+        });
+
+        // Trade dropdown — change the item's category, save as a learned rule
+        const sel = row.querySelector('.trade-pick');
+        if (sel) {
+          sel.addEventListener('click', (e) => e.stopPropagation());
+          sel.addEventListener('change', (e) => {
+            e.stopPropagation();
+            const newTrade = e.target.value;
+            if (newTrade !== realItem.trade) {
+              changeItemTrade(items, realItem, newTrade);
+            }
+          });
+        }
+
+        // Photo thumbnails — click to open lightbox
+        row.querySelectorAll('.photo-thumb').forEach(thumb => {
+          thumb.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openLightbox(items, id, parseInt(thumb.dataset.photoIdx));
+          });
+          const delBtn = thumb.querySelector('[data-del]');
+          if (delBtn) {
+            delBtn.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const pidx = parseInt(delBtn.dataset.del);
+              realItem.photos.splice(pidx, 1);
+              rerenderList(items);
+              showToast('Photo removed');
+            });
+          }
+        });
+
+        // "+ Photo" — wire the hidden file input
+        const fileInput = row.querySelector('[data-add-photo-for]');
+        if (fileInput) {
+          fileInput.addEventListener('click', (e) => e.stopPropagation());
+          fileInput.addEventListener('change', async (e) => {
+            const files = Array.from(e.target.files || []);
+            if (!files.length) return;
+            await addPhotos(items, id, files);
+            e.target.value = ''; // allow re-picking same file
+          });
+        }
+
+        // Multi-step chip → opens the sequence modal
+        const stepsTrigger = row.querySelector('[data-open-steps]');
+        if (stepsTrigger) {
+          stepsTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openStepsModal(items, id);
+          });
+        }
+
+        // Kebab "⋯" — opens the per-item actions popover
+        const kbtn = row.querySelector('[data-kebab]');
+        if (kbtn) {
+          kbtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            openKebab(realItem, kbtn);
+          });
+        }
+
+        // Source-tag chip — click to edit
+        const srcChip = row.querySelector('[data-edit-source]');
+        if (srcChip) {
+          srcChip.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const newSrc = prompt('Source for this item (e.g. "Inspection report" or "My side notes"):', realItem.source || 'Inspection report');
+            if (newSrc !== null) {
+              realItem.source = newSrc.trim() || 'Inspection report';
+              rerenderList(items);
+              showToast('Source tag updated');
+            }
+          });
+        }
+      });
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Kebab menu — per-item quick actions
+    // ─────────────────────────────────────────────────────────────
+    let KEBAB_ITEM = null;
+
+    function openKebab(item, anchor) {
+      KEBAB_ITEM = item;
+      const menu = document.getElementById('kebab-menu');
+      const r = anchor.getBoundingClientRect();
+      // Place below the kebab button, right-aligned, with a tiny offset
+      menu.style.top  = (r.bottom + 4) + 'px';
+      menu.style.left = Math.max(8, Math.min(window.innerWidth - 232, r.right - 220)) + 'px';
+
+      // Update meta labels in the menu
+      const primaryDate = item.steps && item.steps[0] && item.steps[0].date;
+      document.getElementById('kmono-date').textContent  = primaryDate || 'ASAP';
+      document.getElementById('kmono-steps').textContent = (item.trades || [item.trade]).length + ' STEP' + ((item.trades || [item.trade]).length === 1 ? '' : 'S');
+      const pCount = (item.photos || []).length;
+      document.getElementById('kmono-photos').textContent = pCount === 0 ? '0' : String(pCount);
+      document.querySelector('[data-kaction="view-photos"]').disabled = pCount === 0;
+      const vCount = (item.voiceIds || []).length;
+      document.getElementById('kmono-voices').textContent = vCount === 0 ? '0' : String(vCount);
+      document.querySelector('[data-kaction="play-voice"]').disabled = vCount === 0;
+
+      menu.classList.add('show');
+    }
+    function closeKebab() {
+      document.getElementById('kebab-menu').classList.remove('show');
+      KEBAB_ITEM = null;
+    }
+    document.addEventListener('click', () => closeKebab());
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeKebab(); });
+
+    // Wire kebab actions
+    document.getElementById('kebab-menu').addEventListener('click', (e) => {
+      const btn = e.target.closest('[data-kaction]');
+      if (!btn || !KEBAB_ITEM) return;
+      const action = btn.dataset.kaction;
+      const item = KEBAB_ITEM;
+      const items = window.__ITEMS;
+      closeKebab();
+
+      if (action === 'schedule') {
+        const inp = document.getElementById('kdate');
+        inp.value = (item.steps && item.steps[0] && item.steps[0].date) || '';
+        inp.onchange = () => {
+          if (!item.steps || !item.steps[0]) item.steps = [{ trade: item.trade, status: 'pending', date: '', notes: '' }];
+          item.steps[0].date = inp.value;
+          rerenderList(items);
+          showToast(inp.value ? `Scheduled for ${inp.value}` : 'Scheduled ASAP');
+        };
+        if (inp.showPicker) { try { inp.showPicker(); return; } catch (e) {} }
+        inp.click();
+      }
+      else if (action === 'sequence') {
+        openStepsModal(items, item.id);
+      }
+      else if (action === 'add-photo') {
+        const inp = document.getElementById('kfile-add');
+        inp.onchange = async (ev) => {
+          const files = Array.from(ev.target.files || []);
+          if (files.length) await addPhotos(items, item.id, files);
+          inp.value = '';
+        };
+        inp.click();
+      }
+      else if (action === 'take-photo') {
+        const inp = document.getElementById('kfile-take');
+        inp.onchange = async (ev) => {
+          const files = Array.from(ev.target.files || []);
+          if (files.length) await addPhotos(items, item.id, files);
+          inp.value = '';
+        };
+        inp.click();
+      }
+      else if (action === 'view-photos') {
+        if ((item.photos || []).length > 0) openLightbox(items, item.id, 0);
+      }
+      else if (action === 'record-voice') {
+        startRecording(item.id);
+      }
+      else if (action === 'play-voice') {
+        if ((item.voiceIds || []).length > 0) openVoiceList(item.id);
+      }
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // Multi-step sequence editor
+    //   - Each item has it.steps = [{ trade, status, date, notes }]
+    //   - status: 'pending' | 'sent' | 'done'
+    //   - date: forecast date (yyyy-mm-dd, empty = ASAP)
+    //   - notes: per-step note
+    // ─────────────────────────────────────────────────────────────
+    let STEPS_STATE = { itemId: null, steps: [] };
+
+    function openStepsModal(items, itemId) {
+      const it = items.find(i => i.id === itemId);
+      if (!it) return;
+      // Clone steps for editing
+      STEPS_STATE = { itemId, steps: JSON.parse(JSON.stringify(it.steps || it.trades.map(tr => ({ trade: tr, status: 'pending', date: '', notes: '' })))) };
+      document.getElementById('steps-item-title').textContent = it.title;
+      renderStepsModal();
+      document.getElementById('steps-modal').classList.add('show');
+    }
+    function closeStepsModal() {
+      document.getElementById('steps-modal').classList.remove('show');
+    }
+    window.closeStepsModal = closeStepsModal;
+
+    function renderStepsModal() {
+      const body = document.getElementById('steps-body');
+      const steps = STEPS_STATE.steps;
+      const usedTrades = steps.map(s => s.trade);
+      const availTrades = TRADES.filter(t => !usedTrades.includes(t));
+
+      body.innerHTML = steps.map((s, i) => `
+        <div class="step-row ${s.status === 'done' ? 'done' : ''}">
+          <div class="step-top">
+            <span class="step-num">${i + 1}</span>
+            <span class="step-trade">${s.trade}</span>
+            <div class="step-arrows">
+              <button data-up="${i}" ${i === 0 ? 'disabled' : ''} title="Move up">↑</button>
+              <button data-down="${i}" ${i === steps.length - 1 ? 'disabled' : ''} title="Move down">↓</button>
+            </div>
+            <button class="step-del" data-del-step="${i}" title="Remove step">×</button>
+          </div>
+          <div class="step-fields">
+            <div class="step-field">
+              <label>Status</label>
+              <select data-status="${i}">
+                <option value="pending"${s.status === 'pending' ? ' selected' : ''}>Pending</option>
+                <option value="sent"${s.status === 'sent' ? ' selected' : ''}>Sent</option>
+                <option value="done"${s.status === 'done' ? ' selected' : ''}>Done</option>
+              </select>
+            </div>
+            <div class="step-field">
+              <label>Forecast date</label>
+              <input type="date" data-date="${i}" value="${s.date || ''}">
+            </div>
+            <div class="step-field notes">
+              <label>Notes</label>
+              <input type="text" data-notes="${i}" value="${(s.notes || '').replace(/"/g, '&quot;')}" placeholder="e.g. After plumb-out">
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Add new step row
+      body.innerHTML += `
+        <div class="steps-add-row">
+          <select id="step-add-trade">
+            ${availTrades.length === 0 ? '<option>— all trades used —</option>' : availTrades.map(t => `<option>${t}</option>`).join('')}
+          </select>
+          <button id="step-add-btn" ${availTrades.length === 0 ? 'disabled' : ''}>＋ Add step</button>
+        </div>
+      `;
+
+      // Wire row controls
+      body.querySelectorAll('[data-up]').forEach(b => b.addEventListener('click', () => moveStep(parseInt(b.dataset.up), -1)));
+      body.querySelectorAll('[data-down]').forEach(b => b.addEventListener('click', () => moveStep(parseInt(b.dataset.down), +1)));
+      body.querySelectorAll('[data-del-step]').forEach(b => b.addEventListener('click', () => removeStep(parseInt(b.dataset.delStep))));
+      body.querySelectorAll('[data-status]').forEach(s => s.addEventListener('change', (e) => { STEPS_STATE.steps[parseInt(s.dataset.status)].status = e.target.value; renderStepsModal(); }));
+      body.querySelectorAll('[data-date]').forEach(s => s.addEventListener('change', (e) => { STEPS_STATE.steps[parseInt(s.dataset.date)].date = e.target.value; }));
+      body.querySelectorAll('[data-notes]').forEach(s => s.addEventListener('change', (e) => { STEPS_STATE.steps[parseInt(s.dataset.notes)].notes = e.target.value; }));
+
+      const addBtn = document.getElementById('step-add-btn');
+      if (addBtn) addBtn.addEventListener('click', () => {
+        const sel = document.getElementById('step-add-trade');
+        const trade = sel.value;
+        STEPS_STATE.steps.push({ trade, status: 'pending', date: '', notes: '' });
+        renderStepsModal();
+      });
+    }
+    function moveStep(idx, dir) {
+      const a = STEPS_STATE.steps;
+      const j = idx + dir;
+      if (j < 0 || j >= a.length) return;
+      [a[idx], a[j]] = [a[j], a[idx]];
+      renderStepsModal();
+    }
+    function removeStep(idx) {
+      if (STEPS_STATE.steps.length <= 1) {
+        showToast('At least one trade step is required');
+        return;
+      }
+      STEPS_STATE.steps.splice(idx, 1);
+      renderStepsModal();
+    }
+
+    document.getElementById('steps-save').addEventListener('click', () => {
+      const items = window.__ITEMS;
+      const it = items && items.find(i => i.id === STEPS_STATE.itemId);
+      if (!it) return;
+      it.steps = STEPS_STATE.steps;
+      it.trades = it.steps.map(s => s.trade);
+      it.trade = it.trades[0];
+      it.multiTrade = it.trades.length > 1;
+      closeStepsModal();
+      rerenderList(items);
+      showToast(`Sequence saved · ${it.steps.length} step${it.steps.length === 1 ? '' : 's'}`);
+    });
+
+    function wireSelectAll(items) {
+      document.getElementById('btn-all').addEventListener('click', () => {
+        items.forEach(it => it.selected = true);
+        document.querySelectorAll('.item').forEach(row => {
+          row.classList.remove('unselected');
+          row.querySelector('.cb').classList.add('on');
+          row.querySelector('.cb').textContent = '✓';
+        });
+        updateSelection(items);
+      });
+      document.getElementById('btn-none').addEventListener('click', () => {
+        items.forEach(it => it.selected = false);
+        document.querySelectorAll('.item').forEach(row => {
+          row.classList.add('unselected');
+          row.querySelector('.cb').classList.remove('on');
+          row.querySelector('.cb').textContent = '';
+        });
+        updateSelection(items);
+      });
+    }
+
+    function updateSelection(items) {
+      const n = items.filter(i => i.selected).length;
+      document.getElementById('sel-n').textContent = n;
+      document.getElementById('sel-total').textContent = items.length;
+      document.getElementById('btn-add').textContent = n === 0
+        ? 'Select items above'
+        : `Add ${n} item${n === 1 ? '' : 's'} to site`;
+    }
+
+    function formatAsText(items) {
+      const selected = items.filter(i => i.selected);
+      const lines = [
+        `PUNCH LIST — ${SITE_ADDRESS}`,
+        `Generated by The Condenser · ${new Date().toLocaleDateString()}`,
+        `Items: ${selected.length} of ${items.length}`,
+        '',
+        '─'.repeat(48),
+        '',
+      ];
+      // Group by trade
+      const grouped = {};
+      selected.forEach(it => {
+        if (!grouped[it.trade]) grouped[it.trade] = [];
+        grouped[it.trade].push(it);
+      });
+      Object.entries(grouped).forEach(([trade, list]) => {
+        lines.push(`[${trade.toUpperCase()}] — ${list.length} item${list.length === 1 ? '' : 's'}`);
+        list.forEach((it, i) => {
+          const pri = it.priority !== 'normal' ? ` (${it.priority.toUpperCase()})` : '';
+          const loc = it.location ? ` (${it.location})` : '';
+          lines.push(`  ${i + 1}. ${it.title}${loc}${pri}`);
+          if (it.summary) lines.push(`     ${it.summary}`);
+        });
+        lines.push('');
+      });
+      lines.push('─'.repeat(48));
+      lines.push('Reply with questions or confirm completion.');
+      return lines.join('\n');
+    }
+
+    function wireExports(items) {
+      document.getElementById('exp-add').addEventListener('click', () => openAddNote());
+      document.getElementById('exp-copy').addEventListener('click', () => {
+        const txt = formatAsText(items);
+        copyToClipboard(txt).then(ok => {
+          const n = items.filter(i => i.selected).length;
+          showToast(ok
+            ? 'Copied to clipboard · ' + n + ' items'
+            : 'Copy failed — your browser blocked it. Try downloading instead.');
+        });
+      });
+      document.getElementById('exp-download').addEventListener('click', () => {
+        const rtf = formatAsRtf(items);
+        const blob = new Blob([rtf], { type: 'application/rtf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `punch-list-${SITE_ADDRESS.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-${new Date().toISOString().slice(0,10)}.rtf`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('Downloaded .rtf — opens in Word, Pages, or Notepad');
+      });
+      document.getElementById('exp-send').addEventListener('click', () => {
+        openSendSheet(window.__ITEMS || items);
+      });
+    }
+
+    // Robust clipboard copy — modern API + execCommand fallback for blocked contexts.
+    async function copyToClipboard(text) {
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (e) { /* fall through */ }
+      }
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.top = '-10000px';
+        ta.setAttribute('readonly', '');
+        document.body.appendChild(ta);
+        ta.select();
+        ta.setSelectionRange(0, ta.value.length);
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        return ok;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    // Rich Text Format — opens cleanly in Word, Pages, and Notepad.
+    function formatAsRtf(items) {
+      const selected = items.filter(i => i.selected);
+      const esc = (s) => String(s)
+        .replace(/\\/g, '\\\\')
+        .replace(/\{/g, '\\{')
+        .replace(/\}/g, '\\}')
+        .replace(/[\u0080-\uFFFF]/g, c => '\\u' + c.charCodeAt(0) + '?');
+      const lines = [];
+      lines.push('{\\rtf1\\ansi\\deff0');
+      lines.push('{\\fonttbl{\\f0 Calibri;}}');
+      lines.push('\\f0\\fs22');
+      lines.push(`\\b\\fs28 PUNCH LIST \\u8212? ${esc(SITE_ADDRESS)}\\b0\\fs22\\par`);
+      lines.push(`Generated by The Condenser \\u183? ${esc(new Date().toLocaleDateString())}\\par`);
+      lines.push(`Items: ${selected.length} of ${items.length}\\par\\par`);
+      const grouped = {};
+      selected.forEach(it => { if (!grouped[it.trade]) grouped[it.trade] = []; grouped[it.trade].push(it); });
+      Object.entries(grouped).forEach(([trade, list]) => {
+        lines.push(`\\b ${esc(trade.toUpperCase())} \\u8212? ${list.length} item${list.length === 1 ? '' : 's'}\\b0\\par`);
+        list.forEach((it, i) => {
+          const pri = it.priority !== 'normal' ? ` [${it.priority.toUpperCase()}]` : '';
+          const loc = it.location ? ` (${esc(it.location)})` : '';
+          lines.push(`${i + 1}. ${esc(it.title)}${loc}${esc(pri)}\\par`);
+          if (it.summary) lines.push(`\\i ${esc(it.summary.replace(/\n+/g, ' '))}\\i0\\par`);
+        });
+        lines.push('\\par');
+      });
+      lines.push('\\par\\b Please confirm completion or reply with questions.\\b0\\par');
+      lines.push('}');
+      return lines.join('\n');
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Auto-save — persist items to localStorage after every mutation.
+    //   - Strips photo data URIs if storage is full (photos in memory only
+    //     until we migrate to IndexedDB in the next iteration).
+    //   - Reload-safe: on next load, loadFromCache() returns saved items.
+    // ─────────────────────────────────────────────────────────────
+    const ITEMS_CACHE_KEY = 'condenser_items_516_v1';
+
+    function autoSave() {
+      if (!window.__ITEMS) return;
+      try {
+        localStorage.setItem(ITEMS_CACHE_KEY, JSON.stringify(window.__ITEMS));
+      } catch (e) {
+        // Storage full — try again without photo data URIs
+        try {
+          const slim = window.__ITEMS.map(it => ({ ...it, photos: [] }));
+          localStorage.setItem(ITEMS_CACHE_KEY, JSON.stringify(slim));
+          console.warn('Auto-save: storage full, photos not persisted (IndexedDB migration pending)');
+        } catch (e2) { /* give up silently */ }
+      }
+    }
+    function loadFromCache() {
+      try { return JSON.parse(localStorage.getItem(ITEMS_CACHE_KEY) || 'null'); }
+      catch (e) { return null; }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // IndexedDB infrastructure — for photos, voice notes, PDFs.
+    // localStorage caps at ~5MB; IDB handles blobs at much larger scale.
+    // ─────────────────────────────────────────────────────────────
+    const DB_NAME = 'condenser_v1';
+    const DB_VERSION = 1;
+    const STORE_PHOTOS = 'photos';
+    const STORE_VOICES = 'voices';
+    const STORE_PDFS   = 'pdfs';
+    let _db = null;
+
+    function openDb() {
+      if (_db) return Promise.resolve(_db);
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_PHOTOS)) db.createObjectStore(STORE_PHOTOS);
+          if (!db.objectStoreNames.contains(STORE_VOICES)) db.createObjectStore(STORE_VOICES);
+          if (!db.objectStoreNames.contains(STORE_PDFS))   db.createObjectStore(STORE_PDFS);
+        };
+        req.onsuccess = () => { _db = req.result; resolve(_db); };
+        req.onerror = () => reject(req.error);
+      });
+    }
+    async function idbPut(store, key, val) {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(store, 'readwrite');
+        tx.objectStore(store).put(val, key);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+    async function idbGet(store, key) {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(store, 'readonly');
+        const req = tx.objectStore(store).get(key);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+    async function idbDel(store, key) {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(store, 'readwrite');
+        tx.objectStore(store).delete(key);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Voice notes — record via MediaRecorder, store as blob in IndexedDB,
+    // referenced from items by id. Each item carries voiceIds: [{ id, duration }].
+    // ─────────────────────────────────────────────────────────────
+    let _mr = null;
+    let _mrChunks = [];
+    let _mrStart = 0;
+    let _mrTimer = null;
+    let _mrTargetItem = null;
+
+    async function startRecording(itemId) {
+      _mrTargetItem = itemId;
+      let stream;
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      } catch (e) {
+        showToast('Microphone access denied');
+        return;
+      }
+      _mrChunks = [];
+      _mrStart = Date.now();
+      _mr = new MediaRecorder(stream);
+      _mr.ondataavailable = (e) => { if (e.data && e.data.size) _mrChunks.push(e.data); };
+      _mr.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop());
+        const blob = new Blob(_mrChunks, { type: _mr.mimeType || 'audio/webm' });
+        const items = window.__ITEMS;
+        const it = items && items.find(i => i.id === _mrTargetItem);
+        if (it && blob.size > 0) {
+          const vid = 'v_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+          await idbPut(STORE_VOICES, vid, blob);
+          if (!it.voiceIds) it.voiceIds = [];
+          it.voiceIds.push({ id: vid, duration: Math.round((Date.now() - _mrStart) / 1000), createdAt: new Date().toISOString() });
+          rerenderList(items);
+          showToast(`Voice note saved · ${Math.round((Date.now() - _mrStart) / 1000)}s`);
+        }
+        _mr = null; _mrChunks = []; _mrTargetItem = null;
+      };
+      _mr.start();
+      openRecordModal();
+    }
+    function stopRecording() {
+      if (_mr && _mr.state === 'recording') _mr.stop();
+      closeRecordModal();
+    }
+    function cancelRecording() {
+      if (_mr && _mr.state === 'recording') {
+        _mr.ondataavailable = null;  // drop chunks
+        _mr.onstop = null;
+        _mr.stop();
+        _mr = null; _mrChunks = []; _mrTargetItem = null;
+      }
+      closeRecordModal();
+    }
+
+    function openRecordModal() {
+      const m = document.getElementById('rec-modal');
+      m.classList.add('show');
+      const time = document.getElementById('rec-time');
+      const tick = () => { time.textContent = formatDuration(Math.round((Date.now() - _mrStart) / 1000)); };
+      tick();
+      if (_mrTimer) clearInterval(_mrTimer);
+      _mrTimer = setInterval(tick, 250);
+    }
+    function closeRecordModal() {
+      document.getElementById('rec-modal').classList.remove('show');
+      if (_mrTimer) { clearInterval(_mrTimer); _mrTimer = null; }
+    }
+    function formatDuration(s) {
+      const m = Math.floor(s / 60); const r = s % 60;
+      return `${m.toString().padStart(2,'0')}:${r.toString().padStart(2,'0')}`;
+    }
+
+    async function openVoiceList(itemId) {
+      const items = window.__ITEMS;
+      const it = items && items.find(i => i.id === itemId);
+      if (!it || !it.voiceIds || !it.voiceIds.length) return;
+      const list = document.getElementById('voice-list');
+      list.innerHTML = '';
+      for (const v of it.voiceIds) {
+        const blob = await idbGet(STORE_VOICES, v.id);
+        const url = blob ? URL.createObjectURL(blob) : '';
+        const date = new Date(v.createdAt || Date.now());
+        const row = document.createElement('div');
+        row.style.cssText = 'display:flex; align-items:center; gap:10px; padding:10px 12px; background:var(--bc-paper); border:1.5px solid var(--bc-line-strong); border-radius:var(--r-2);';
+        row.innerHTML = `
+          <audio controls src="${url}" style="flex:1; height:38px;"></audio>
+          <span style="font-family:var(--font-mono); font-size:10px; font-weight:600; letter-spacing:0.05em; text-transform:uppercase; color:var(--bc-ink-3); white-space:nowrap;">${formatDuration(v.duration || 0)} · ${date.toLocaleDateString()}</span>
+          <button data-vdel="${v.id}" style="width:32px; height:32px; padding:0; cursor:pointer; background:var(--bc-paper); border:1.5px solid var(--bc-line); border-radius:var(--r-2); font-family:var(--font-mono); font-weight:700; font-size:12px; color:var(--bc-ink-3); flex-shrink:0;" title="Delete">×</button>
+        `;
+        row.querySelector('[data-vdel]').addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await idbDel(STORE_VOICES, v.id);
+          it.voiceIds = it.voiceIds.filter(x => x.id !== v.id);
+          rerenderList(items);
+          openVoiceList(itemId);
+          showToast('Voice note deleted');
+        });
+        list.appendChild(row);
+      }
+      document.getElementById('voice-modal').classList.add('show');
+    }
+    function closeVoiceList() {
+      document.getElementById('voice-modal').classList.remove('show');
+      // revoke any object URLs (cleanup)
+      document.querySelectorAll('#voice-list audio').forEach(a => { try { URL.revokeObjectURL(a.src); } catch(e){} });
+    }
+    window.closeVoiceList = closeVoiceList;
+
+    // ─────────────────────────────────────────────────────────────
+    // Email provider preference — Outlook / Gmail / Yahoo / Default
+    // Read in the send sheet to pick the right compose URL.
+    // ─────────────────────────────────────────────────────────────
+    function getEmailProvider() {
+      return localStorage.getItem('condenser_email_provider') || 'outlook';
+    }
+    function setEmailProvider(p) {
+      localStorage.setItem('condenser_email_provider', p);
+    }
+    function buildEmailUrl(provider, to, subject, body) {
+      const e = encodeURIComponent;
+      switch (provider) {
+        case 'gmail':
+          return `https://mail.google.com/mail/?view=cm&fs=1&to=${e(to)}&su=${e(subject)}&body=${e(body)}`;
+        case 'yahoo':
+          return `https://compose.mail.yahoo.com/?to=${e(to)}&subject=${e(subject)}&body=${e(body)}`;
+        case 'outlook':
+          return `https://outlook.office.com/mail/deeplink/compose?to=${e(to)}&subject=${e(subject)}&body=${e(body)}`;
+        default:
+          return `mailto:${e(to)}?subject=${e(subject)}&body=${e(body)}`;
+      }
+    }
+    //   - User can change any item's trade via the dropdown.
+    //   - The change is saved to localStorage under a hash of the title.
+    //   - Next extraction: we look up the title; if a stored rule exists,
+    //     we override the auto-classification. This makes the system
+    //     learn from the CM over time, without requiring a backend.
+    // ─────────────────────────────────────────────────────────────
+    const LEARN_KEY = 'condenser_trade_overrides_v1';
+
+    function loadLearnedRules() {
+      try { return JSON.parse(localStorage.getItem(LEARN_KEY) || '{}'); }
+      catch (e) { return {}; }
+    }
+    function saveLearnedRule(title, fromTrade, toTrade) {
+      const rules = loadLearnedRules();
+      // Use a normalized prefix of the title as the key — that way similar
+      // items ("Hairline crack at SW corner" / "Hairline crack — north wall")
+      // share the same rule.
+      const key = title.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).slice(0, 5).join(' ');
+      rules[key] = { from: fromTrade, to: toTrade, ts: new Date().toISOString(), title };
+      localStorage.setItem(LEARN_KEY, JSON.stringify(rules));
+      updateLearnedBadge();
+    }
+    function applyLearnedRules(items) {
+      const rules = loadLearnedRules();
+      let applied = 0;
+      items.forEach(it => {
+        const key = it.title.toLowerCase().replace(/[^a-z0-9 ]/g, '').split(/\s+/).slice(0, 5).join(' ');
+        if (rules[key] && rules[key].to !== it.trade) {
+          it.trade = rules[key].to;
+          it.learned = true;
+          applied++;
+        }
+      });
+      return applied;
+    }
+    function updateLearnedBadge() {
+      const rules = loadLearnedRules();
+      const n = Object.keys(rules).length;
+      const el = document.getElementById('learned-badge');
+      if (el) {
+        el.textContent = n === 0
+          ? 'No rules learned yet'
+          : `${n} rule${n === 1 ? '' : 's'} learned`;
+      }
+    }
+
+    function changeItemTrade(allItems, item, newTrade) {
+      const old = item.trade;
+      item.trade = newTrade;
+      // Record the rule
+      saveLearnedRule(item.title, old, newTrade);
+      showToast(`Moved to ${newTrade} · saved as rule ("${item.title.slice(0, 30)}…")`);
+      // Re-render the list to regroup
+      rerenderList(allItems);
+    }
+
+    function rerenderList(items) {
+      autoSave();
+      refreshTradesList();
+      // Rebuild the per-trade groups in the phone screen + the stats panel
+      const priOrder = { hot: 0, elevated: 1, normal: 2 };
+      items.sort((a, b) => priOrder[a.priority] - priOrder[b.priority] || a.trade.localeCompare(b.trade));
+      const byTrade = {};
+      items.forEach(it => { if (!byTrade[it.trade]) byTrade[it.trade] = []; byTrade[it.trade].push(it); });
+      const tradeOrder = Object.keys(byTrade).sort((a, b) => byTrade[b].length - byTrade[a].length);
+
+      // List region
+      const list = document.getElementById('list-region');
+      list.innerHTML = tradeOrder.map(trade => `
+        <div class="trade-group">
+          <div class="trade-head">
+            <span class="name">${trade}</span>
+            <span class="ct">${byTrade[trade].length} item${byTrade[trade].length === 1 ? '' : 's'}</span>
+          </div>
+          ${byTrade[trade].map(it => itemRowHtml(it, items.indexOf(it), trade)).join('')}
+        </div>
+      `).join('');
+
+      // Stats panel breakdown
+      const bd = document.getElementById('breakdown');
+      bd.innerHTML = tradeOrder.map(t => `
+        <div class="b-row"><span class="t">${t}</span><span class="c">${byTrade[t].length}</span></div>
+      `).join('');
+
+      // Counts
+      const total = items.length;
+      const hot = items.filter(i => i.priority === 'hot').length;
+      const elev = items.filter(i => i.priority === 'elevated').length;
+      document.getElementById('s-total').textContent = total;
+      document.getElementById('s-hot').textContent = hot;
+      document.getElementById('s-elevated').textContent = elev;
+      updateSelection(items);
+
+      wireRows(items);
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2400);
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Add-note workflow — user-created punch items merge into the list
+    //   - Title is required.
+    //   - Trade auto-classified via the playbook rules (CAULK / SEAL / etc).
+    //   - Source defaults to "My side notes" so they're distinguishable
+    //     from items pulled out of the 3rd-party report.
+    //   - Inserted at the TOP of the items array so the new item is visible.
+    // ─────────────────────────────────────────────────────────────
+    function openAddNote() {
+      document.getElementById('note-title').value = '';
+      document.getElementById('note-loc').value = '';
+      document.getElementById('note-pri').value = 'normal';
+      document.getElementById('note-src').value = 'My side notes';
+      document.getElementById('add-note-modal').classList.add('show');
+      setTimeout(() => document.getElementById('note-title').focus(), 100);
+    }
+    function closeAddNote() {
+      document.getElementById('add-note-modal').classList.remove('show');
+    }
+    function saveNote() {
+      const title = document.getElementById('note-title').value.trim();
+      const loc   = document.getElementById('note-loc').value.trim();
+      const pri   = document.getElementById('note-pri').value;
+      const src   = document.getElementById('note-src').value.trim() || 'My side notes';
+      if (!title) { showToast('Title is required'); return; }
+      const newItem = {
+        id: 'note_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+        title,
+        summary: '',
+        location: loc,
+        priority: pri,
+        source: src,
+        selected: true,
+        photos: [],
+        voiceIds: [],
+        userAdded: true,
+      };
+      // Run the playbook classifier so trade auto-fills
+      const trades = classifyItemTrades(newItem);
+      newItem.trades = trades;
+      newItem.trade = trades[0];
+      newItem.steps = trades.map(tr => ({ trade: tr, status: 'pending', date: '', notes: '' }));
+      const items = window.__ITEMS;
+      items.unshift(newItem);   // top of list
+      rerenderList(items);
+      closeAddNote();
+      showToast(`Added: ${title.slice(0, 40)}${title.length > 40 ? '…' : ''}`);
+    }
+    window.openAddNote = openAddNote;
+    window.closeAddNote = closeAddNote;
+    window.saveNote = saveNote;
+
+    // ─────────────────────────────────────────────────────────────
+    // SEND-TO-TRADE workflow
+    // ─────────────────────────────────────────────────────────────
+    // Hardcoded sample contacts. In production these come from the
+    // user's contact directory, matched by trade.
+    // For this demo: localStorage 'condenser_contacts_v1' (managed by the
+    // Trades Directory page) is checked FIRST; any matches there override
+    // the samples below. That's how the user's own contacts (added via
+    // pages/Trades Directory.html) flow into the Send-to-trade modal.
+    const SAMPLE_CONTACTS = {
+      'Flooring / Tile':         { name: 'J. Morales',  initials: 'JM', company: 'Pro Tile Co.',     phone: '5125550182', email: 'jm@protile.example' },
+      'Plumbing':                { name: 'B. Pham',     initials: 'BP', company: 'Patriot Plumbing', phone: '',           email: 'bpham@patriotpl.example' },
+      'Electrical':              { name: 'R. Tanaka',   initials: 'RT', company: 'Volt Electric',    phone: '5125550113', email: 'r.tanaka@volt.example' },
+      'Door Hardware':           { name: 'D. Kowalski', initials: 'DK', company: 'Doorworks LLC',    phone: '5125550144', email: 'dk@doorworks.example' },
+      'Painters':                { name: 'M. Alvarez',  initials: 'MA', company: 'A1 Painting',      phone: '5125550161', email: '' },
+      'Trim Carpenter':          { name: 'C. Reilly',   initials: 'CR', company: 'Reilly Trim',      phone: '5125550178', email: '' },
+      'Drywall':                 { name: 'A. Diaz',     initials: 'AD', company: 'D1 Drywall',       phone: '',           email: 'a.diaz@d1drywall.example' },
+      'Cabinets / Countertops':  { name: 'S. Klein',    initials: 'SK', company: 'Klein Cabinets',   phone: '5125550135', email: 'sklein@klein.example' },
+      'Concrete':                { name: 'V. Ortega',   initials: 'VO', company: 'Ortega Concrete',  phone: '5125550190', email: '' },
+      'Cleaners':                { name: 'L. Park',     initials: 'LP', company: 'Sparkle Clean',    phone: '5125550199', email: 'lpark@sparkle.example' },
+      'Roofing':                 { name: 'T. Becerra',  initials: 'TB', company: 'Top Roofing',      phone: '5125550133', email: '' },
+      'Framing / Siding':        { name: 'F. Castro',   initials: 'FC', company: 'Castro Framing',   phone: '5125550155', email: '' },
+    };
+
+    // Returns the best contact for a given trade.
+    // Priority: user-saved contacts (Trades Directory) → built-in samples.
+    function contactForTrade(trade) {
+      try {
+        const userContacts = JSON.parse(localStorage.getItem('condenser_contacts_v1') || '[]');
+        const match = userContacts.find(c => (c.trades || []).includes(trade));
+        if (match) {
+          return {
+            name: match.name,
+            initials: (match.name || '—').split(/\s+/).slice(0, 2).map(s => s[0] || '').join('').toUpperCase(),
+            company: match.company || '',
+            phone: match.phone || '',
+            email: match.email || '',
+            source: 'user',
+          };
+        }
+        // Fallback: any user contact even if trade doesn't match (single-CM testing case)
+        if (userContacts.length) {
+          const fb = userContacts[0];
+          return {
+            name: fb.name,
+            initials: (fb.name || '—').split(/\s+/).slice(0, 2).map(s => s[0] || '').join('').toUpperCase(),
+            company: fb.company || '',
+            phone: fb.phone || '',
+            email: fb.email || '',
+            source: 'user-fallback',
+          };
+        }
+      } catch (e) {}
+      return SAMPLE_CONTACTS[trade] ? { ...SAMPLE_CONTACTS[trade], source: 'sample' } : null;
+    }
+
+    let SS_STATE = { items: [], trades: [], selectedTrade: null, contact: null };
+
+    function openSendSheet(items) {
+      const selected = items.filter(i => i.selected);
+      if (selected.length === 0) {
+        showToast('Select at least one item first');
+        return;
+      }
+      // Build trade map. An item with multiple trades shows up under EACH
+      // of its trades, but with different status:
+      //   - Index 0 (primary) = READY NOW (send ASAP)
+      //   - Index > 0 (secondary) = WAITING ON [previous trade]
+      const tradeMap = {};
+      selected.forEach(it => {
+        const seq = it.trades || [it.trade];
+        seq.forEach((tr, idx) => {
+          if (!tradeMap[tr]) tradeMap[tr] = { ready: [], waiting: [] };
+          if (idx === 0) {
+            tradeMap[tr].ready.push(it);
+          } else {
+            tradeMap[tr].waiting.push({ item: it, waitOn: seq[idx - 1], step: idx + 1, totalSteps: seq.length });
+          }
+        });
+      });
+      // Painters scheduled second-to-last in dependency chains;
+      // Cleaners always last. Sort trade chips so primary work is first.
+      const trades = Object.entries(tradeMap)
+        .map(([trade, group]) => ({ trade, count: group.ready.length + group.waiting.length, ready: group.ready.length, waiting: group.waiting.length, group }))
+        .sort((a, b) => {
+          // Cleaners last, Painters second-to-last
+          if (a.trade === 'Cleaners') return 1;
+          if (b.trade === 'Cleaners') return -1;
+          if (a.trade === 'Painters' && b.trade !== 'Cleaners') return 1;
+          if (b.trade === 'Painters' && a.trade !== 'Cleaners') return -1;
+          // Otherwise, more "ready" items wins
+          return b.ready - a.ready;
+        });
+      SS_STATE = { items: selected, trades, selectedTrade: trades[0].trade, contact: null, tradeMap };
+
+      // Render chips with a small badge if items are waiting
+      const chipBar = document.getElementById('ssheet-trades');
+      chipBar.innerHTML = trades.map(t => {
+        const waitTag = t.waiting > 0 ? `<span style="margin-left:5px; padding:0 4px; background:var(--bc-orange-tint); color:var(--bc-orange); border-radius:2px; font-size:8.5px;">${t.waiting} wait</span>` : '';
+        return `<button class="trade-chip${t.trade === SS_STATE.selectedTrade ? ' on' : ''}" data-trade="${t.trade}">${t.trade}<span class="ct">${t.count}</span>${waitTag}</button>`;
+      }).join('');
+      chipBar.querySelectorAll('.trade-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+          SS_STATE.selectedTrade = btn.dataset.trade;
+          chipBar.querySelectorAll('.trade-chip').forEach(c => c.classList.toggle('on', c.dataset.trade === SS_STATE.selectedTrade));
+          refreshSendSheet();
+        });
+      });
+
+      refreshSendSheet();
+      document.getElementById('ssheet').classList.add('show');
+    }
+
+    function refreshSendSheet() {
+      // Filter items by selected trade
+      const tradeItems = SS_STATE.items.filter(it => it.trade === SS_STATE.selectedTrade);
+      // Set contact card — first try user-saved contacts, then samples
+      const c = contactForTrade(SS_STATE.selectedTrade);
+      SS_STATE.contact = c || null;
+      if (c) {
+        document.getElementById('ssheet-avatar').textContent = c.initials;
+        document.getElementById('ssheet-contact-name').textContent = c.name;
+        const channel = c.phone && c.email ? 'TEXT + EMAIL' : c.phone ? 'TEXT' : c.email ? 'EMAIL' : '—';
+        const tag = c.source === 'user' ? 'your contact'
+                  : c.source === 'user-fallback' ? 'your contact · trade fallback'
+                  : 'SAMPLE';
+        document.getElementById('ssheet-contact-meta').textContent = `${c.company || '—'} · ${channel} · ${tag}`;
+        // Auto-fill the form fields with the contact info (the form is editable)
+        document.getElementById('send-name').value    = c.name;
+        document.getElementById('send-company').value = c.company || '';
+        document.getElementById('send-phone').value   = c.phone ? formatPhone(c.phone) : '';
+        document.getElementById('send-email').value   = c.email || '';
+      } else {
+        document.getElementById('ssheet-avatar').textContent = '—';
+        document.getElementById('ssheet-contact-name').textContent = 'No contact on file';
+        document.getElementById('ssheet-contact-meta').textContent = 'Enter details below to send';
+      }
+
+      // Build preview
+      const preview = buildSendMessage(tradeItems, SS_STATE.selectedTrade);
+      document.getElementById('send-preview').textContent = preview;
+      document.getElementById('send-pv-count').textContent = `(${tradeItems.length} item${tradeItems.length === 1 ? '' : 's'})`;
+
+      updateSendButtons();
+    }
+
+    function formatPhone(raw) {
+      const d = raw.replace(/\D/g, '');
+      if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+      return raw;
+    }
+
+    function buildSendMessage(items, trade) {
+      // For multi-trade items, split into READY (this is the primary trade)
+      // and WAITING (this trade is secondary, depends on a prior trade).
+      const group = (SS_STATE.tradeMap && SS_STATE.tradeMap[trade]) || null;
+      const ready   = group ? group.ready   : items.filter(it => (it.trades || [it.trade])[0] === trade);
+      const waiting = group ? group.waiting : [];
+
+      const lines = [];
+      lines.push(`Punch list — ${trade} — ${SITE_ADDRESS}`);
+      lines.push(`Date: ${new Date().toLocaleDateString()}  ·  Items: ${ready.length + waiting.length}`);
+      lines.push('');
+      if (ready.length) {
+        lines.push(`READY NOW (${ready.length}):`);
+        ready.forEach((it, i) => {
+          const pri = it.priority !== 'normal' ? ` [${it.priority.toUpperCase()}]` : '';
+          const loc = it.location ? ` (${it.location})` : '';
+          lines.push(`${i + 1}. ${it.title}${loc}${pri}`);
+        });
+        lines.push('');
+      }
+      if (waiting.length) {
+        lines.push(`COMING SOON — waiting on prior trade (${waiting.length}):`);
+        waiting.forEach((w, i) => {
+          const it = w.item;
+          const pri = it.priority !== 'normal' ? ` [${it.priority.toUpperCase()}]` : '';
+          const loc = it.location ? ` (${it.location})` : '';
+          lines.push(`${i + 1}. ${it.title}${loc}${pri}  — Step ${w.step}/${w.totalSteps}, after ${w.waitOn}`);
+        });
+        lines.push('');
+      }
+      lines.push('Reply with questions or confirm completion. Thanks.');
+      return lines.join('\n');
+    }
+
+    function updateSendButtons() {
+      const phone = document.getElementById('send-phone').value.replace(/\D/g, '');
+      const email = document.getElementById('send-email').value.trim();
+      const validPhone = phone.length === 10;
+      const validEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      const trade = SS_STATE.selectedTrade;
+      const tradeItems = SS_STATE.items.filter(it => it.trade === trade);
+      const body = buildSendMessage(tradeItems, trade);
+      const subject = `Punch List — ${trade} — ${SITE_ADDRESS}`;
+
+      const emailBtn = document.getElementById('send-email-btn');
+      const smsBtn   = document.getElementById('send-sms-btn');
+
+      if (validEmail) {
+        emailBtn.href = buildEmailUrl(getEmailProvider(), email, subject, body);
+        emailBtn.target = getEmailProvider() === 'default' ? '_self' : '_blank';
+        emailBtn.classList.remove('disabled');
+      } else {
+        emailBtn.href = '#';
+        emailBtn.classList.add('disabled');
+      }
+      if (validPhone) {
+        // iOS uses sms:phone&body=, Android uses sms:phone?body= — universal compatible form:
+        smsBtn.href = `sms:${phone}?&body=${encodeURIComponent(body)}`;
+        smsBtn.classList.remove('disabled');
+      } else {
+        smsBtn.href = '#';
+        smsBtn.classList.add('disabled');
+      }
+
+      // Hints
+      document.getElementById('send-phone-hint').classList.toggle('warn', !validPhone);
+      document.getElementById('send-email-hint').classList.toggle('warn', !validEmail);
+    }
+
+    // Live-update Send buttons as the user types
+    ['send-name', 'send-company', 'send-phone', 'send-email'].forEach(id => {
+      document.getElementById(id).addEventListener('input', updateSendButtons);
+    });
+
+    // Email provider preference — persists across sends
+    const epSel = document.getElementById('email-provider');
+    if (epSel) {
+      epSel.value = getEmailProvider();
+      epSel.addEventListener('change', (e) => {
+        setEmailProvider(e.target.value);
+        updateSendButtons();
+        showToast(`Email via ${e.target.options[e.target.selectedIndex].text}`);
+      });
+    }
+
+    // Wire reset-rules button
+    document.getElementById('reset-rules').addEventListener('click', () => {
+      if (confirm('Clear all learned trade rules? This cannot be undone.')) {
+        localStorage.removeItem(LEARN_KEY);
+        updateLearnedBadge();
+        showToast('Learned rules cleared');
+      }
+    });
+
+    // ─────────────────────────────────────────────────────────────
+    // Photo attachments — per-item, in memory.
+    // ─────────────────────────────────────────────────────────────
+    let LB_STATE = { items: null, itemId: null, photoIdx: -1 };
+
+    function openLightbox(items, itemId, photoIdx) {
+      const it = items.find(i => i.id === itemId);
+      if (!it || !it.photos || !it.photos[photoIdx]) return;
+      LB_STATE = { items, itemId, photoIdx };
+      document.getElementById('lb-image').src = it.photos[photoIdx];
+      document.getElementById('lightbox').classList.add('show');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('show');
+    }
+    window.closeLightbox = closeLightbox;
+
+    document.getElementById('lb-delete').addEventListener('click', (e) => {
+      e.stopPropagation();
+      const { items, itemId, photoIdx } = LB_STATE;
+      if (!items) return;
+      const it = items.find(i => i.id === itemId);
+      if (it && it.photos) {
+        it.photos.splice(photoIdx, 1);
+        closeLightbox();
+        rerenderList(items);
+        showToast('Photo deleted');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+
+    async function addPhotos(items, itemId, files) {
+      const it = items.find(i => i.id === itemId);
+      if (!it) return;
+      if (!it.photos) it.photos = [];
+      let added = 0;
+      for (const f of files) {
+        if (!f.type.startsWith('image/')) continue;
+        // Cap at ~2MB per photo to keep things sane in the demo
+        if (f.size > 4 * 1024 * 1024) {
+          showToast(`Skipped ${f.name} — too large (4MB max)`);
+          continue;
+        }
+        try {
+          const dataUrl = await new Promise((resolve, reject) => {
+            const r = new FileReader();
+            r.onload = () => resolve(r.result);
+            r.onerror = () => reject(r.error);
+            r.readAsDataURL(f);
+          });
+          it.photos.push(dataUrl);
+          added++;
+        } catch (e) { /* skip bad file */ }
+      }
+      rerenderList(items);
+      if (added > 0) showToast(`Added ${added} photo${added === 1 ? '' : 's'}`);
+    }
+
+    // Close handlers
+    document.getElementById('ssheet').addEventListener('click', () => {
+      document.getElementById('ssheet').classList.remove('show');
+    });
+    document.getElementById('ssheet-close').addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('ssheet').classList.remove('show');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') document.getElementById('ssheet').classList.remove('show');
+    });
+
+    // Secondary buttons inside the send sheet
+    document.getElementById('send-copy').addEventListener('click', async () => {
+      const trade = SS_STATE.selectedTrade;
+      const tradeItems = SS_STATE.items.filter(it => it.trade === trade);
+      const body = buildSendMessage(tradeItems, trade);
+      const ok = await copyToClipboard(body);
+      showToast(ok ? `Message copied · ${tradeItems.length} items` : 'Copy failed');
+    });
+    document.getElementById('send-share').addEventListener('click', async () => {
+      const trade = SS_STATE.selectedTrade;
+      const tradeItems = SS_STATE.items.filter(it => it.trade === trade);
+      const body = buildSendMessage(tradeItems, trade);
+      const subject = `Punch List — ${trade} — ${SITE_ADDRESS}`;
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: subject, text: body });
+          showToast('Shared');
+        } catch (e) {
+          // user cancelled — ignore
+        }
+      } else {
+        const ok = await copyToClipboard(body);
+        showToast(ok ? 'Native share unavailable · copied to clipboard instead' : 'Share + copy both failed');
+      }
+    });
+  </script>
+
+  <!-- ─── Bottom bar (sticky nav) ─── -->
+  <nav class="bottombar">
+    <a href="The Condenser Home.html">Home</a>
+    <a href="Trades Directory.html">Trades</a>
+    <a href="The Condenser Home.html" onclick="sessionStorage.setItem('open_archive','1')">Archive</a>
+    <a class="primary" href="#" onclick="event.preventDefault(); openAddNote();">＋ Add note</a>
+  </nav>
+
+  <script>
+    // Mark this report archived and return to the home page (which auto-opens the archive)
+    function markReportComplete() {
+      if (!confirm('Mark this punch list complete and move it to Archive?')) return;
+      try {
+        const reports = JSON.parse(localStorage.getItem('condenser_reports_v1') || '[]');
+        let r = reports.find(x => x.id === 'r_madelines_demo');
+        if (!r) {
+          r = {
+            id: 'r_madelines_demo',
+            folderId: 'f_active',
+            address: '516 Madelines Meadow Ln',
+            source: 'TREC REI 7-6 · Super Inspector',
+            path: 'Inspection Test - 516 Madelines Meadow.html',
+            createdAt: '2026-03-09T09:00:00.000Z',
+          };
+          reports.push(r);
+        }
+        r.status = 'archived';
+        r.archivedAt = new Date().toISOString();
+        localStorage.setItem('condenser_reports_v1', JSON.stringify(reports));
+        sessionStorage.setItem('open_archive', '1');
+        window.location.href = 'The Condenser Home.html';
+      } catch (e) {
+        alert('Could not save status. ' + e);
+      }
+    }
+    window.markReportComplete = markReportComplete;
+
+    // Flash the "Auto-saved" indicator whenever localStorage gets written
+    let _saveTimer = null;
+    function flashSaved() {
+      const ind = document.getElementById('saved-indicator');
+      if (!ind) return;
+      ind.textContent = 'Saving…';
+      clearTimeout(_saveTimer);
+      _saveTimer = setTimeout(() => { ind.textContent = 'Auto-saved'; }, 600);
+    }
+    const _set = localStorage.setItem.bind(localStorage);
+    localStorage.setItem = function (k, v) { _set(k, v); flashSaved(); };
+  </script>
+</body>
+</html>

@@ -1,0 +1,848 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Trades Directory — The Condenser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); }
+
+    .page { max-width: 1080px; margin: 0 auto; padding: 32px 28px 80px; }
+
+    /* HEADER */
+    .lead { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+    .lead .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lead .eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+    .lead h1 { font-family: var(--font-display); font-weight: 900; font-size: 36px; letter-spacing: -0.03em; line-height: 1; margin: 12px 0 8px; }
+    .lead p { font-size: 14.5px; color: var(--bc-ink-2); margin: 0; max-width: 580px; line-height: 1.55; }
+    .lead a.back {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--bc-ink); text-decoration: underline; text-underline-offset: 3px;
+    }
+
+    .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; align-items: start; }
+    @media (max-width: 880px) { .stage { grid-template-columns: 1fr; } }
+
+    /* CARDS */
+    .card {
+      background: var(--bc-paper); border: 2px solid var(--bc-ink);
+      border-radius: var(--r-4); box-shadow: 3px 3px 0 0 var(--bc-ink);
+      padding: 22px 24px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+    .card h2 {
+      font-family: var(--font-display); font-weight: 800; font-size: 22px;
+      letter-spacing: -0.025em; margin: 0;
+    }
+    .card p.sub { font-size: 13.5px; color: var(--bc-ink-2); margin: 0; line-height: 1.5; }
+
+    /* FORM */
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 540px) { .form-grid { grid-template-columns: 1fr; } }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field.full { grid-column: 1 / -1; }
+    .field label {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10px;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink);
+    }
+    .field input, .field select {
+      width: 100%; height: 42px; padding: 0 12px;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      font-family: var(--font-body); font-size: 14px; outline: none;
+    }
+    .field input:focus, .field select:focus { box-shadow: 0 0 0 3px var(--bc-orange-tint); border-color: var(--bc-ink); }
+    .field input::placeholder { color: var(--bc-ink-4); }
+    .field .hint { font-family: var(--font-mono); font-size: 9px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3); margin-top: 2px; }
+
+    .seg { display: flex; gap: 0; border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2); overflow: hidden; height: 42px; }
+    .seg button {
+      flex: 1; border: 0; cursor: pointer;
+      border-right: 1.5px solid var(--bc-line-strong);
+      background: var(--bc-paper); color: var(--bc-ink-3);
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .seg button:last-child { border-right: 0; }
+    .seg button.on { background: var(--bc-ink); color: var(--bc-paper); }
+
+    .submit-row { display: flex; gap: 10px; margin-top: 4px; }
+    .btn-primary {
+      flex: 1; height: 48px; padding: 0 18px; cursor: pointer;
+      background: var(--bc-orange); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 3px 3px 0 0 var(--bc-ink);
+      font-family: var(--font-body); font-weight: 700; font-size: 14.5px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    }
+    .btn-primary[disabled] { opacity: 0.4; pointer-events: none; box-shadow: none; }
+    .btn-ghost {
+      height: 48px; padding: 0 16px; cursor: pointer;
+      background: transparent; color: var(--bc-ink-2);
+      border: 1.5px solid var(--bc-line); border-radius: var(--r-2);
+      font-family: var(--font-body); font-weight: 600; font-size: 13.5px;
+    }
+
+    /* CONTACTS LIST */
+    .contacts-meta {
+      display: flex; align-items: center; justify-content: space-between;
+      font-family: var(--font-mono); font-weight: 600; font-size: 10.5px;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+    .contacts-meta .n { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: var(--bc-ink); margin-right: 4px; }
+    .contact-list { display: flex; flex-direction: column; gap: 8px; max-height: 560px; overflow-y: auto; }
+    .contact-row {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 12px 12px;
+      background: var(--bc-paper); border: 1.5px solid var(--bc-line-strong);
+      border-radius: var(--r-2);
+    }
+    .contact-row .avatar {
+      width: 38px; height: 38px; border-radius: 999px; flex-shrink: 0;
+      background: var(--bc-orange); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-weight: 700; font-size: 12px;
+    }
+    .contact-row .avatar.you { background: var(--bc-ink); }
+    .contact-row .body { flex: 1; min-width: 0; }
+    .contact-row .name {
+      font-family: var(--font-display); font-weight: 700; font-size: 15px;
+      letter-spacing: -0.015em; color: var(--bc-ink);
+    }
+    .contact-row .role-pill {
+      display: inline-block; margin-left: 6px;
+      font-family: var(--font-mono); font-weight: 700; font-size: 9px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 1px 6px; border-radius: var(--r-2);
+      border: 1.5px solid var(--bc-orange); background: var(--bc-orange-tint); color: var(--bc-orange);
+    }
+    .contact-row .meta {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+      margin-top: 2px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .contact-row .chips { display: flex; gap: 4px; margin-top: 6px; flex-wrap: wrap; }
+    .chip {
+      font-family: var(--font-mono); font-weight: 600; font-size: 9.5px;
+      letter-spacing: 0.03em; text-transform: uppercase;
+      padding: 2px 6px; border-radius: var(--r-2);
+      border: 1.5px solid var(--bc-line); background: var(--bc-paper-2); color: var(--bc-ink);
+    }
+    .chip.channel { color: var(--bc-orange); border-color: var(--bc-orange); background: var(--bc-orange-tint); }
+    .contact-row .actions { display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+    .icon-btn {
+      width: 30px; height: 30px; padding: 0; cursor: pointer;
+      background: var(--bc-paper); border: 1.5px solid var(--bc-line);
+      border-radius: var(--r-2); display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-weight: 700; font-size: 12px; color: var(--bc-ink-3);
+    }
+    .icon-btn:hover { border-color: var(--bc-ink); color: var(--bc-ink); }
+    .icon-btn.danger:hover { border-color: var(--bc-red); color: var(--bc-red); }
+
+    /* EMPTY STATE */
+    .empty {
+      padding: 32px 18px; text-align: center;
+      border: 2px dashed var(--bc-line-strong); border-radius: var(--r-4);
+      background: var(--bc-paper);
+    }
+    .empty h3 { font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: -0.015em; margin: 0 0 4px; }
+    .empty p { font-size: 12.5px; color: var(--bc-ink-2); margin: 0; }
+
+    /* TOAST */
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      padding: 12px 16px; background: var(--bc-ink); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 4px 4px 0 0 var(--bc-orange);
+      font-family: var(--font-body); font-weight: 600; font-size: 13.5px;
+      z-index: 100; display: none;
+    }
+    .toast.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <div class="lead">
+      <div>
+        <div class="eyebrow">Trades · Contacts directory</div>
+        <h1>Add your contacts</h1>
+        <p>Add anyone you'd send a punch list to — yourself, your brother, a trade partner, an inspector. Contacts you save here are wired into the <b>Send to trade</b> flow on the Inspection Test page so you can really test SMS + email delivery.</p>
+        <a class="back" href="Inspection Test - 516 Madelines Meadow.html">← Back to Inspection Test</a>
+      </div>
+    </div>
+
+    <div class="stage">
+
+      <!-- LEFT: Add form -->
+      <div class="card">
+        <h2>Add a contact</h2>
+        <p class="sub">Required: name + at least one of phone or email.</p>
+
+        <form id="contact-form" autocomplete="off" onsubmit="event.preventDefault(); saveContact();">
+          <div class="form-grid">
+            <div class="field">
+              <label for="c-name">Name</label>
+              <input id="c-name" type="text" placeholder="e.g. Paige" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label for="c-company">Company (optional)</label>
+              <input id="c-company" type="text" placeholder="e.g. BuildCore" autocomplete="organization">
+            </div>
+            <div class="field">
+              <label for="c-role">Role</label>
+              <select id="c-role">
+                <option value="">— none —</option>
+                <option>Owner</option>
+                <option>Project Manager</option>
+                <option>Field Supervisor</option>
+                <option>Foreman</option>
+                <option>Crew Lead</option>
+                <option>You</option>
+                <option>Family</option>
+                <option>Inspector</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="c-trade">Trade</label>
+              <select id="c-trade"></select>
+            </div>
+            <div class="field">
+              <label for="c-phone">Mobile (for SMS)</label>
+              <input id="c-phone" type="tel" placeholder="(555) 123-4567" inputmode="tel" autocomplete="tel">
+              <div class="hint">10 digits · for the Text button</div>
+            </div>
+            <div class="field">
+              <label for="c-email">Email</label>
+              <input id="c-email" type="email" placeholder="name@example.com" autocomplete="email">
+              <div class="hint">For the Email button</div>
+            </div>
+            <div class="field full">
+              <label>Preferred channel</label>
+              <div class="seg" id="c-channel" role="tablist">
+                <button type="button" data-channel="text" class="on">Text</button>
+                <button type="button" data-channel="email">Email</button>
+                <button type="button" data-channel="both">Both</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="submit-row">
+            <button type="submit" class="btn-primary" id="c-submit">＋ Save contact</button>
+            <button type="button" class="btn-ghost" onclick="resetForm()">Clear</button>
+          </div>
+        </form>
+
+        <!-- ──────── Manage Trades ──────── -->
+        <div style="margin-top: 8px; padding-top: 18px; border-top: 1.5px solid var(--bc-line); display: flex; flex-direction: column; gap: 10px;">
+          <div>
+            <h2 style="margin: 0;">Manage trades</h2>
+            <p class="sub" style="margin-top: 4px;">Add your named trade partners (e.g. "Leander 3T 2") or remove built-ins you never use. Changes appear in the trade dropdown across the app.</p>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr auto; gap: 8px;">
+            <input id="t-name" type="text" placeholder="e.g. Smith &amp; Sons Roofing" autocomplete="off" style="height: 42px; padding: 0 12px; background: var(--bc-paper); color: var(--bc-ink); border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2); font-family: var(--font-body); font-size: 14px; outline: none;">
+            <button type="button" onclick="addTrade()" style="height: 42px; padding: 0 14px; cursor: pointer; background: var(--bc-orange); color: var(--bc-paper); border: 2px solid var(--bc-ink); border-radius: var(--r-2); box-shadow: 2px 2px 0 0 var(--bc-ink); font-family: var(--font-body); font-weight: 700; font-size: 13px;">＋ Add trade</button>
+          </div>
+
+          <div id="trades-list" style="display: flex; flex-direction: column; gap: 4px; max-height: 240px; overflow-y: auto;"></div>
+
+          <div style="display: flex; gap: 8px;">
+            <button type="button" onclick="resetTradesToDefault()" style="flex: 1; height: 36px; padding: 0 12px; cursor: pointer; background: transparent; color: var(--bc-ink-2); border: 1.5px solid var(--bc-line); border-radius: var(--r-2); font-family: var(--font-mono); font-weight: 600; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;">Reset to defaults</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Contacts list -->
+      <div class="card">
+        <div class="contacts-meta">
+          <span><span class="n" id="contacts-count">0</span>contacts saved</span>
+          <button class="icon-btn danger" id="clear-all" title="Remove all contacts" style="width: auto; padding: 0 10px; font-size: 10px; letter-spacing: 0.05em; text-transform: uppercase;">Clear all</button>
+        </div>
+        <div id="contacts-region"></div>
+      </div>
+
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <!-- ──────── Import contacts from a photo or file ──────── -->
+    <div class="card" style="margin-top: 24px;">
+      <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap;">
+        <div>
+          <h2 style="margin: 0;">Import contacts</h2>
+          <p class="sub" style="margin-top: 4px;">Upload a photo of your existing contact list (paper, screenshot, business cards) or a CSV / text file. We extract each contact into an editable table — you fix anything wrong, then save them all.</p>
+        </div>
+        <label class="btn-primary" style="cursor: pointer; padding: 0 18px; height: 44px; display: inline-flex; align-items: center; gap: 8px; flex-shrink: 0;">
+          ＋ Choose file or photo
+          <input type="file" id="import-file" accept="image/*,.csv,.txt,.tsv" style="display: none;">
+        </label>
+      </div>
+
+      <div id="import-status" style="font-family: var(--font-mono); font-size: 11px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3); padding: 6px 0;"></div>
+
+      <div id="import-preview"></div>
+
+      <style>
+        .import-table-wrap { overflow-x: auto; border: 2px solid var(--bc-ink); border-radius: var(--r-2); margin-top: 8px; }
+        table.import-table { width: 100%; border-collapse: collapse; font-family: var(--font-body); font-size: 12.5px; }
+        table.import-table thead { background: var(--bc-ink); color: var(--bc-paper); }
+        table.import-table th {
+          padding: 8px 10px; text-align: left;
+          font-family: var(--font-mono); font-weight: 700; font-size: 9.5px;
+          letter-spacing: 0.06em; text-transform: uppercase;
+          border-right: 1.5px solid rgba(250,250,247,0.18);
+        }
+        table.import-table th:last-child { border-right: 0; }
+        table.import-table td {
+          padding: 6px 10px;
+          border-right: 1.5px solid var(--bc-line);
+          border-bottom: 1.5px solid var(--bc-line);
+          background: var(--bc-paper);
+        }
+        table.import-table td:last-child { border-right: 0; }
+        table.import-table tr:last-child td { border-bottom: 0; }
+        table.import-table td[contenteditable] { cursor: text; min-height: 30px; }
+        table.import-table td[contenteditable]:focus { background: var(--bc-orange-tint); outline: 1.5px solid var(--bc-orange); outline-offset: -2px; }
+        table.import-table select { width: 100%; min-width: 140px; height: 28px; padding: 0 6px; border: 1.5px solid var(--bc-line); border-radius: var(--r-2); background: var(--bc-paper); font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; }
+        table.import-table .del-row {
+          width: 28px; height: 28px; padding: 0; cursor: pointer;
+          background: var(--bc-paper); border: 1.5px solid var(--bc-line);
+          border-radius: var(--r-2); font-family: var(--font-mono); font-weight: 700; font-size: 12px; color: var(--bc-ink-3);
+        }
+        table.import-table .del-row:hover { color: var(--bc-red); border-color: var(--bc-red); }
+        .import-actions { display: flex; gap: 8px; margin-top: 10px; }
+        .import-actions button { height: 44px; }
+      </style>
+    </div>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // Storage
+    //   condenser_contacts_v1 = [
+    //     { id, name, company, role, trades: [...], phone, email, channel }
+    //   ]
+    // Same store the Send-to-trade modal reads from on the Inspection Test page.
+    // ─────────────────────────────────────────────────────────────
+    const STORE = 'condenser_contacts_v1';
+    const TRADES_STORE = 'condenser_trades_v1';
+    const DEFAULT_TRADES = [
+      'Painters', 'Trim Carpenter', 'Flooring / Tile', 'Plumbing',
+      'HVAC', 'Door Hardware', 'Drywall', 'Concrete', 'Framing / Siding', 'Windows',
+      'Garage', 'Garage Door', 'Cleaners', 'Landscaping / Irrigation', 'Gutters',
+      'Electrical', 'Roofing', 'Insulation', 'Appliances', 'Cabinets / Countertops',
+      'Leander 3T 2', 'Mirrors / Shower Glass', 'Stucco / Plastering', 'Fencing',
+      'Pest Control', 'Uncategorized',
+    ];
+
+    function loadTrades() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(TRADES_STORE) || 'null');
+        if (Array.isArray(saved) && saved.length) return saved;
+      } catch (e) {}
+      return [...DEFAULT_TRADES];
+    }
+    function saveTradesList(arr) {
+      localStorage.setItem(TRADES_STORE, JSON.stringify(arr));
+      // Also expose via the legacy key so the Inspection Test page sees changes
+      localStorage.setItem('condenser_trades_master_v1', JSON.stringify(arr));
+    }
+    let TRADES = loadTrades();
+
+    function addTrade() {
+      const input = document.getElementById('t-name');
+      const name = (input.value || '').trim();
+      if (!name) { toast('Type a trade name first'); return; }
+      if (TRADES.some(t => t.toLowerCase() === name.toLowerCase())) {
+        toast('That trade is already in the list');
+        return;
+      }
+      TRADES.push(name);
+      saveTradesList(TRADES);
+      input.value = '';
+      renderTrades();
+      refillTradeSelect();
+      toast(`Added: ${name}`);
+    }
+    function removeTrade(name) {
+      if (name === 'Uncategorized') { toast('Uncategorized is required'); return; }
+      // Check if any saved contact uses this trade
+      const used = loadContacts().filter(c => (c.trades || []).includes(name));
+      const msg = used.length
+        ? `Remove "${name}"? ${used.length} contact${used.length === 1 ? '' : 's'} reference${used.length === 1 ? 's' : ''} this trade.`
+        : `Remove "${name}" from your trades list?`;
+      if (!confirm(msg)) return;
+      TRADES = TRADES.filter(t => t !== name);
+      saveTradesList(TRADES);
+      renderTrades();
+      refillTradeSelect();
+      toast(`Removed: ${name}`);
+    }
+    function renameTrade(oldName) {
+      if (oldName === 'Uncategorized') { toast('Uncategorized cannot be renamed'); return; }
+      const newName = prompt(`Rename "${oldName}" to:`, oldName);
+      if (newName === null) return;
+      const trimmed = newName.trim();
+      if (!trimmed || trimmed === oldName) return;
+      if (TRADES.some(t => t.toLowerCase() === trimmed.toLowerCase() && t !== oldName)) {
+        toast('A trade with that name already exists');
+        return;
+      }
+      const idx = TRADES.indexOf(oldName);
+      if (idx === -1) return;
+      TRADES[idx] = trimmed;
+      saveTradesList(TRADES);
+      // Update any contacts using the old name
+      const contacts = loadContacts();
+      contacts.forEach(c => {
+        if (c.trades) c.trades = c.trades.map(t => t === oldName ? trimmed : t);
+      });
+      saveContacts(contacts);
+      renderTrades();
+      refillTradeSelect();
+      render();
+      toast(`Renamed: ${oldName} → ${trimmed}`);
+    }
+    function resetTradesToDefault() {
+      if (!confirm('Reset trades list to the BuildCore defaults? Custom trades you added will be removed.')) return;
+      TRADES = [...DEFAULT_TRADES];
+      saveTradesList(TRADES);
+      renderTrades();
+      refillTradeSelect();
+      toast('Trades reset to defaults');
+    }
+    function renderTrades() {
+      const list = document.getElementById('trades-list');
+      const custom = TRADES.filter(t => !DEFAULT_TRADES.includes(t));
+      const builtin = TRADES.filter(t => DEFAULT_TRADES.includes(t));
+      list.innerHTML = (custom.length ? [
+        `<div style="font-family: var(--font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-orange); padding: 4px 0 2px;">Yours · ${custom.length}</div>`,
+        ...custom.map(tradeRow),
+      ] : []).concat([
+        `<div style="font-family: var(--font-mono); font-size: 9.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink-3); padding: 6px 0 2px; margin-top: ${custom.length ? '4px' : '0'};">Built-in · ${builtin.length}</div>`,
+        ...builtin.map(tradeRow),
+      ]).join('');
+    }
+    function tradeRow(name) {
+      const isCustom = !DEFAULT_TRADES.includes(name);
+      const safe = escape(name);
+      return `
+        <div style="display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--bc-paper); border: 1.5px solid ${isCustom ? 'var(--bc-orange)' : 'var(--bc-line)'}; border-radius: var(--r-2);">
+          <span style="flex: 1; min-width: 0; font-family: var(--font-mono); font-weight: 600; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--bc-ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${safe}${isCustom ? ' <span style="color: var(--bc-orange); font-size: 9px; margin-left: 4px;">CUSTOM</span>' : ''}</span>
+          <button type="button" onclick="renameTrade('${safe.replace(/'/g, "\\'")}')" style="width: 28px; height: 28px; padding: 0; cursor: pointer; background: var(--bc-paper); border: 1.5px solid var(--bc-line); border-radius: var(--r-2); font-family: var(--font-mono); font-weight: 700; font-size: 11px; color: var(--bc-ink-3); flex-shrink: 0;" title="Rename">✎</button>
+          <button type="button" onclick="removeTrade('${safe.replace(/'/g, "\\'")}')" style="width: 28px; height: 28px; padding: 0; cursor: pointer; background: var(--bc-paper); border: 1.5px solid var(--bc-line); border-radius: var(--r-2); font-family: var(--font-mono); font-weight: 700; font-size: 12px; color: var(--bc-ink-3); flex-shrink: 0;" title="Remove">×</button>
+        </div>
+      `;
+    }
+    function refillTradeSelect() {
+      const sel = document.getElementById('c-trade');
+      const prev = sel.value;
+      sel.innerHTML = TRADES.map(t => `<option>${t}</option>`).join('');
+      if (TRADES.includes(prev)) sel.value = prev;
+    }
+    // expose for inline onclick
+    window.addTrade = addTrade;
+    window.removeTrade = removeTrade;
+    window.renameTrade = renameTrade;
+    window.resetTradesToDefault = resetTradesToDefault;
+    let CHANNEL = 'text';
+
+    function loadContacts() {
+      try { return JSON.parse(localStorage.getItem(STORE) || '[]'); }
+      catch (e) { return []; }
+    }
+    function saveContacts(arr) {
+      localStorage.setItem(STORE, JSON.stringify(arr));
+    }
+    function initials(name) {
+      return name.trim().split(/\s+/).slice(0, 2).map(s => s[0] || '').join('').toUpperCase() || '—';
+    }
+    function formatPhone(raw) {
+      const d = (raw || '').replace(/\D/g, '');
+      if (d.length === 10) return `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+      return raw;
+    }
+
+    // ─── Populate the Trade select + render the trades list ────
+    refillTradeSelect();
+    document.getElementById('c-trade').value = 'Plumbing';
+    renderTrades();
+
+    // ─── Channel segmented control ─────────────────────────────
+    document.querySelectorAll('#c-channel button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#c-channel button').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        CHANNEL = btn.dataset.channel;
+      });
+    });
+
+    // ─── Save / render ─────────────────────────────────────────
+    function saveContact() {
+      const name    = document.getElementById('c-name').value.trim();
+      const company = document.getElementById('c-company').value.trim();
+      const role    = document.getElementById('c-role').value;
+      const trade   = document.getElementById('c-trade').value;
+      const phoneRaw= document.getElementById('c-phone').value.trim();
+      const email   = document.getElementById('c-email').value.trim();
+      const phone   = phoneRaw.replace(/\D/g, '');
+
+      if (!name) { toast('Name is required'); return; }
+      if (!phone && !email) { toast('Need at least a phone OR an email'); return; }
+      if (phone && phone.length !== 10) { toast('Phone must be 10 digits'); return; }
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { toast('Email looks invalid'); return; }
+
+      const contacts = loadContacts();
+      contacts.push({
+        id: 'c_' + Date.now(),
+        name, company, role,
+        trades: [trade],
+        phone, email,
+        channel: CHANNEL,
+        createdAt: new Date().toISOString(),
+      });
+      saveContacts(contacts);
+      toast(`Saved · ${name}`);
+      resetForm();
+      render();
+    }
+
+    function resetForm() {
+      document.getElementById('contact-form').reset();
+      document.getElementById('c-trade').value = 'Plumbing';
+      document.querySelectorAll('#c-channel button').forEach(b => b.classList.toggle('on', b.dataset.channel === 'text'));
+      CHANNEL = 'text';
+      document.getElementById('c-name').focus();
+    }
+
+    function removeContact(id) {
+      const contacts = loadContacts().filter(c => c.id !== id);
+      saveContacts(contacts);
+      toast('Contact removed');
+      render();
+    }
+
+    document.getElementById('clear-all').addEventListener('click', () => {
+      if (!loadContacts().length) return;
+      if (confirm('Remove ALL saved contacts? This cannot be undone.')) {
+        localStorage.removeItem(STORE);
+        toast('All contacts cleared');
+        render();
+      }
+    });
+
+    function render() {
+      const contacts = loadContacts();
+      document.getElementById('contacts-count').textContent = contacts.length;
+      const region = document.getElementById('contacts-region');
+
+      if (!contacts.length) {
+        region.innerHTML = `
+          <div class="empty">
+            <h3>No contacts yet</h3>
+            <p>Add yourself first — name, your phone, channel "Text" — and try sending a punch list to yourself from the Inspection Test page.</p>
+          </div>`;
+        return;
+      }
+
+      region.innerHTML = `<div class="contact-list">${contacts.map(c => contactRow(c)).join('')}</div>`;
+      region.querySelectorAll('[data-remove]').forEach(btn => {
+        btn.addEventListener('click', () => removeContact(btn.dataset.remove));
+      });
+    }
+
+    function contactRow(c) {
+      const youish = (c.role === 'You' || c.role === 'Family');
+      const channelLabel = c.channel === 'both' ? 'Text + Email' : c.channel === 'email' ? 'Email' : 'Text';
+      const phoneFmt = c.phone ? formatPhone(c.phone) : '';
+      const safeMeta = [c.company, phoneFmt, c.email].filter(Boolean).join(' · ');
+      return `
+        <div class="contact-row">
+          <div class="avatar ${youish ? 'you' : ''}">${initials(c.name)}</div>
+          <div class="body">
+            <div class="name">${escape(c.name)}${c.role ? `<span class="role-pill">${escape(c.role)}</span>` : ''}</div>
+            <div class="meta">${escape(safeMeta || '— no contact info —')}</div>
+            <div class="chips">
+              ${(c.trades || []).map(t => `<span class="chip">${escape(t)}</span>`).join('')}
+              <span class="chip channel">${channelLabel}</span>
+            </div>
+          </div>
+          <div class="actions">
+            <button class="icon-btn danger" data-remove="${c.id}" title="Remove">✕</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function escape(s) {
+      return String(s || '').replace(/[<>&"']/g, ch => ({
+        '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'
+      }[ch]));
+    }
+
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2200);
+    }
+
+    // ─── Format phone as user types ─────────────────────────────
+    document.getElementById('c-phone').addEventListener('input', (e) => {
+      const d = e.target.value.replace(/\D/g, '').slice(0, 10);
+      if (d.length === 0) { e.target.value = ''; return; }
+      if (d.length <= 3) e.target.value = `(${d}`;
+      else if (d.length <= 6) e.target.value = `(${d.slice(0,3)}) ${d.slice(3)}`;
+      else e.target.value = `(${d.slice(0,3)}) ${d.slice(3,6)}-${d.slice(6)}`;
+    });
+
+    render();
+
+    // ─────────────────────────────────────────────────────────────
+    // IMPORT — photo / CSV / text → editable table → bulk save
+    // ─────────────────────────────────────────────────────────────
+    let IMPORT_ROWS = [];
+
+    function setImportStatus(msg) { document.getElementById('import-status').textContent = msg || ''; }
+
+    document.getElementById('import-file').addEventListener('change', async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      setImportStatus(`Reading ${file.name}…`);
+      document.getElementById('import-preview').innerHTML = '';
+      try {
+        let rows;
+        if (file.type.startsWith('image/')) {
+          rows = await extractFromImage(file);
+        } else if (/\.csv$|\.tsv$/i.test(file.name) || file.type === 'text/csv') {
+          rows = await extractFromCsv(file);
+        } else {
+          rows = await extractFromText(file);
+        }
+        if (!rows || !rows.length) {
+          setImportStatus('No contacts found in this file.');
+          return;
+        }
+        setImportStatus(`Found ${rows.length} contact${rows.length === 1 ? '' : 's'} · review and save below.`);
+        showImportPreview(rows);
+      } catch (err) {
+        setImportStatus(`Couldn't parse this file: ${err.message || err}`);
+      } finally {
+        e.target.value = '';
+      }
+    });
+
+    async function extractFromImage(file) {
+      setImportStatus('Reading photo with AI…');
+      const dataUrl = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.onerror = () => reject(r.error);
+        r.readAsDataURL(file);
+      });
+      const base64 = dataUrl.split(',')[1];
+      const prompt = `Extract every trade partner / contractor contact visible in this image. Return ONLY a valid JSON array — no prose, no markdown, no code fences. Each object must have these keys (use empty string when unknown): name, company, role, trade, phone (digits only), email. Trade should match one of these where possible: ${TRADES.join(', ')}. If a phone has a country code prefix, drop it and keep only the 10-digit US number when possible.
+
+Example output: [{"name":"John Doe","company":"ABC Plumbing","role":"Owner","trade":"Plumbing","phone":"5551234567","email":"john@abc.com"}]`;
+      const resp = await window.claude.complete({
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: file.type, data: base64 } },
+            { type: 'text', text: prompt },
+          ],
+        }],
+      });
+      return parseJsonResponse(resp);
+    }
+
+    async function extractFromCsv(file) {
+      const text = await file.text();
+      const sep = /\t/.test(text.split('\n')[0]) ? '\t' : ',';
+      const lines = text.split(/\r?\n/).filter(l => l.trim());
+      if (!lines.length) return [];
+      // Lowercase headers for matching
+      const headers = splitCsvLine(lines[0], sep).map(h => h.toLowerCase().trim());
+      const find = (...names) => { for (const n of names) { const i = headers.findIndex(h => h.includes(n)); if (i >= 0) return i; } return -1; };
+      const map = {
+        name: find('name', 'contact'),
+        company: find('company', 'org', 'firm'),
+        role: find('role', 'title', 'position'),
+        trade: find('trade', 'category', 'type'),
+        phone: find('phone', 'mobile', 'cell', 'tel'),
+        email: find('email', 'mail'),
+      };
+      return lines.slice(1).map(line => {
+        const cells = splitCsvLine(line, sep);
+        const get = (key) => map[key] >= 0 ? (cells[map[key]] || '').trim() : '';
+        return {
+          name: get('name'),
+          company: get('company'),
+          role: get('role'),
+          trade: matchTrade(get('trade')),
+          phone: get('phone').replace(/\D/g, '').slice(-10),
+          email: get('email').toLowerCase(),
+        };
+      }).filter(r => r.name);
+    }
+    function splitCsvLine(line, sep) {
+      const out = []; let cur = ''; let inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+        else if (c === '"') inQ = !inQ;
+        else if (c === sep && !inQ) { out.push(cur); cur = ''; }
+        else cur += c;
+      }
+      out.push(cur);
+      return out.map(s => s.replace(/^"|"$/g, ''));
+    }
+    function matchTrade(raw) {
+      if (!raw) return 'Uncategorized';
+      const exact = TRADES.find(t => t.toLowerCase() === raw.toLowerCase());
+      if (exact) return exact;
+      const partial = TRADES.find(t => t.toLowerCase().includes(raw.toLowerCase()) || raw.toLowerCase().includes(t.toLowerCase()));
+      return partial || 'Uncategorized';
+    }
+
+    async function extractFromText(file) {
+      const text = await file.text();
+      setImportStatus('Reading with AI…');
+      const prompt = `Extract every trade partner / contractor contact from this text. Return ONLY a valid JSON array — no prose, no markdown, no code fences. Each object must have these keys (use empty string when unknown): name, company, role, trade, phone (digits only), email.
+
+Trade should match one of: ${TRADES.join(', ')}.
+
+Text:
+${text}`;
+      const resp = await window.claude.complete(prompt);
+      return parseJsonResponse(resp);
+    }
+
+    function parseJsonResponse(text) {
+      let s = String(text || '').trim();
+      const fence = s.match(/```(?:json)?\s*([\s\S]*?)```/);
+      if (fence) s = fence[1].trim();
+      const start = s.indexOf('[');
+      const end = s.lastIndexOf(']');
+      if (start >= 0 && end > start) s = s.slice(start, end + 1);
+      const parsed = JSON.parse(s);
+      if (!Array.isArray(parsed)) throw new Error('AI returned non-array');
+      // Normalize keys + match trade to canonical list
+      return parsed.map(r => ({
+        name: String(r.name || '').trim(),
+        company: String(r.company || '').trim(),
+        role: String(r.role || '').trim(),
+        trade: matchTrade(String(r.trade || '')),
+        phone: String(r.phone || '').replace(/\D/g, '').slice(-10),
+        email: String(r.email || '').trim().toLowerCase(),
+      })).filter(r => r.name);
+    }
+
+    function showImportPreview(rows) {
+      IMPORT_ROWS = rows;
+      const region = document.getElementById('import-preview');
+      region.innerHTML = `
+        <div class="import-table-wrap">
+          <table class="import-table">
+            <thead><tr>
+              <th style="width:18%">Name</th>
+              <th style="width:18%">Company</th>
+              <th style="width:13%">Role</th>
+              <th style="width:18%">Trade</th>
+              <th style="width:14%">Phone</th>
+              <th style="width:19%">Email</th>
+              <th style="width:40px"></th>
+            </tr></thead>
+            <tbody>${rows.map(rowHtml).join('')}</tbody>
+          </table>
+        </div>
+        <div class="import-actions">
+          <button class="btn-primary" onclick="saveImported()">＋ Save ${rows.length} contact${rows.length === 1 ? '' : 's'}</button>
+          <button class="btn-ghost" onclick="cancelImport()">Cancel</button>
+        </div>
+      `;
+      wireImportRows();
+    }
+    function rowHtml(r, i) {
+      const tradeOptions = TRADES.map(t => `<option${t === r.trade ? ' selected' : ''}>${t}</option>`).join('');
+      return `
+        <tr data-row="${i}">
+          <td contenteditable="true" data-field="name">${escape(r.name)}</td>
+          <td contenteditable="true" data-field="company">${escape(r.company)}</td>
+          <td contenteditable="true" data-field="role">${escape(r.role)}</td>
+          <td><select data-field="trade">${tradeOptions}</select></td>
+          <td contenteditable="true" data-field="phone">${escape(r.phone)}</td>
+          <td contenteditable="true" data-field="email">${escape(r.email)}</td>
+          <td><button class="del-row" data-del="${i}" title="Remove">×</button></td>
+        </tr>
+      `;
+    }
+    function wireImportRows() {
+      const region = document.getElementById('import-preview');
+      region.querySelectorAll('[contenteditable]').forEach(td => {
+        td.addEventListener('blur', () => {
+          const idx = parseInt(td.closest('tr').dataset.row);
+          IMPORT_ROWS[idx][td.dataset.field] = td.textContent.trim();
+        });
+      });
+      region.querySelectorAll('select[data-field="trade"]').forEach(sel => {
+        sel.addEventListener('change', () => {
+          const idx = parseInt(sel.closest('tr').dataset.row);
+          IMPORT_ROWS[idx].trade = sel.value;
+        });
+      });
+      region.querySelectorAll('[data-del]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          IMPORT_ROWS.splice(parseInt(btn.dataset.del), 1);
+          if (IMPORT_ROWS.length === 0) cancelImport();
+          else showImportPreview(IMPORT_ROWS);
+        });
+      });
+    }
+    function cancelImport() {
+      IMPORT_ROWS = [];
+      document.getElementById('import-preview').innerHTML = '';
+      setImportStatus('');
+    }
+    function saveImported() {
+      if (!IMPORT_ROWS.length) return;
+      const contacts = loadContacts();
+      let added = 0;
+      IMPORT_ROWS.forEach(r => {
+        if (!r.name || (!r.phone && !r.email)) return;
+        contacts.push({
+          id: 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6),
+          name: r.name,
+          company: r.company || '',
+          role: r.role || '',
+          trades: [r.trade || 'Uncategorized'],
+          phone: (r.phone || '').replace(/\D/g, ''),
+          email: r.email || '',
+          channel: (r.email && r.phone) ? 'both' : r.email ? 'email' : 'text',
+          createdAt: new Date().toISOString(),
+          importedAt: new Date().toISOString(),
+        });
+        added++;
+      });
+      saveContacts(contacts);
+      setImportStatus(`Saved ${added} contact${added === 1 ? '' : 's'} · ${IMPORT_ROWS.length - added} skipped (missing name or contact info)`);
+      IMPORT_ROWS = [];
+      document.getElementById('import-preview').innerHTML = '';
+      render();
+      toast(`Imported ${added} contact${added === 1 ? '' : 's'}`);
+    }
+    window.saveImported = saveImported;
+    window.cancelImport = cancelImport;
+  </script>
+</body>
+</html>

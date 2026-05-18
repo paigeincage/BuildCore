@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>New punch list — The Condenser</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="stylesheet" href="../colors_and_type.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; background: var(--bc-paper-2); color: var(--bc-ink); font-family: var(--font-body); }
+
+    /* Top bar */
+    .topbar {
+      position: sticky; top: 0; z-index: 40;
+      background: var(--bc-paper); border-bottom: 1.5px solid var(--bc-line-strong);
+      padding: 0 24px; height: 56px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .topbar .back {
+      display: inline-flex; align-items: center; gap: 6px;
+      height: 36px; padding: 0 12px;
+      background: var(--bc-paper); color: var(--bc-ink); text-decoration: none;
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      font-family: var(--font-mono); font-weight: 700; font-size: 11px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .topbar .center {
+      flex: 1; min-width: 0;
+      font-family: var(--font-display); font-weight: 800; font-size: 16px;
+      letter-spacing: -0.02em; color: var(--bc-ink);
+    }
+
+    .page { max-width: 720px; margin: 0 auto; padding: 36px 24px 80px; }
+
+    .lead .eyebrow {
+      font-family: var(--font-mono); font-weight: 600; font-size: 11px;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--bc-orange);
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .lead .eyebrow::before { content:''; display:inline-block; width:18px; height:2px; background:currentColor; }
+    .lead h1 { font-family: var(--font-display); font-weight: 900; font-size: 36px; letter-spacing: -0.03em; line-height: 1; margin: 12px 0 8px; }
+    .lead p { font-size: 14.5px; color: var(--bc-ink-2); margin: 0 0 28px; line-height: 1.55; }
+
+    .card {
+      background: var(--bc-paper); border: 2px solid var(--bc-ink); border-radius: var(--r-4);
+      box-shadow: 4px 4px 0 0 var(--bc-ink); padding: 24px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .field { display: flex; flex-direction: column; gap: 4px; }
+    .field label {
+      font-family: var(--font-mono); font-weight: 600; font-size: 10.5px;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink);
+    }
+    .field input, .field select {
+      width: 100%; height: 46px; padding: 0 12px;
+      background: var(--bc-paper); color: var(--bc-ink);
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      font-family: var(--font-body); font-size: 15px; outline: none;
+    }
+    .field input:focus, .field select:focus { box-shadow: 0 0 0 3px var(--bc-orange-tint); border-color: var(--bc-ink); }
+    .field .hint {
+      font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3);
+    }
+
+    .drop {
+      border: 2px dashed var(--bc-line-strong); border-radius: var(--r-4);
+      background: var(--bc-paper-2);
+      padding: 28px 20px; text-align: center;
+      cursor: pointer; transition: border-color 100ms, background 100ms;
+    }
+    .drop:hover, .drop.dragover { border-color: var(--bc-orange); background: var(--bc-orange-tint); }
+    .drop h4 { font-family: var(--font-display); font-weight: 800; font-size: 16px; letter-spacing: -0.015em; margin: 6px 0 4px; }
+    .drop p  { font-family: var(--font-mono); font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bc-ink-3); margin: 0; }
+    .drop .file-name { color: var(--bc-orange); font-family: var(--font-mono); font-weight: 700; }
+
+    .submit {
+      height: 56px; padding: 0 22px; cursor: pointer;
+      background: var(--bc-orange); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 4px 4px 0 0 var(--bc-ink);
+      font-family: var(--font-body); font-weight: 700; font-size: 16px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .submit[disabled] { opacity: 0.4; pointer-events: none; box-shadow: none; }
+    .ghost {
+      height: 56px; padding: 0 22px; cursor: pointer;
+      background: transparent; color: var(--bc-ink-2);
+      border: 1.5px solid var(--bc-line-strong); border-radius: var(--r-2);
+      font-family: var(--font-body); font-weight: 600; font-size: 14px;
+    }
+    .submit-row { display: flex; gap: 10px; margin-top: 4px; }
+
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+      padding: 12px 16px; background: var(--bc-ink); color: var(--bc-paper);
+      border: 2px solid var(--bc-ink); border-radius: var(--r-2);
+      box-shadow: 4px 4px 0 0 var(--bc-orange);
+      font-family: var(--font-body); font-weight: 600; font-size: 13.5px;
+      z-index: 100; display: none;
+    }
+    .toast.show { display: block; }
+  </style>
+</head>
+<body>
+  <nav class="topbar">
+    <a class="back" href="The Condenser Home.html">← Home</a>
+    <div class="center">New punch list</div>
+  </nav>
+
+  <div class="page">
+    <div class="lead">
+      <div class="eyebrow">Start a new report</div>
+      <h1>New punch list</h1>
+      <p>Tell us where this punch list is for, drop in the source document (optional — you can build it from scratch), and pick a folder. We'll save everything and bring you into the workspace.</p>
+    </div>
+
+    <form class="card" id="form" onsubmit="event.preventDefault(); createReport();">
+      <div class="field">
+        <label for="addr">Site address</label>
+        <input id="addr" type="text" placeholder="e.g. 14 Sycamore Ln" autocomplete="off" required>
+        <div class="hint">Multiple reports can live at the same address — they won't overwrite each other</div>
+      </div>
+
+      <div class="field">
+        <label for="folder">Folder</label>
+        <select id="folder"></select>
+        <div class="hint">Where this report lives on the home page</div>
+      </div>
+
+      <div class="field">
+        <label for="source">Source / label</label>
+        <input id="source" type="text" placeholder="e.g. TREC pre-walk · Super Inspector" autocomplete="off">
+        <div class="hint">How this report shows up in the folder · helpful when an address has more than one</div>
+      </div>
+
+      <div>
+        <label style="font-family: var(--font-mono); font-weight: 600; font-size: 10.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--bc-ink); display: block; margin-bottom: 4px;">Upload report (optional)</label>
+        <label class="drop" for="pdf" id="drop">
+          <h4 id="drop-title">Tap to choose a PDF or photo</h4>
+          <p>PDF · DOC · TXT · JPG · PNG — saved to your device</p>
+          <input id="pdf" type="file" accept=".pdf,.doc,.docx,.txt,.csv,image/*" style="display:none">
+        </label>
+      </div>
+
+      <div class="submit-row">
+        <a class="ghost" href="The Condenser Home.html">Cancel</a>
+        <button class="submit" id="submit-btn" type="submit">＋ Create punch list</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const FOLDERS_KEY = 'condenser_folders_v1';
+    const REPORTS_KEY = 'condenser_reports_v1';
+
+    // ─── IndexedDB for the uploaded source file ──────────────
+    const DB_NAME = 'condenser_v1';
+    const DB_VERSION = 1;
+    let _db = null;
+    function openDb() {
+      if (_db) return Promise.resolve(_db);
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, DB_VERSION);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          ['photos','voices','pdfs'].forEach(s => { if (!db.objectStoreNames.contains(s)) db.createObjectStore(s); });
+        };
+        req.onsuccess = () => { _db = req.result; resolve(_db); };
+        req.onerror = () => reject(req.error);
+      });
+    }
+    async function idbPut(store, key, val) {
+      const db = await openDb();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(store, 'readwrite');
+        tx.objectStore(store).put(val, key);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => reject(tx.error);
+      });
+    }
+
+    // ─── Folders (load + seed if empty) ────────────────────
+    function loadFolders() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(FOLDERS_KEY) || 'null');
+        if (Array.isArray(saved) && saved.length) return saved;
+      } catch (e) {}
+      const seed = [
+        { id: 'f_active',   name: 'Active builds',     order: 0 },
+        { id: 'f_punch',    name: 'Punch in progress', order: 1 },
+        { id: 'f_closeout', name: 'Awaiting closeout', order: 2 },
+      ];
+      localStorage.setItem(FOLDERS_KEY, JSON.stringify(seed));
+      return seed;
+    }
+    const folders = loadFolders().sort((a, b) => a.order - b.order);
+    const folderSel = document.getElementById('folder');
+    folderSel.innerHTML = folders.map((f, i) => `<option value="${f.id}"${i === 0 ? ' selected' : ''}>${escape(f.name)}</option>`).join('');
+
+    // ─── Drop-zone wiring ──────────────────────────────────
+    const drop = document.getElementById('drop');
+    const pdfInput = document.getElementById('pdf');
+    const dropTitle = document.getElementById('drop-title');
+    drop.addEventListener('dragover', (e) => { e.preventDefault(); drop.classList.add('dragover'); });
+    drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+    drop.addEventListener('drop', (e) => {
+      e.preventDefault(); drop.classList.remove('dragover');
+      if (e.dataTransfer.files && e.dataTransfer.files.length) {
+        pdfInput.files = e.dataTransfer.files;
+        showFile();
+      }
+    });
+    pdfInput.addEventListener('change', showFile);
+    function showFile() {
+      const f = pdfInput.files[0];
+      if (!f) { dropTitle.innerHTML = 'Tap to choose a PDF or photo'; return; }
+      dropTitle.innerHTML = `<span class="file-name">${escape(f.name)}</span> · ${Math.round(f.size / 1024)} KB`;
+    }
+
+    // ─── Submit handler ────────────────────────────────────
+    async function createReport() {
+      const addr   = document.getElementById('addr').value.trim();
+      const folder = folderSel.value;
+      const source = document.getElementById('source').value.trim() || 'New punch list';
+      const file   = pdfInput.files[0];
+      if (!addr) { toast('Address is required'); return; }
+
+      document.getElementById('submit-btn').disabled = true;
+      document.getElementById('submit-btn').textContent = 'Creating…';
+
+      const reportId = 'r_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
+      let pdfId = null;
+      if (file) {
+        try {
+          pdfId = 'pdf_' + reportId;
+          await idbPut('pdfs', pdfId, file);
+        } catch (e) { console.warn('PDF save failed', e); }
+      }
+
+      const reports = (() => { try { return JSON.parse(localStorage.getItem(REPORTS_KEY) || '[]'); } catch (e) { return []; } })();
+      reports.unshift({
+        id: reportId,
+        folderId: folder,
+        address: addr,
+        source,
+        // For now all reports land in the same workspace; next iteration parameterizes it
+        path: `Inspection Test - 516 Madelines Meadow.html?report=${reportId}`,
+        pdfId,
+        pdfName: file ? file.name : null,
+        status: 'open',
+        createdAt: new Date().toISOString(),
+      });
+      localStorage.setItem(REPORTS_KEY, JSON.stringify(reports));
+
+      toast('Created · returning home');
+      setTimeout(() => { window.location.href = 'The Condenser Home.html'; }, 600);
+    }
+    window.createReport = createReport;
+
+    function escape(s) {
+      return String(s || '').replace(/[<>&"']/g, c => ({ '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function toast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2000);
+    }
+  </script>
+</body>
+</html>
